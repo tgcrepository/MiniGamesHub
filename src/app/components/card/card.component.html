@@ -1,0 +1,85 @@
+
+    <div class="gamesCard web-view">
+        <div *ngIf="isFrontView;then frontCard else backCard"></div>
+    <ng-template #frontCard>
+        <div class="gameLogo">
+            <img lazy="loading" [src]="gamesData?.frontImageSrc" alt="" height="100%" width="100%">
+        </div>
+        <div class="playBtn" (click)="openGame(gamesData.gameUrl)">
+            <img src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="" height="100%" width="100%">
+        </div>
+        <div class="scoreBoardContainer d-flex gap-1 align-items-center">
+            <div class="scoreIcon">
+                <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Scoreboard.png" alt="" height="100%"
+                    width="100%">
+            </div>
+            <div class="scoreText" (click)="openCardById(gamesData.id)">
+                Scoreboard
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #backCard>
+        <div class="crossBtn" (click)="openFrontCard()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+              </svg>
+        </div>
+        <div class="userName">
+            {{gamesData?.gameName}}
+        </div>
+        <div class="scoreContainer">
+            <div class="score">
+                <div>60</div>
+                <div class="scoreTextBtn">Coins</div>
+            </div>
+            <div class="score">
+                <div>200</div>
+                <div class="scoreTextBtn">Points</div>
+            </div>
+        </div>
+    </ng-template>
+    </div>
+    <!-- Mobile view -->
+    <div class="gamesCardMobile mobile-view">
+        <div *ngIf="isFrontView;then frontCardMobile else backCardMobile"></div>
+    <ng-template #frontCardMobile>
+        <div class="gameLogo">
+            <img lazy="loading" [src]="gamesData?.frontImageSrc" alt="" height="100%" width="100%">
+        </div>
+        <div class="playBtn" (click)="openGame(gamesData.gameUrl)">
+            <img src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="" height="100%" width="100%">
+        </div>
+        <div class="scoreBoardContainer d-flex gap-1 align-items-center">
+            <div class="scoreIcon">
+                <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Scoreboard.png" alt="" height="90%"
+                    width="90%">
+            </div>
+            <div class="scoreText" (click)="openCardById(gamesData.id)">
+                Scoreboard
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #backCardMobile>
+        <div class="crossBtnMobile" (click)="openFrontCard()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+              </svg>
+        </div>
+        <div class="userName">
+            {{gamesData?.gameName}}
+        </div>
+        <div class="scoreContainer">
+            <div class="score">
+                <div>60</div>
+                <div class="scoreTextBtn">Coins</div>
+            </div>
+            <div class="score">
+                <div>200</div>
+                <div class="scoreTextBtn">Points</div>
+            </div>
+        </div>
+    </ng-template>
+    </div>
+
+    
+

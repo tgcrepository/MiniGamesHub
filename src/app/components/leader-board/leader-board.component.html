@@ -1,0 +1,99 @@
+<div class="leaderBoardContainer row gap-2">
+    <button class="subTabBtn col-3" [ngClass]="showSpecificGames?'subTabBtnActive':'subTabBtn'" (click)='openSpectificGames()'>Specific to The Games</button>
+    <button class="subTabBtn col-3" [ngClass]="!showSpecificGames?'subTabBtnActive':'subTabBtn'" (click)='openOverallGames()'>Overall</button>
+    <div class="leaderBoardBox">
+        <div *ngIf="showSpecificGames;then SpecificGames else OverallGames"></div>
+        <ng-template #SpecificGames>
+            <div class="specificGamesLeaderBoardBox pt-5">
+                <div class="row d-flex justify-content-center gap-2">
+                    <div class="col-3" [ngClass]="isCoinsActive?'activeCoinsBtn':'CoinsBtn'" (click)="openCoinsLeaderboard()"></div>
+                    <div class="col-3" [ngClass]="!isCoinsActive?'activeOverallLeaderBoardBtn':'OverallLeaderBoardBtn'" (click)="openAssessmentLeaderboard()"></div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="tableHeader row">
+                        <div class="col-1">Rank</div>
+                        <div class="col-6 text-start">Player Name</div>
+                        <div class="col-3 text-center">Game</div>
+                        <div class="col-2 text-center">XPS</div>
+
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center" *ngFor="let leaderBoardData of leaderboard ">
+                    <div class="table-body row mt-2">
+                        <div class="TableRank col-1">
+                            <div class="GoldCoinImage">
+                                <img [src]="leaderBoardData?.rankImageSrc" alt="" height="100%" width="100%">
+                            </div>
+                        </div>
+                        <div class="playerName col-6">
+                            {{leaderBoardData.playerName}}
+                        </div>
+                        <div class="gameLogo  col-3">
+                            <div class="InnerGameLogo">
+                                <img [src]="leaderBoardData?.gameLogoSrc" alt="" height="100%" width="60%">
+                                
+                            </div>
+                        </div>
+                        <div class="points col">
+                           <div class="coinPoints">
+                            <img src="assets/GameImages/qrgamewebsiteassets/Coin Icon.png" alt="" height="100%" width="100%">
+                           </div>
+                           <div class="pointsText">
+                                {{leaderBoardData?.points}}
+                           </div>
+                        </div>
+
+                    </div>
+                </div>
+                
+                
+            </div>
+        </ng-template>
+        <ng-template #OverallGames>
+            <div class="specificGamesLeaderBoardBox pt-5">
+                <div class="row d-flex justify-content-center gap-2">
+                    <div class="col-3" [ngClass]="isCoinsActive?'activeCoinsBtn':'CoinsBtn'" (click)="openCoinsLeaderboard()"></div>
+                    <div class="col-3" [ngClass]="!isCoinsActive?'activeOverallLeaderBoardBtn':'OverallLeaderBoardBtn'" (click)="openAssessmentLeaderboard()"></div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="tableHeader row">
+                        <div class="col-1">Rank</div>
+                        <div class="col-6 text-start">Player Name</div>
+                        <div class="col-3 text-center">Game</div>
+                        <div class="col-2 text-center">XPS</div>
+
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center" *ngFor="let leaderBoardData of Overallleaderboard">
+                    <div class="table-body row mt-2">
+                        <div class="TableRank col-1">
+                            <div class="GoldCoinImage">
+                                <img [src]="leaderBoardData?.rankImageSrc" alt="" height="100%" width="100%">
+                            </div>
+                        </div>
+                        <div class="playerName col-6">
+                            {{leaderBoardData.playerName}}
+                        </div>
+                        <div class="gameLogo  col-3">
+                            <div class="InnerGameLogo">
+                                <img [src]="leaderBoardData?.gameLogoSrc" alt="" height="100%" width="60%">
+                                
+                            </div>
+                        </div>
+                        <div class="points col">
+                           <div class="coinPoints">
+                            <img src="assets/GameImages/qrgamewebsiteassets/Coin Icon.png" alt="" height="100%" width="100%">
+                           </div>
+                           <div class="pointsText">
+                                {{leaderBoardData?.points}}
+                           </div>
+                        </div>
+
+                    </div>
+                </div>
+                
+                
+            </div>
+        </ng-template>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="login-container">
+    <div>
+        <div class="logoContainer">
+            <img src="../../../assets/GameImages/qrgamewebsiteassets/N-gage_logo.png" alt="" width="200px" height="200px">
+        </div>
+        <div class="logInSignUp" *ngIf="!isShowLogin && !isShowSignUp">
+            <button class="btn btn-lg buttonLogin" (click)="openLogin()">LOGIN</button>
+            <button class="btn btn-lg buttonLogin" (click)="openSignUp()">SIGN UP</button>
+        </div>
+
+        <ng-container *ngIf="isShowLogin">
+            <form class="formGroup" (ngSubmit)="login()">
+                <h3>N-GAGE</h3>
+                <label for="loginUsername">Username</label>
+                <input type="text" placeholder="Email or Phone" id="loginUsername" name="Username" [(ngModel)]="Username" required>
+                <label for="loginPassword">Password</label>
+                <input type="password" placeholder="Password" id="loginPassword" name="Password" [(ngModel)]="Password" required>
+                <div class="error">{{errorMsg}}</div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </ng-container>
+        <ng-container *ngIf="isShowSignUp">
+            <form class="formGroup" >
+                <h3>SIGN UP</h3>
+                <label for="signupUsername">Username</label>
+                <input type="text" placeholder="Email or Phone" id="signupUsername" name="Username" [(ngModel)]="Username" required>
+                <!-- <label for="signupPassword">Password</label>
+                <input type="password" placeholder="Password" id="signupPassword" name="Password" [(ngModel)]="Password" required> -->
+                <div class="error">{{errorMsg}}</div>
+                <button type="submit" class="btn submitBtn" >Get OTP</button>
+            </form>
+        </ng-container>
+    </div>
+</div>

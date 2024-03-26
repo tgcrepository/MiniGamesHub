@@ -1,0 +1,193 @@
+.gamesCard{
+    background-image: url(../../../assets/GameImages/qrgamewebsiteassets/Card.png);
+    background-size: 100% 100%;
+    height: 18rem;
+    width: 15.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:0.7em;
+    position: relative;
+    .gameLogo{
+        height: 6rem;
+        width: 8rem;
+    }
+    .playBtn{
+        width: 8rem;
+        height: 3rem;
+    }
+}
+.scoreIcon{
+    height: 1.5rem;
+    width: 1.5rem;
+}
+.scoreText{
+    font-size: 1rem;
+    color: #BF5500;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: "Inter", sans-serif;
+    text-decoration: underline;
+    
+
+}
+
+
+// BackCard Css
+.crossBtn{
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 100%;
+    background: #004E73;
+    color: #ffff;
+    display: flex;
+    position: absolute;
+    top: 5vh;
+    right: 2.5vw;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    
+}
+.userName{
+    color: #004E73;
+    font-size: 1.2rem;
+    font-family: "Inter", sans-serif;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-weight: 600;
+    // width: 2ch;
+
+}
+.scoreContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap:1rem;
+}
+.score{
+    // height: rem;
+    width: 9rem;
+    background: #004E73;
+    color: #ffff;
+    border-radius: 30px;
+    display: flex;
+    line-height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4%;
+    font-size: 1.3rem;
+  
+    justify-content: center;
+    font-family: "Inter", sans-serif;
+    .scoreTextBtn{
+        color: #FFDFA3;
+        font-size: 1rem;
+
+
+    }
+
+}
+
+@media only screen and (min-width: 1200px) {
+    .mobile-view{
+      display: none !important;
+
+    }
+  }
+
+  @media screen and (min-width:270px) and  (max-width:1024px) {
+    .web-view{
+      display: none !important; 
+
+    }
+
+    
+  }
+
+  .gamesCardMobile{
+    background-image: url(../../../assets/GameImages/qrgamewebsiteassets/Card.png);
+    background-size: 100% 100%;
+    height: 12rem;
+    width: 45vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:0.5em;
+   
+    position: relative;
+    .gameLogo{
+        height: 4rem;
+        width: 6rem;
+    }
+    .playBtn{
+        width: 6rem;
+        height: 2rem;
+    }
+    .scoreText{
+        font-size: 0.8rem;
+        color: #BF5500;
+        cursor: pointer;
+        font-weight: bold;
+        font-family: "Inter", sans-serif;
+        text-decoration: underline;
+
+    }
+    .userName{
+        color: #004E73;
+        font-size: 1rem;
+        font-family: "Inter", sans-serif;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        font-weight: 600;
+    }
+
+    .score{
+        width: 6rem;
+        background: #004E73;
+        color: #ffff;
+        border-radius: 30px;
+        display: flex;
+        line-height: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 4%;
+        font-size: 1rem;
+      
+        justify-content: center;
+        font-family: "Inter", sans-serif;
+        .scoreTextBtn{
+            color: #FFDFA3;
+            font-size: 0.8rem;
+    
+    
+        }
+
+    }
+
+  }
+
+//   Back card
+
+  .crossBtnMobile{
+    height: 0.8rem;
+    width: 0.8rem;
+    border-radius: 100%;
+    background: #004E73;
+    color: #ffff;
+    display: flex;
+    position: absolute !important;
+    top: 4.5vh !important;
+    right: 5.5vw !important;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    
+}

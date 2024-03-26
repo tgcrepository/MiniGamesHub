@@ -1,0 +1,160 @@
+.leaderBoardContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2vh;
+
+}
+.subTabBtn{
+height: 3rem;
+border-radius: 10px;
+opacity: 0px;
+font-size: 1.2rem;
+font-weight: 700;
+background: #f3f3f3;
+border: 1px solid #004E73;
+
+color: #004E73;
+
+}
+.subTabBtnActive{
+height: 3rem;
+border-radius: 10px;
+opacity: 0px;
+font-size: 1.2rem;
+font-weight: 700;
+background: #004E73;
+
+border: none;
+color: #fff;
+
+}
+.leaderBoardBox{
+    height: 75vh;
+    width: 100%;
+    background: url('../../../assets/GameImages/qrgamewebsiteassets/Leaderboard\ BG.png');
+    background-size: 100% 100%;
+    background-position: center center;
+    border: 2px solid #fff;
+    display: flex;
+    justify-content: center;
+}
+.specificGamesLeaderBoardBox{
+   width: 100%;
+}
+.CoinsBtn{
+    background: url(../../../assets/GameImages/Coin\ DeActive\ \(1\).png);
+    //  background: url('../../../assets/GameImages/qrgamewebsiteassets/Coin\ Active.png');
+    background-position: center center;
+
+    background-size: 100% 100%;
+    height: 5.3rem;
+    
+
+}
+.activeCoinsBtn{
+    background: url(../../../assets/GameImages/Coin\ Active\ \(3\).png);
+    // background: url('../../../assets/GameImages/qrgamewebsiteassets/Coin\ Active.png');
+    background-position: center center;
+    background-size: 100% 100%;
+    height: 5.3rem;
+
+}
+.OverallLeaderBoardBtn{
+    background: url(../../../assets/GameImages/Assesment\ DeActive\ \(1\).png);
+    // background: url('../../../assets/GameImages/qrgamewebsiteassets/Assesment\ DeActive.png');
+    background-position: center center;
+    background-size: 100% 100%;
+    height: 5.3rem;
+    
+
+}
+.activeOverallLeaderBoardBtn{
+    background: url(../../../assets/GameImages/Assesment\ Active\ \(1\).png);
+    // background: url('../../../assets/GameImages/qrgamewebsiteassets/Assesment\ Active.png');
+    background-position: center center;
+    background-size: 100% 100%;
+    height: 5.3rem;
+
+}
+.tableHeader{
+    height: 2rem;
+    width: 80%;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    font-size: 1.2em;
+    border-radius: 5px;
+    font-weight: 600;
+    font-family: "Inter",sans-serif;
+    background: linear-gradient(180deg, #932C11 -5.29%, #5B0E11 98.47%);
+
+}
+.table-body{
+    display: flex;
+    justify-content: start;
+    width: 80%;
+}
+.TableRank{
+    background: linear-gradient(180deg, #932C11 -5.29%, #5B0E11 98.47%);
+    height: 4rem;
+    width: 3.5rem;
+    border-radius:5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.GoldCoinImage{
+    height: 2.5rem;
+    width: 2.5rem;
+  
+}
+.playerName{
+    background: linear-gradient(180deg, #932C11 -5.29%, #5B0E11 98.47%);
+    height: 4rem;
+    width: 50%;
+    margin-left: 1vw;
+    border-radius: 5px;
+    font-size: 1.5em;
+    color:#fff;
+    font-family: "Inter",sans-serif;
+    display: flex;
+    align-items: center;
+    font-weight:600;    
+
+
+}
+.InnerGameLogo{
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+
+}
+.points{
+    
+    background-image: url(../../../assets/GameImages/qrgamewebsiteassets/score\ tile.png) !important;
+    background-size: 100% 100%;
+    background-position: center center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:1em;
+}
+.coinPoints{
+    height: 2rem;
+    width: 2rem;
+
+}
+
+.pointsText{
+    font-size: 1.6rem;
+    font-family: "Inter",sans-serif;
+    font-weight: 600;
+    color: #862511;
+
+}
+
+
+
