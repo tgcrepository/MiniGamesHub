@@ -4,6 +4,7 @@ import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MiniGamesComponent } from '../mini-games/mini-games.component';
 import { LeaderBoardComponent } from "../leader-board/leader-board.component";
+import { AuthentificationService } from '../../service/authentification.service';
 
 @Component({
     selector: 'app-games-home',
@@ -20,13 +21,27 @@ export class GamesHomeComponent implements OnInit {
   
   isLeaderBoardOptionAvailable:boolean=false;
   isOverallGames: boolean=false;
+  userInfo:any;
+  profileInfo: any;
+  constructor(private auth:AuthentificationService){
+
+  }
   ngOnInit(): void {
+    
+    this.getProfileData();
    
   }
 
   dark_color='Blue';
   content1:any;
 
+  getProfileData(){
+   this.userInfo=localStorage.getItem(('ProfileData'));
+   console.log(JSON.parse(this.userInfo));
+   this.profileInfo=JSON.parse(this.userInfo);
+   
+
+  }
   openMiniGamesTab(){
     this.isMiniGamesActive=true;
     this.isLeaderBoardActive=false;

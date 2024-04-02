@@ -3,7 +3,7 @@
     <div class="row">
         <div class="profile_info col-12 p-2 d-flex">
             <div class="col-3">
-                <h2 class="BigText">Hello!</h2>
+                <h2 class="BigText">Hello! {{profileInfo?.Name}}</h2>
                 <!-- <h6 class="smallText">Welcome back to the N-GAGE</h6> -->
             </div>
             <div class="searchBar col-6">
@@ -18,8 +18,8 @@
                 </div>
                 <div>
                     <div>
-                        <b>Shubham karad</b></div>
-                    <div>TGC</div>
+                        <b>{{profileInfo?.Name}}</b></div>
+                    <div>{{profileInfo?.Organization_Name}}</div>
                 </div>
                 <div>
 
@@ -71,7 +71,7 @@
             
         </div>
         <div *ngIf="isLeaderBoardActive">
-            <!-- <app-leader-board></app-leader-board> -->
+            <app-leader-board></app-leader-board>
         </div>
         <div class="leaderBoardNavigation">
             <div *ngIf="isLeaderBoardOptionAvailable" (click)="OpenSpecificGames()">

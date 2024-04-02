@@ -4,19 +4,49 @@
     height: 18rem;
     width: 15.5rem;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+.innerLayer{
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap:0.7em;
+    height: 14rem;
+    width: 13rem;
     position: relative;
-    .gameLogo{
-        height: 6rem;
-        width: 8rem;
-    }
-    .playBtn{
-        width: 8rem;
-        height: 3rem;
-    }
+   
+
+
+}
+
+.innerLayerDeactive{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:0.7em;
+    height: 14rem;
+    width: 13rem;
+    position: relative;
+    background: rgba($color: #ff9751, $alpha: 0.6);
+    z-index: 2;
+  
+    opacity: 0.7;
+    background-size: 100% 100%
+
+}
+.gameLogo{
+    height: 6rem;
+    width: 8rem;
+}
+.playBtn{
+    width: 8rem;
+    height: 3rem;
+    cursor: pointer;
 }
 .scoreIcon{
     height: 1.5rem;
@@ -29,6 +59,7 @@
     font-weight: bold;
     font-family: "Inter", sans-serif;
     text-decoration: underline;
+   
     
 
 }
@@ -43,8 +74,8 @@
     color: #ffff;
     display: flex;
     position: absolute;
-    top: 5vh;
-    right: 2.5vw;
+    top: 1vh;
+    right: 1vw;
     cursor: pointer;
     justify-content: center;
     align-items: center;
@@ -114,12 +145,27 @@
     background-size: 100% 100%;
     height: 12rem;
     width: 45vw;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+   
+   
+  
+    
+
+  }
+  .innerLayerMobile{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 10rem;
+    width: 42vw;
     gap:0.5em;
-   
+  
+    z-index: 2;
+  
+    background-size: 100% 100%;
     position: relative;
     .gameLogo{
         height: 4rem;
@@ -171,6 +217,73 @@
         }
 
     }
+    
+
+  }
+  .innerLayerDeactiveMobile{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 10rem;
+    width: 42vw;
+    gap:0.5em;
+    background: rgba($color: #ff9751, $alpha: 0.9);
+    z-index: 2;
+    opacity: 0.7;
+    background-size: 100% 100%;
+    position: relative;
+    .gameLogo{
+        height: 4rem;
+        width: 6rem;
+    }
+    .playBtn{
+        width: 6rem;
+        height: 2rem;
+    }
+    .scoreText{
+        font-size: 0.8rem;
+        color: #BF5500;
+        cursor: pointer;
+        font-weight: bold;
+        font-family: "Inter", sans-serif;
+        text-decoration: underline;
+
+    }
+    .userName{
+        color: #004E73;
+        font-size: 1rem;
+        font-family: "Inter", sans-serif;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        font-weight: 600;
+    }
+
+    .score{
+        width: 6rem;
+        background: #004E73;
+        color: #ffff;
+        border-radius: 30px;
+        display: flex;
+        line-height: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 4%;
+        font-size: 1rem;
+      
+        justify-content: center;
+        font-family: "Inter", sans-serif;
+        .scoreTextBtn{
+            color: #FFDFA3;
+            font-size: 0.8rem;
+    
+    
+        }
+
+    }
+    
 
   }
 
@@ -189,5 +302,14 @@
     cursor: pointer;
     justify-content: center;
     align-items: center;
+    
+}
+
+
+.ExcitementModal{
+    // background: url(../../../assets/GameImages/qrgamewebsiteassets/Coming\ Soon.png);
+    background-size: 100% 100%;
+    background-position: center center;
+    height: 40vh;
     
 }

@@ -1,10 +1,10 @@
 <div class="mini-games-container web-view"  >
         <div *ngFor="let gameCard of GameCard" (click)="search()">
-            <app-card [gamesData]="gameCard"></app-card>
+            <app-card [gamesData]="gameCard" [ngClass]="gameCard?.enable_status==1?'availableCard':'comingSoonCard'"></app-card>
         </div>
 </div>
 <div class="mobile-view mini-games-container-mobile">
     <div *ngFor="let gameCard of GameCard" (click)="search()">
-        <app-card [gamesData]="gameCard"></app-card>
+        <app-card [gamesData]="gameCard" ></app-card>
     </div>
 </div>
