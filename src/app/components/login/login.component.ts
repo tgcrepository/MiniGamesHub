@@ -6,7 +6,7 @@ import { AuthentificationService } from '../../service/authentification.service'
 import { SuccessComponent } from '../success/success.component';
 import { ToastrModule } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { NgIf } from '@angular/common';
+import { NgIf,NgClass } from '@angular/common';
 import { Util } from '../../../util';
 import { NgOtpInputModule } from  'ng-otp-input';
 
@@ -18,7 +18,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule,NgIf,HttpClientModule,ReactiveFormsModule,SuccessComponent,ToastrModule,NgOtpInputModule],
+  imports: [FormsModule,NgIf,HttpClientModule,ReactiveFormsModule,SuccessComponent,ToastrModule,NgOtpInputModule,NgClass],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -31,7 +31,8 @@ export class LoginComponent {
   errorMsg:string="";
   Email:string="";
   EmailLogin:string='';
-  PasswordLogin:string=''
+  PasswordLogin:string='';
+  EmailForOTP:string='';
   loginFormMiniGame:FormGroup;
 isShowLogin:boolean=false;
 isShowSignUp:boolean=false;
@@ -43,6 +44,7 @@ otpValue:any;
   formBuilder: any;
   profileData: any;
   getOtp:number=1234;
+  EmailSignUp:any;
   dialog: any;
   private otpChangeSubject: Subject<any> = new Subject<any>();
   eyeIcons = {
@@ -51,12 +53,21 @@ otpValue:any;
   };
   timer: any;
   isAllowResendOTP:boolean=false;
+username: any;
+emailForOTP: any;
+password: any;
+city: any;
+sourceGenerateOtp: string='phone';
+  otpLength: number=0;
+  passwordMessage: string='show';
+  orgId:number=0
 constructor(private auth:AuthentificationService, private router:Router,private Util: Util,private fb:FormBuilder) {
   this.loginFormMiniGame = this.fb.group({
     Email: ['', [Validators.required, Validators.email]],
     Password: ['', Validators.required]
-
+    
   });
+   
 
   console.log(this.loginFormMiniGame.get('Email'))
  }
@@ -76,41 +87,63 @@ ngOnInit(): void {
 
 }
 
+isShowPassword(){
+  this.showPassword=!this.showPassword;
+  if(!this.showPassword){
+    this.passwordMessage="show"
+  }
+  else{
+    this.passwordMessage="hide"
 
+  }
+
+}
 openLogin(){
   this.isShowLogin=true;
+  this.isShowSignUp=false;
  
 }
 openSignUp(){
   this.isShowSignUp=true;
+  this.isShowLogin=false;
   
  
 }
-GenerateOtpBtn(){
+GenerateOtpBtn(source:any){
+  console.log(source);
   this.showOtPScreen=true;
   this.isShowSignUp=false;
   // this.getOtp= Math.floor(10000 + Math.random()*99999)
-
-
-  let phone_number=this.PhoneNumber;
-  this.auth.getOtp(phone_number).subscribe((res)=>{
-
+  if(this.PhoneNumber.includes('@')){
+    this.otpLength=6
+    let Email=this.PhoneNumber;
+    this.auth.getEmailOtp(Email).subscribe((res)=>{
     console.log(res);
-    this.timer=15;
-    setInterval(()=>{
-      if(this.timer!=0){
-        this.timer--;
+  })
+  }
+  else{
+    this.otpLength=4
+    this.auth.getOtp(this.PhoneNumber).subscribe((res)=>{
+
+      console.log(res);
+      this.timer=15;
+      setInterval(()=>{
+        if(this.timer!=0){
+          this.timer--;
+        }
+       
+      },1000)
+      if(this.timer==0){
+        this.isAllowResendOTP=true;
+        // this.resendOtp()
+        this.timer=0;
+  
       }
      
-    },1000)
-    if(this.timer==0){
-      this.isAllowResendOTP=true;
-      // this.resendOtp()
-      this.timer=0;
-
-    }
-   
-  })
+    })
+  }
+ 
+  
   
   
 
@@ -139,12 +172,29 @@ onOtpChange(otp: any) {
 
 verifyBtn(){
 
- 
+ if(this.PhoneNumber.includes('@')){
+  let body={
+    "otp":this.otpValue,
+    "email":this.PhoneNumber,
+    'orgId':0
+
+  }
+  this.otpLength=6
+  this.auth.verifyEmailOtp(body).subscribe((res)=>{
+    console.log(res)
+    this.isShowSignUp=false;
+    this.isverifyOtp=true;
+    this.signup()
+  })
+
+ }
+ else{
   let body={
     "otp":this.otpValue,
     "PhoneNumber":this.PhoneNumber
 
   }
+  this.otpLength=4
   this.auth.verifyOtp(body).subscribe((res)=>{
     console.log(res);
     this.successMessage=res;
@@ -162,6 +212,7 @@ verifyBtn(){
   this.errorMsg="Please Enter valid OTP"
  }
   })
+ }
  
   
   
@@ -178,7 +229,7 @@ signUpTemp(){
     "city": this.City
   }
   this.auth.signUpApi(body).subscribe((res)=>{
-    console.log(res)
+   
   })
 }
 submitForm() {
@@ -210,13 +261,13 @@ submitForm() {
   
   try {
       const res = await this.auth.registrationApi({"Data": JSON.stringify(body)}).toPromise();
+      this.signUpTemp();   
       alert("User Created SuccessFully");
-       
-      console.log(res)
-      if(res){
-        this.signUpTemp();    
-      }
-      location.reload()
+      setTimeout(()=>{
+        window.location.reload()
+      },5000)
+    
+      
    
       
       console.log(res);
@@ -224,7 +275,10 @@ submitForm() {
   } catch (error) {
       console.error(error);
       alert("Email is already Registered");
-      // window.location.reload()
+      setTimeout(()=>{
+        window.location.reload()
+      },5000)
+     
       this.errorMsg="Email is already Registered";
       // Handle error conditions if necessary
   }
@@ -233,14 +287,17 @@ submitForm() {
  
 }
 
-
-assignToUser(){
-  // {list: {"AssessmentList":[{"Id_Assessment":"72"}],"UserList":[{"Id_User":"19664","Email":"developer@gmail.com"}]}}
-  let body={list: {"AssessmentList":[{"Id_Assessment":"72"}],"UserList":[{"Id_User":"19665","Email":"Yuvi@gmail.com"}]}}
-  this.auth.assignAssessmentToUser(body).subscribe((res)=>{
-    console.log(res);
-  })
+isPhoneTab:boolean=true;
+openPhoneTab(){
+  this.isPhoneTab=!this.isPhoneTab;
+  if(this.isPhoneTab){
+    this.sourceGenerateOtp='phone'
+  }
+  else{
+    this.sourceGenerateOtp='email'
+  }
 }
+
 
 loginTemp() {
   let body = {
@@ -305,6 +362,7 @@ this.staticPassword='Ngage@2019';
   }
 }
 
+
 sendProfileDataToService(profileData: any) {
   // Call your service method here to send profileData
   this.auth.sendProfileData(profileData).subscribe((res:any)=>{
@@ -327,4 +385,5 @@ togglePassword(): void {
   toggleButton.innerHTML = this.isEyeOpen ? this.eyeIcons.closed : this.eyeIcons.open;
   passwordField.type = this.isEyeOpen ? "text" : "password";
 }
+
 }

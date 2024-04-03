@@ -17,6 +17,8 @@ export class AuthentificationService {
   Path=`MollyTdirect_api/api/`;
   private _profileData: any;
 
+  
+
  
   constructor(private router:Router,public http:HttpClient) { }
 
@@ -31,7 +33,7 @@ export class AuthentificationService {
   }
 
   assignAssessmentToUser(data:any){
-    var tempurl= `https://www.playtolearn.in/NGageCMS/QuestionAssignToUsers/Save `;
+    var tempurl= `${this.baseURLNew}`+`api/autoAssignAssessment`;
     return this.http.post(tempurl,data)
   }
 
@@ -100,6 +102,36 @@ export class AuthentificationService {
 
     // Make the GET request with headers
     return this.http.get(url, { headers: headers, withCredentials: true })
+
+  }
+
+  getEmailOtp(email:any){
+    var tempUrl=`https://www.playtolearn.in/Mini_games_beta/api/GenerateEmailOTP?Email=${email}`;
+    return this.http.get(tempUrl)
+  }
+  verifyEmailOtp(data:any){
+    var tempUrl=`https://www.playtolearn.in/Mini_games_beta/api/confirmOTP?Email=${data?.email}&otp=${data?.otp}&OrgID=0`;
+    return this.http.get(tempUrl)
+
+  }
+
+  getAssesmentId(data:any){
+    var tempurl= `${this.baseURLNew}`+`api/getAssessment?ID_ORGANIZATION=${data?.org_id}&Id_Game=${data?.id_game}`;
+  
+    return this.http.get(tempurl,data);
+
+  }
+  getLeaderBoard(data:any){
+    var tempurl= `${this.baseURLNew}`+`api/leaderboard?id_game=${data?.id_game}&ID_ORGANIZATION=${data.orgId}`;
+  
+    return this.http.get(tempurl,data);
+
+  }
+  getLeaderBoardInfo(data:any){
+    var tempurl= `${this.baseURLNew}`+`api/userInfo?id_user=${data?.id_user}&id_game=${data?.id_game}&id_organization=${data?.orgId}`;
+  
+    return this.http.get(tempurl,data);
+
 
   }
 }

@@ -3,6 +3,7 @@ import { NgClass } from '@angular/common';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MiniGamesComponent } from '../mini-games/mini-games.component';
+import { Route, Router } from '@angular/router';
 import { LeaderBoardComponent } from "../leader-board/leader-board.component";
 import { AuthentificationService } from '../../service/authentification.service';
 
@@ -23,7 +24,7 @@ export class GamesHomeComponent implements OnInit {
   isOverallGames: boolean=false;
   userInfo:any;
   profileInfo: any;
-  constructor(private auth:AuthentificationService){
+  constructor(private auth:AuthentificationService,public route:Router){
 
   }
   ngOnInit(): void {
@@ -67,6 +68,13 @@ export class GamesHomeComponent implements OnInit {
    
 
   }
+  
+    logout(){
+
+      this.route.navigateByUrl('/')
+      localStorage.clear();      
+    }
+   
 
   
   search(){

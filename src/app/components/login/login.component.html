@@ -61,11 +61,18 @@
              
               <input type="text" placeholder="Username" id="EmailLogin" name="EmailLogin" [(ngModel)]="EmailLogin" required minlength="5" maxlength="50" #username="ngModel">
              
-              <div class="passwordClass col-12">
+              <!-- <div class="passwordClass col-12">
                  
-                  <input [type]="!showPassword ? 'password' : 'text'" placeholder="Password" id="loginPassword" class="inputPassword" name="PasswordLogin" minlength="5" [(ngModel)]="PasswordLogin" #password="ngModel" (change)="showPassword=!showPassword" required>
+                  <input [type]="!showPassword ? 'password' : 'text'" placeholder="Password" id="loginPassword" class="inputPassword" name="PasswordLogin" minlength="5" [(ngModel)]="PasswordLogin" #password="ngModel" (click)="showPassword=!showPassword" required>
                  
-              </div>
+              </div> -->
+              <div class="col-12" style="position: relative;">
+                <input style="position:relative;" [type]="!showPassword ? 'password' : 'text'" placeholder="Password" id="loginPassword" class="inputPassword" name="PasswordLogin" minlength="5" [(ngModel)]="PasswordLogin" #password="ngModel" (click)="showPassword=!showPassword" required>
+                
+                <span class="col-2" style="position: absolute;left: 88%;top: 4vh;" (click)="isShowPassword()">
+                    {{passwordMessage}}
+                </span>
+            </div>
           
               <div class="errorMsg" *ngIf="username.errors?.['required'] && username.touched">
                   *Username is required.
@@ -82,6 +89,7 @@
           
               <div class="errorMsg">{{errorMsg}}</div>
               <button type="submit" class="btn submitBtn" [disabled]="loginForm.invalid">LOGIN</button>
+              <span class="span mt-2">Don't have an account? <span class="signUpText" (click)="openSignUp()">Sign up</span></span>
           </form>
           
         </ng-container>
@@ -133,27 +141,60 @@
                 <img src="assets/GameImages/qrgamewebsiteassets/N-gage_logo.png" alt="" height="100px" width="100px">
             </div>
             
-            <!-- <div class="form-group col-12">
-                <input type="text" class="form-control" placeholder="Name" id="signupUsername" name="Username" [(ngModel)]="Username" required minlength="2" maxlength="50" #UsernameInput="ngModel">
+            <div class="form-group col-12">
+                <input type="text" class="form-control" placeholder="Name" id="signupname" name="Username" [(ngModel)]="Username" required minlength="2" maxlength="50" #UsernameInput="ngModel">
                 <div  *ngIf="UsernameInput.invalid && (UsernameInput.dirty || UsernameInput.touched)">
                     <span class="errorMsg" *ngIf="UsernameInput?.errors?.['required']">Name is required.</span>
                     <span class="errorMsg" *ngIf="UsernameInput?.errors?.['minlength'] || UsernameInput.errors?.['maxlength']">Name must be between 2 and 50 characters long.</span>
                 </div>
-            </div> -->
+            </div>
             <div class="form-group col-12">
-                <input type="email" class="form-control" placeholder="Create Username" id="signupUsername" name="Username" [(ngModel)]="Email" required  #EmailInput="ngModel">
+                <input type="email" class="form-control" placeholder="Create Username" id="signupUsername" name="Email" [(ngModel)]="Email" required  #EmailInput="ngModel">
                 <div class="errorMsg" *ngIf="EmailInput.invalid && (EmailInput.dirty || EmailInput.touched)">
                     Please provide a valid Username.
                 </div>
             </div>
+            <!-- <div class="d-flex justify-content-start col-12 gap-2">
+                <button class="btn  phone-btn " [ngClass]="isPhoneTab?'phoneBtnActive':'phoneBtnDeactive'" (click)="openPhoneTab()">Phone Number</button>
+                <button class="btn  phone-btn" [ngClass]="!isPhoneTab?'phoneBtnActive':'phoneBtnDeactive'" (click)="openPhoneTab()">Email</button>
+
+            </div> -->
             <div class="form-group col-12">
-                <input type="tel" class="form-control" placeholder="Phone Number" id="phoneNumber" name="phoneNumber" [(ngModel)]="PhoneNumber" required pattern="[0-9]{10}" #PhoneNumberInput="ngModel">
+                <input type="text" class="form-control" placeholder="Enter phone number or email" id="phoneNumber" name="phoneNumber" [(ngModel)]="PhoneNumber" required #PhoneNumberInput="ngModel">
+               
                 <div class="errorMsg" *ngIf="PhoneNumberInput.invalid && (PhoneNumberInput.dirty || PhoneNumberInput.touched)">
-                    Please provide a valid 10-digit phone number.
+                    Please enter valid a email or phone number.
                 </div>
+                
             </div>
+
+            <!-- <div *ngIf="isPhoneTab;then phoneNumber else email"></div>
+            <ng-template #phoneNumber>
+                <div class="form-group col-12">
+                    <input type="tel" class="form-control" placeholder="Phone Number" id="phoneNumber" name="phoneNumber" [(ngModel)]="PhoneNumber" required pattern="[0-9]{10}" #PhoneNumberInput="ngModel">
+                    <div class="errorMsg" *ngIf="PhoneNumberInput.invalid && (PhoneNumberInput.dirty || PhoneNumberInput.touched)">
+                        Please provide a valid 10-digit phone number.
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template  #email >
+                <div class="form-group col-12">
+                    <input type="email" class="form-control" placeholder="Enter Email Id" id="EmailSignUP" name="Username" [(ngModel)]="EmailSignUp" email required  #DifferentEmailInput="ngModel">
+                    <div class="errorMsg" *ngIf="DifferentEmailInput.invalid && (DifferentEmailInput.dirty || DifferentEmailInput.touched)">
+                        Please provide a valid Email.
+                    </div>
+                </div>
+                
+            </ng-template> -->
+            
             <div class="form-group col-12">
-                <input type="password" class="form-control" placeholder="Create password" id="password" name="Password" [(ngModel)]="Password" required minlength="8" #PasswordInput="ngModel">
+                <div class="col-12" style="position: relative;">
+                    <input [type]="!showPassword ? 'password' : 'text'"  class="col-10" placeholder="Create password" id="password" name="Password" [(ngModel)]="Password" required minlength="8" #PasswordInput="ngModel" style="position: relative;" >
+                    <span class="col-2" style="position: absolute;left: 88%;top: 1.5vh;" (click)="isShowPassword()">
+                        {{passwordMessage}}
+                    </span>
+                </div>
+                
                 <div class="errorMsg" *ngIf="PasswordInput.invalid && (PasswordInput.dirty || PasswordInput.touched)">
                     Password is required and must be at least 8 characters long.
                 </div>
@@ -167,7 +208,8 @@
             </div>
             <div class="errorMsg">{{errorMsg}}</div>
            
-            <button type="submit" class="btn submitBtn" [disabled]="form.invalid" (click)="GenerateOtpBtn()">GET OTP</button>
+            <button type="submit" class="btn submitBtn" [disabled]="form.invalid" (click)="GenerateOtpBtn(sourceGenerateOtp)">GET OTP</button>
+            <span class="span mt-2">Already have an account? <span class="signUpText" (click)="openLogin()">Login</span></span>
         </form>
         
         
@@ -184,7 +226,8 @@
           <div class="verifiedText mb-3">
             <Span>VERIFICATION</Span>
           </div>
-            <ng-otp-input  (onInputChange)="onOtpChange($event)"  #ngOtpInput [formCtrl]="otpIsHeare"[config]="{length:4}"></ng-otp-input>
+          
+            <ng-otp-input  (onInputChange)="onOtpChange($event)"  #ngOtpInput [formCtrl]="otpIsHeare"[config]="{length:otpLength}"></ng-otp-input>
             <div class="d-flex gap-1 mt-2">
               <span class="resendOTP" (click)="resendOtp()"  [style.color]="timer==0?'#004E73':'#707070'" >RESEND OTP </span><span [style.display]="timer==0?'none':'block'">{{timer}}sec</span>
             </div>

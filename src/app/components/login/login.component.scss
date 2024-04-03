@@ -185,9 +185,10 @@ input{
 #city::placeholder,
 #phoneNumber::placeholder,
 #EmailSignUP::placeholder, 
-#EmailLogin::placeholder{
+#EmailLogin::placeholder,
+#signupname::placeholder{
     color: #707070;
-    font-size: 1.3em;
+    font-size: 1em;
     font-family: 'Inter';
     font-weight: 500;
 }
@@ -198,7 +199,7 @@ input{
 #password,
 #city,
 #phoneNumber,
-#EmailSignUP,#EmailLogin {
+#EmailSignUP,#EmailLogin,#signupname {
     background-size: 20px;
     background-repeat: no-repeat;
     background-position: right 10px center;
@@ -208,15 +209,15 @@ input{
     background-image: url(../../../assets/GameImages/qrgamewebsiteassets/iconamoon_profile-fill.png);
 }
 
-#signupUsername {
+#signupUsername,#signupname {
     background-image: url(../../../assets/GameImages/qrgamewebsiteassets/iconamoon_profile-fill.png);
 }
 
-#loginPassword,
-#password {
+// #loginPassword,
+// #password {
    
-    background-image: url(../../../assets/GameImages/qrgamewebsiteassets/mdi_eye.png);
-}
+//     background-image: url(../../../assets/GameImages/qrgamewebsiteassets/mdi_eye.png);
+// }
 .inputPassword{
     input{
         position: relative;
@@ -304,29 +305,14 @@ opacity: 0px;
 }
 
 // Alert Css
-.alert {
-    padding: 20px;
-    background-color: #f44336;
-    color: white;
-    opacity: 1;
-    transition: opacity 0.6s;
-    margin-bottom: 15px;
-  }
-    
-
-  .alert.success {background-color: #04AA6D;}
-
-  .toggle-password {
-    position: relative;
-    display: inline-block;
+.signUpText{
+    color: #416c00 !important;
+    font-weight: 600;
+    font-size: 1.2em;
     cursor: pointer;
-  }
-  .toggle-password input[type="password"] {
-    padding-right: 30px; /* Make space for the toggle button */
-  }
-  .toggle-password .toggle-icon {
-    position: absolute;
-    top: 50%;
-    right: 5px;
-    transform: translateY(-50%);
-  }
+}
+
+
+  
+
+  

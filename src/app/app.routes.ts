@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 
 
 export const routes: Routes = [
-    {path:'',component:LoginComponent},
+    {path:'',component:LoginComponent , pathMatch:'full'},
     {path:'home',component:GamesHomeComponent}
 ];
 // bootstrapApplication(AppComponent,

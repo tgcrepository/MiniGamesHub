@@ -2,7 +2,7 @@
     padding-top: 2%;
     display: grid;
     grid-template-columns: repeat(4, 25%);
-    place-items: center;
+    place-items: start;
     flex-wrap: wrap;
 
     grid-row-gap: 2rem;
@@ -96,7 +96,7 @@
     margin-top: 1vh;
     display: grid;
     grid-template-columns: repeat(2, 50%);
-    place-items: center;
+    place-items: flex-start;
     flex-wrap: wrap;
     grid-row-gap: 1rem;
     height: 85vh;

@@ -1,5 +1,14 @@
 <div class="leaderBoardContainer row gap-2 web-view">
-    <button class="subTabBtn col-3" [ngClass]="showSpecificGames?'subTabBtnActive':'subTabBtn'" (click)='openSpectificGames()'>Specific to The Games</button>
+    <!-- <button class="subTabBtn col-3" [ngClass]="showSpecificGames?'subTabBtnActive':'subTabBtn'" (click)='openSpecificGames()'>
+    </button> -->
+    <div class="btn-group col-3">
+        <button type="button" class="btn subTabBtn col-3 dropdown-toggle" [ngClass]="showSpecificGames?'subTabBtnActive':'subTabBtn'" (click)='openSpecificGames()' data-bs-toggle="dropdown" aria-expanded="false">
+          Apple King
+        </button>
+        <ul class="dropdown-menu p-3" *ngFor="let gameList of GameCard">
+         <li (click)="getGameId(gameList?.id_game)">{{gameList?.game_name}}</li>
+        </ul>
+      </div>
     <button class="subTabBtn col-3" [ngClass]="!showSpecificGames?'subTabBtnActive':'subTabBtn'" (click)='openOverallGames()'>Overall</button>
     <div class="leaderBoardBox">
         <div *ngIf="showSpecificGames;then SpecificGames else OverallGames"></div>
@@ -19,33 +28,67 @@
                     </div>
                 </div>
                 <div style="height: 50vh; overflow-y: auto;padding: 0%;">
-                    <div class="d-flex justify-content-center" *ngFor="let leaderBoardData of leaderboard ">
-                        <div class="table-body row mt-2">
-                            <div class="TableRank col-1">
-                                <div class="GoldCoinImage">
-                                    <img [src]="leaderBoardData?.rankImageSrc" alt="" height="100%" width="100%">
+                    <div *ngIf="isCoinsActive;then coins else Assesment "></div>
+                    <ng-template #coins>
+                        <!-- <div class="d-flex justify-content-center" *ngFor="let leaderBoardData of spacificGameLeaderBoardDat; let i = index">
+                       
+                            <div class="table-body row mt-2">
+                                <div class="TableRank col-1">
+                                    <div class="GoldCoinImage playerName">
+                                        {{leaderBoardData?.ranking}}
+                                    </div>
+                                </div>
+                                <div class="playerName col-6">
+                                  
+                                    {{specificLeaderBoard[i]?.userDetails?.name}}
+                                </div>
+                                <div class="gameLogo col-3">
+                                    <div class="InnerGameLogo">
+                                        {{specificLeaderBoard[i]?.userDetails?.city}}
+                                    </div>
+                                </div>
+                                <div class="points col">
+                                    <div class="coinPoints">
+                                        <img src="assets/GameImages/qrgamewebsiteassets/Coin Icon.png" alt="" height="100%" width="100%">
+                                    </div>
+                                    <div class="pointsText">
+                                        {{leaderBoardData?.score}}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="playerName col-6">
-                                {{leaderBoardData.playerName}}
-                            </div>
-                            <div class="gameLogo  col-3">
-                                <div class="InnerGameLogo">
-                                    <!-- <img [src]="leaderBoardData?.gameLogoSrc" alt="" height="100%" width="100%"> -->
-                                    Pune
+                        </div> -->
+                    </ng-template>
+                    <ng-template #Assesment>
+                        <div class="d-flex justify-content-center" *ngFor="let leaderBoardData of spacificGameLeaderBoardData; let i = index">
+                       
+                            <div class="table-body row mt-2">
+                                <div class="TableRank col-1">
+                                    <div class="GoldCoinImage playerName">
+                                        {{leaderBoardData?.ranking}}
+                                    </div>
+                                </div>
+                                <div class="playerName col-6">
+                                    <!-- Access userDetails using the same index 'i' -->
+                                    {{specificLeaderBoard[i]?.userDetails?.name}}
+                                </div>
+                                <div class="gameLogo col-3">
+                                    <div class="InnerGameLogo">
+                                        {{specificLeaderBoard[i]?.userDetails?.city}}
+                                    </div>
+                                </div>
+                                <div class="points col">
+                                    <div class="coinPoints">
+                                        <img src="assets/GameImages/qrgamewebsiteassets/Coin Icon.png" alt="" height="100%" width="100%">
+                                    </div>
+                                    <div class="pointsText">
+                                        {{leaderBoardData?.score}}
+                                    </div>
                                 </div>
                             </div>
-                            <div class="points col">
-                               <div class="coinPoints">
-                                <img src="assets/GameImages/qrgamewebsiteassets/Coin Icon.png" alt="" height="100%" width="100%">
-                               </div>
-                               <div class="pointsText">
-                                    {{leaderBoardData?.points}}
-                               </div>
-                            </div>
-    
                         </div>
-                    </div>
+                    </ng-template>
+                   
+                    
                 </div>
               
                 

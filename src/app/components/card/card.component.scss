@@ -136,6 +136,13 @@
       display: none !important; 
 
     }
+    .ExcitementModal{
+        // background: url(../../../assets/GameImages/qrgamewebsiteassets/Coming\ Soon.png);
+        background-size: 100% 100%;
+        background-position: center center;
+        height: 40vh;
+        
+    }
 
     
   }
@@ -306,10 +313,3 @@
 }
 
 
-.ExcitementModal{
-    // background: url(../../../assets/GameImages/qrgamewebsiteassets/Coming\ Soon.png);
-    background-size: 100% 100%;
-    background-position: center center;
-    height: 40vh;
-    
-}
