@@ -1,12 +1,32 @@
 .gamesCard{
-    background-image: url(../../../assets/GameImages/qrgamewebsiteassets/Card.png);
+    background-image: url(../../../assets/GameImages/qrgamewebsiteassets/Game\ Label.png);
     background-size: 100% 100%;
     height: 18rem;
     width: 15.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
     
+    
+    
+}
+.valuesName{
+    position: absolute;
+    top: -2.5vh;
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: "Lilita One", sans-serif;
+    color:#fff;
+    
+}
+.valuesNameMobile{
+    position: absolute;
+    top: -1.5vh;
+    font-size: 0.7rem;
+    font-weight: 400;
+    font-family: "Lilita One", sans-serif;
+    color:#fff;
     
 }
 .innerLayer{
@@ -141,6 +161,7 @@
         background-size: 100% 100%;
         background-position: center center;
         height: 40vh;
+        width: 100%;
         
     }
 
@@ -148,7 +169,7 @@
   }
 
   .gamesCardMobile{
-    background-image: url(../../../assets/GameImages/qrgamewebsiteassets/Card.png);
+    background-image: url(../../../assets/GameImages/qrgamewebsiteassets/Game\ Label.png);
     background-size: 100% 100%;
     height: 12rem;
     width: 45vw;
@@ -161,6 +182,7 @@
     
 
   }
+ 
   .innerLayerMobile{
     display: flex;
     flex-direction: column;
@@ -219,8 +241,6 @@
         .scoreTextBtn{
             color: #FFDFA3;
             font-size: 0.8rem;
-    
-    
         }
 
     }
@@ -235,7 +255,7 @@
     height: 10rem;
     width: 42vw;
     gap:0.5em;
-    background: rgba($color: #ff9751, $alpha: 0.9);
+    background: rgba($color: #ff9751, $alpha: 0.5);
     z-index: 2;
     opacity: 0.7;
     background-size: 100% 100%;
@@ -304,8 +324,8 @@
     color: #ffff;
     display: flex;
     position: absolute !important;
-    top: 4.5vh !important;
-    right: 5.5vw !important;
+    top: 2.5vh !important;
+    right: 4.5vw;
     cursor: pointer;
     justify-content: center;
     align-items: center;

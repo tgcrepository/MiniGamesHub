@@ -1,6 +1,10 @@
 
     <div class="gamesCard web-view">
+       
         <div [ngClass]="gamesData?.enable_status==1?'innerLayer':'innerLayerDeactive'">
+            <div class="valuesName">
+                {{gamesData?.game_label}}
+            </div>
             <div *ngIf="isFrontView;then frontCard else backCard"></div>
             <ng-template #frontCard>
                 <div class="gameLogo">
@@ -8,13 +12,19 @@
                 </div>
                 <div *ngIf="gamesData?.enable_status==1;then  forActiveGames else forDeactivateGames"></div>
                 <ng-template #forActiveGames>
-                    <div class="playBtn" (click)="[openGame(gamesData)]">
-                        <img src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="" height="100%" width="100%">
+                    <div class="playBtn" (click)="openGame(gameData)" >
+                        <!-- <a [href]=""> -->
+                            <!-- <img lazy="loading" *ngIf="gamesData?.played==1" src="assets/GameImages/qrgamewebsiteassets/Play Again.png" alt="" height="100%" width="100%"> -->
+                            <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="" height="100%" width="100%">
+                        
+                            
+                       
+                       
                     </div>
                 </ng-template>
                 <ng-template #forDeactivateGames>
-                    <div class="playBtn" >
-                        <img src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="" height="100%" width="100%">
+                    <div class="playBtn" data-bs-toggle="modal" data-bs-target="#comingSoonCard" >
+                        <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="" height="100%" width="100%">
                     </div>
                 </ng-template>
     
@@ -23,7 +33,7 @@
                         <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Scoreboard.png" alt="" height="100%"
                             width="100%">
                     </div>
-                    <div class="scoreText" (click)="openCardById(gamesData?.id,gamesData?.isActive)">
+                    <div class="scoreText" (click)="openCardById(gamesData,gamesData?.isActive)">
                         Scoreboard
                     </div>
                 </div>
@@ -41,11 +51,11 @@
                 </div>
                 <div class="scoreContainer">
                     <div class="score">
-                        <div>60</div>
+                        <div>0</div>
                         <div class="scoreTextBtn">Coins</div>
                     </div>
                     <div class="score">
-                        <div>200</div>
+                        <div>0</div>
                         <div class="scoreTextBtn">Points</div>
                     </div>
                 </div>
@@ -56,6 +66,9 @@
     <!-- Mobile view -->
     <div class="gamesCardMobile mobile-view">
         <div  [ngClass]="gamesData?.enable_status==1?'innerLayerMobile':'innerLayerDeactiveMobile'">
+            <div class="valuesNameMobile">
+                {{gamesData?.game_label}}
+            </div>
             <div *ngIf="isFrontView;then frontCardMobile else backCardMobile"></div>
     <ng-template #frontCardMobile>
         <div class="gameLogo">
@@ -63,21 +76,22 @@
         </div>
         <div *ngIf="gamesData?.enable_status==1;then  forActiveGames else forDeactivateGames"></div>
         <ng-template #forActiveGames>
-            <div class="playBtn" (click)="[openGame(gamesData)]">
-                <img src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="" height="100%" width="100%">
+            <div class="playBtn" (click)="[openGame(gamesData),UpdateGamePlay(gamesData)]">
+                <img lazy="loading" *ngIf="gamesData?.played==1" src="assets/GameImages/qrgamewebsiteassets/Play Again.png" alt="" height="100%" width="100%">
+                <img lazy="loading" *ngIf="gamesData?.played!=1" src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="" height="100%" width="100%">
             </div>
         </ng-template>
         <ng-template #forDeactivateGames>
             <div class="playBtn" data-bs-toggle="modal" data-bs-target="#comingSoonCardMobile">
-                <img src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="" height="100%" width="100%">
+                <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="" height="100%" width="100%">
             </div>
         </ng-template>
         <div class="scoreBoardContainer d-flex gap-1 align-items-center">
             <div class="scoreIcon">
-                <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Scoreboard.png" alt="" height="90%"
+                <img lazy="loading" lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Scoreboard.png" alt="" height="90%"
                     width="90%">
             </div>
-            <div class="scoreText" (click)="openCardById(gamesData?.id,gamesData?.isActive)">
+            <div class="scoreText" (click)="openCardById(gamesData,gamesData?.isActive)">
                 Scoreboard
             </div>
         </div>
@@ -109,7 +123,7 @@
 
 
       
-      <!-- Modal -->
+      
       <div class="modal fade" id="comingSoonCard" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: transparent!important;">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -120,7 +134,7 @@
             
             <div class="modal-body ExcitementModal" >
                
-                <img src="assets/GameImages/qrgamewebsiteassets/Coming Soon.png" alt="" height="100%" width="100%">
+                <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Coming Soon.png" alt="" height="100%" width="100%">
               
             </div>
             
@@ -129,7 +143,7 @@
       </div>
 
       <!-- Modal Mobile -->
-      <div class="modal fade" id="comingSoonCardMobile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: transparent!important;">
+      <!-- <div class="modal fade" id="comingSoonCardMobile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: transparent!important;">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="d-flex justify-content-end p-2">
@@ -145,6 +159,6 @@
             
           </div>
         </div>
-      </div>
+      </div> -->
     
 

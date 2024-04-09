@@ -24,13 +24,18 @@ export class GamesHomeComponent implements OnInit {
   isOverallGames: boolean=false;
   userInfo:any;
   profileInfo: any;
+  spacificGameLeaderBoard: any;
+  spacificGameLeaderBoardData: any;
+  specificLeaderBoard: any;
   constructor(private auth:AuthentificationService,public route:Router){
 
   }
   ngOnInit(): void {
     
     this.getProfileData();
+    // this.OpenSpecificGames();
    
+    
   }
 
   dark_color='Blue';
@@ -61,6 +66,36 @@ export class GamesHomeComponent implements OnInit {
   }
   OpenSpecificGames(){
     this.isSpecificGames=true;
+    const body = {
+      id_game: 11,
+      orgId: this.profileInfo?.ID_ORGANIZATION
+  };
+
+  this.auth.getLeaderBoard(body).subscribe((res) => {
+      this.spacificGameLeaderBoard = res;
+      console.log('specific',this.spacificGameLeaderBoard);
+    
+      
+    
+      this.spacificGameLeaderBoardData = this.spacificGameLeaderBoard?.leaderboard.map((element: any) => {
+          let userInfo = {
+              id_game: '11',
+              orgId: this.profileInfo?.ID_ORGANIZATION,
+              id_user: element?.id_user
+          };
+
+         
+          this.auth.getLeaderBoardInfo(userInfo).subscribe((res) => {
+            return this.specificLeaderBoard.push(res);
+              
+          });
+
+         
+          return element;
+      });
+      
+    
+  });
    
   }
   openOverallGames(){

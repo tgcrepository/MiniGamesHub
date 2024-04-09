@@ -1,5 +1,5 @@
 // import { HttpClient } from '@angular/common/http';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -25,7 +25,7 @@ export class AuthentificationService {
   login(body:any ){
 
 
-    var tempurl= `${this.baseURL}`+`/${this.Path}login`;
+    var tempurl= `${this.baseURLNew}`+`api/ngageLogin`;
     console.log(tempurl);
     return this.http.post(tempurl,body);
    
@@ -89,19 +89,14 @@ export class AuthentificationService {
   }
 
   getOtp(body:any){
-    var tempurl=`https://control.msg91.com/api/v5/otp?template_id=6606a904d6fc056a333b9762&mobile=91${body}&authkey=318438A60qs5Ysgqr5e47c80dP1`
+    var tempurl=`${this.baseURLNew}api/send-otp`;
+   
     return this.http.post(tempurl,body)
   }
   verifyOtp(body:any){
-    // const authKey = `318438A60qs5Ysgqr5e47c80dP1`;
-
-    const url = `https://control.msg91.com/api/v5/otp/verify?otp=${body.otp}&mobile=91${body.PhoneNumber}`;
-
-    // Set the headers
-    const headers = new HttpHeaders().set('authkey', '318438A60qs5Ysgqr5e47c80dP1');
-
-    // Make the GET request with headers
-    return this.http.get(url, { headers: headers, withCredentials: true })
+    var tempurl=`${this.baseURLNew}api/verify-otp?otp=${body.otp}&mobile=91${body.PhoneNumber}&authkey=318438A60qs5Ysgqr5e47c80dP1`;
+   
+    return this.http.get(tempurl)
 
   }
 
@@ -110,7 +105,7 @@ export class AuthentificationService {
     return this.http.get(tempUrl)
   }
   verifyEmailOtp(data:any){
-    var tempUrl=`https://www.playtolearn.in/Mini_games_beta/api/confirmOTP?Email=${data?.email}&otp=${data?.otp}&OrgID=0`;
+    var tempUrl=`https://www.playtolearn.in/Mini_games_beta/api/NewconfirmOTP?Email=${data?.email}&otp=${data?.otp}&OrgID=0`;
     return this.http.get(tempUrl)
 
   }
@@ -132,6 +127,38 @@ export class AuthentificationService {
   
     return this.http.get(tempurl,data);
 
+
+  }
+  getLeaderBoardForCoins(data:any){
+    var tempurl= `${this.baseURLNew}`+`api/coins-game-log?org_id=${data?.orgId}&id_game=${data?.id_game}`;
+    return this.http.get(tempurl,data);
+
+  }
+  getOverallLeaderBoard(data:any){
+    var tempurl= `${this.baseURLNew}`+`api/overallleaderboard?ID_ORGANIZATION=${data}`;
+    return this.http.get(tempurl,data);
+
+
+  }
+  getOverallLeaderBoardCoins(data:any){
+    var tempurl= `${this.baseURLNew}`+`api/overallxps?org_id=${data}`;
+    return this.http.get(tempurl,data);
+
+  }
+
+  gamePlayAgain(data:any){
+    var tempurl= `${this.baseURLNew}`+`api/insertGamePlayedStatus`;
+    return this.http.post(tempurl,data);
+
+  }
+  getGamePlayStatus(data:any){
+    var tempurl= `${this.baseURLNew}`+`api/getGamePlayedStatus/${data?.id_game}/${data.id_user}/${data.org_id}`;
+    return this.http.get(tempurl,data);
+
+  }
+  updatePassword(data:any){
+    var tempurl= `${this.baseURLNew}`+`api/updatePassword`;
+    return this.http.post(tempurl,data);
 
   }
 }

@@ -1,75 +1,27 @@
 <div class="login-container">
     <div>
         <div class="logoContainer">
-            <img src="assets/GameImages/qrgamewebsiteassets/N-gage_logo.png" alt="" width="200px" height="200px">
+            <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/IKS  Ngage.png" alt="" width="200px" height="200px">
         </div>
-        <div class="logInSignUp" *ngIf="!isShowLogin && !isShowSignUp&& !showOtPScreen && !isverifyOtp">
+        <div class="logInSignUp" *ngIf="!isShowLogin && !isShowSignUp&& !showOtPScreen && !isverifyOtp &&!isForgetPassword &&!isverifyOtpForgetPassword ">
             <button class="btn btn-lg buttonLogin" (click)="openLogin()">LOGIN</button>
             <button class="btn btn-lg buttonLogin" (click)="openSignUp()">SIGN UP</button>
         </div>
 
         <ng-container *ngIf="isShowLogin" >
-            <!-- <form class="formGroup">
-                <div>
-                    <img src="assets/GameImages/qrgamewebsiteassets/N-gage_logo.png" alt="" height="100px" width="100px">
-                </div>
-               
-                <input type="text" placeholder="Username" id="EmailLogin" name="EmailLogin" [(ngModel)]="EmailLogin" required minlength="5"
-                maxlength="50" >
-               
-
-                   
-                    
-                  
-                
-                  <div class="passwordClass">
-                    <input [type]="showPassword?'Password':'text'"
-                    placeholder="Password"
-                    id="loginPassword"
-                    class="inputPassword"
-                    name="PasswordLogin"
-                    minLength="5"
-                    [(ngModel)]="PasswordLogin"
-                   
-                    
-                    
-                    required>
-                    <img class="eye" src="assets/GameImages/qrgamewebsiteassets/mdi_eye.png" alt="" height="100% 100%">
-                  </div>
-                 
-
-                 
-                 
-                 
-          
-             <div class="errorMsg" *ngIf="loginFormMiniGame.get('PasswordLogin')?.errors?.['required']">
-               *Password is required.
-             </div>
-             <div class="errorMsg" *ngIf="loginFormMiniGame.get('PasswordLogin')?.errors?.['minlength']">
-               Password must be at least 8 characters long.
-             </div>
-           
-                
-              
-                <div class="errorMsg">{{errorMsg}}</div>
-                <button type="submit" class="btn submitBtn" (click)="loginTemp()">LOGIN</button>
-            </form> -->
+            
             <form class="formGroup" #loginForm="ngForm" (ngSubmit)="loginTemp()">
               <div>
-                  <img src="assets/GameImages/qrgamewebsiteassets/N-gage_logo.png" alt="" height="100px" width="100px">
+                <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/IKS  Ngage.png" alt="" width="100px" height="100px">
               </div>
              
               <input type="text" placeholder="Username" id="EmailLogin" name="EmailLogin" [(ngModel)]="EmailLogin" required minlength="5" maxlength="50" #username="ngModel">
              
-              <!-- <div class="passwordClass col-12">
-                 
-                  <input [type]="!showPassword ? 'password' : 'text'" placeholder="Password" id="loginPassword" class="inputPassword" name="PasswordLogin" minlength="5" [(ngModel)]="PasswordLogin" #password="ngModel" (click)="showPassword=!showPassword" required>
-                 
-              </div> -->
+             
               <div class="col-12" style="position: relative;">
-                <input style="position:relative;" [type]="!showPassword ? 'password' : 'text'" placeholder="Password" id="loginPassword" class="inputPassword" name="PasswordLogin" minlength="5" [(ngModel)]="PasswordLogin" #password="ngModel" (click)="showPassword=!showPassword" required>
+                <input style="position:relative;" [type]="!showPassword ? 'password' : 'text'" placeholder="Password" id="loginPassword" class="inputPassword" name="PasswordLogin" minlength="5" [(ngModel)]="PasswordLogin" #password="ngModel"  required>
                 
-                <span class="col-2" style="position: absolute;left: 88%;top: 4vh;" (click)="isShowPassword()">
+                <span class="col-2" style="position: absolute;left: 88%;top: 4vh;cursor: pointer;" (click)="isShowPassword()">
                     {{passwordMessage}}
                 </span>
             </div>
@@ -90,106 +42,49 @@
               <div class="errorMsg">{{errorMsg}}</div>
               <button type="submit" class="btn submitBtn" [disabled]="loginForm.invalid">LOGIN</button>
               <span class="span mt-2">Don't have an account? <span class="signUpText" (click)="openSignUp()">Sign up</span></span>
+
+              <span class="span mt-2" style="text-decoration: underline;cursor: pointer;" (click)="forgetPassword()">Forgot Password?</span>
           </form>
           
         </ng-container>
         <ng-container *ngIf="isShowSignUp">
             
-            <!-- <form class="formGroup" (ngSubmit)="submitForm()" #form="ngForm" novalidate>
-              <div>
-                  <img src="assets/GameImages/qrgamewebsiteassets/N-gage_logo.png" alt="" height="100px" width="100px">
-              </div>
             
-              <div class="form-group col-12">
-                  <input type="text" class="form-control" placeholder="Name" id="signupUsername" name="Username" [(ngModel)]="Username" required #UsernameInput="ngModel">
-                  <div class="invalid-feedback" *ngIf="UsernameInput.invalid && (UsernameInput.dirty || UsernameInput.touched)">
-                      Please provide a valid name.
-                  </div>
-              </div>
-              <div class="form-group col-12">
-                  <input type="email" class="form-control" placeholder="Username" id="EmailSignUP" name="Username" [(ngModel)]="Email" required #EmailInput="ngModel">
-                  <div class="invalid-feedback" *ngIf="EmailInput.invalid && (EmailInput.dirty || EmailInput.touched)">
-                      Please provide a valid email.
-                  </div>
-              </div>
-              <div class="form-group col-12">
-                  <input type="text" class="form-control" placeholder="Phone Number" id="phoneNumber" name="phoneNumber" [(ngModel)]="PhoneNumber" required #PhoneNumberInput="ngModel">
-                  <div class="invalid-feedback" *ngIf="PhoneNumberInput.invalid && (PhoneNumberInput.dirty || PhoneNumberInput.touched)">
-                      Please provide a valid phone number.
-                  </div>
-              </div>
-              <div class="form-group col-12">
-                  <input type="password" class="form-control" placeholder="Create password" id="password" name="Password" [(ngModel)]="Password" required #PasswordInput="ngModel">
-                 
-                  <div class="invalid-feedback" *ngIf="PasswordInput.invalid && (PasswordInput.dirty || PasswordInput.touched)">
-                      Please provide a password.
-                  </div>
-              </div>
-              
-              <div class="form-group col-12">
-                  <input type="text" class="form-control" placeholder="City" id="city" name="city" [(ngModel)]="City" required #CityInput="ngModel">
-                  <div class="invalid-feedback" *ngIf="CityInput.invalid && (CityInput.dirty || CityInput.touched)">
-                      Please provide a city.
-                  </div>
-              </div>
-              <div class="errorMsg">{{errorMsg}}</div>
-             
-              <button type="submit" class="btn submitBtn" [disabled]="form.invalid" (click)="GenerateOtpBtn()">GET OTP</button>
-          </form> -->
           <form class="formGroup" (ngSubmit)="submitForm()" #form="ngForm" novalidate>
             <div>
-                <img src="assets/GameImages/qrgamewebsiteassets/N-gage_logo.png" alt="" height="100px" width="100px">
+              <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/IKS  Ngage.png" alt="" width="100px" height="100px">
             </div>
             
             <div class="form-group col-12">
-                <input type="text" class="form-control" placeholder="Name" id="signupname" name="Username" [(ngModel)]="Username" required minlength="2" maxlength="50" #UsernameInput="ngModel">
+                <input type="text" class="form-control" placeholder="Name" id="signupname" name="Username" [(ngModel)]="Username" required minlength="2" maxlength="50" #UsernameInput="ngModel" pattern="[A-Za-z]+">
                 <div  *ngIf="UsernameInput.invalid && (UsernameInput.dirty || UsernameInput.touched)">
                     <span class="errorMsg" *ngIf="UsernameInput?.errors?.['required']">Name is required.</span>
                     <span class="errorMsg" *ngIf="UsernameInput?.errors?.['minlength'] || UsernameInput.errors?.['maxlength']">Name must be between 2 and 50 characters long.</span>
                 </div>
             </div>
             <div class="form-group col-12">
-                <input type="email" class="form-control" placeholder="Create Username" id="signupUsername" name="Email" [(ngModel)]="Email" required  #EmailInput="ngModel">
-                <div class="errorMsg" *ngIf="EmailInput.invalid && (EmailInput.dirty || EmailInput.touched)">
-                    Please provide a valid Username.
+                <input type="email" class="form-control" placeholder="Create Username" id="signupUsername" name="Email" [(ngModel)]="Email" required minlength="5" maxlength="50"  #EmailInput="ngModel" pattern="^\S+$">
+               
+                <div  *ngIf="EmailInput.invalid && (EmailInput.dirty || EmailInput.touched)">
+                    <span class="errorMsg" *ngIf="EmailInput?.errors?.['required']">Username is required.</span>
+                    <span class="errorMsg" *ngIf="EmailInput?.errors?.['minlength'] || EmailInput.errors?.['maxlength']">Username must be between 5 and 50 characters long.</span>
                 </div>
             </div>
-            <!-- <div class="d-flex justify-content-start col-12 gap-2">
-                <button class="btn  phone-btn " [ngClass]="isPhoneTab?'phoneBtnActive':'phoneBtnDeactive'" (click)="openPhoneTab()">Phone Number</button>
-                <button class="btn  phone-btn" [ngClass]="!isPhoneTab?'phoneBtnActive':'phoneBtnDeactive'" (click)="openPhoneTab()">Email</button>
-
-            </div> -->
+            
             <div class="form-group col-12">
                 <input type="text" class="form-control" placeholder="Enter phone number or email" id="phoneNumber" name="phoneNumber" [(ngModel)]="PhoneNumber" required #PhoneNumberInput="ngModel">
                
                 <div class="errorMsg" *ngIf="PhoneNumberInput.invalid && (PhoneNumberInput.dirty || PhoneNumberInput.touched)">
-                    Please enter valid a email or phone number.
+                    Please enter a valid  email or phone number.
                 </div>
                 
             </div>
 
-            <!-- <div *ngIf="isPhoneTab;then phoneNumber else email"></div>
-            <ng-template #phoneNumber>
-                <div class="form-group col-12">
-                    <input type="tel" class="form-control" placeholder="Phone Number" id="phoneNumber" name="phoneNumber" [(ngModel)]="PhoneNumber" required pattern="[0-9]{10}" #PhoneNumberInput="ngModel">
-                    <div class="errorMsg" *ngIf="PhoneNumberInput.invalid && (PhoneNumberInput.dirty || PhoneNumberInput.touched)">
-                        Please provide a valid 10-digit phone number.
-                    </div>
-                </div>
-            </ng-template>
-            <ng-template  #email >
-                <div class="form-group col-12">
-                    <input type="email" class="form-control" placeholder="Enter Email Id" id="EmailSignUP" name="Username" [(ngModel)]="EmailSignUp" email required  #DifferentEmailInput="ngModel">
-                    <div class="errorMsg" *ngIf="DifferentEmailInput.invalid && (DifferentEmailInput.dirty || DifferentEmailInput.touched)">
-                        Please provide a valid Email.
-                    </div>
-                </div>
-                
-            </ng-template> -->
+            
             
             <div class="form-group col-12">
                 <div class="col-12" style="position: relative;">
-                    <input [type]="!showPassword ? 'password' : 'text'"  class="col-10" placeholder="Create password" id="password" name="Password" [(ngModel)]="Password" required minlength="8" #PasswordInput="ngModel" style="position: relative;" >
+                    <input [type]="!showPassword ? 'password' : 'text'"  class="col-10" placeholder="Create password" id="password" name="Password" [(ngModel)]="Password" required minlength="8" #PasswordInput="ngModel" style="position: relative;" pattern="^\S+$">
                     <span class="col-2" style="position: absolute;left: 88%;top: 1.5vh;" (click)="isShowPassword()">
                         {{passwordMessage}}
                     </span>
@@ -221,13 +116,13 @@
         <ng-container *ngIf="showOtPScreen" >
           <form class="formGroup">
             <div class="mb-4">
-              <img src="assets/GameImages/qrgamewebsiteassets/N-gage_logo.png" alt="" height="100px" width="100px">
+              <img src="assets/GameImages/qrgamewebsiteassets/IKS  Ngage.png" alt="" width="200px" height="200px">
           </div>
           <div class="verifiedText mb-3">
             <Span>VERIFICATION</Span>
           </div>
           
-            <ng-otp-input  (onInputChange)="onOtpChange($event)"  #ngOtpInput [formCtrl]="otpIsHeare"[config]="{length:otpLength}"></ng-otp-input>
+            <ng-otp-input   (onInputChange)="onOtpChange($event)"  #ngOtpInput [formCtrl]="otpIsHeare"[config]="{length:otpLength,allowNumbersOnly:true} "></ng-otp-input>
             <div class="d-flex gap-1 mt-2">
               <span class="resendOTP" (click)="resendOtp()"  [style.color]="timer==0?'#004E73':'#707070'" >RESEND OTP </span><span [style.display]="timer==0?'none':'block'">{{timer}}sec</span>
             </div>
@@ -247,11 +142,74 @@
               <span>VERIFIED SUCCESSFULLY</span>
             </div>
             <div class="verifiedGIf">
-              <img src="assets/GameImages/qrgamewebsiteassets/Verified.gif" alt="" height="100%" width="100%">
+              <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Verified.gif" alt="" height="100%" width="100%">
             </div>
             <button type="submit" class="btn submitBtn">Done</button>
           </form>
         </ng-container>
+        
+        
+        <ng-container *ngIf="isForgetPassword">
+            <form class="formGroup mb-2"  #formForgotPassword="ngForm" novalidate>
+                <div class="mb-4" *ngIf="!showOtpBoxes">
+                  <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/IKS  Ngage.png" alt="" height="100px" width="100px">
+              </div>
+              <div class="verifiedText mb-3" >
+                <Span>Forgot Password</Span>
+              </div>
+              <div class="form-group col-12 mt-2">
+                <input type="text" class="form-control" placeholder="Enter phone number or email" id="phoneForPassword" name="phoneForPassword" [(ngModel)]="PhoneNumberPassword" required #PhoneNumberPasswordInput="ngModel">
+
+                <div class="errorMsg" *ngIf="PhoneNumberPassword?.invalid && (PhoneNumberPassword?.dirty || PhoneNumberPassword?.touched)">
+                    Please enter valid a email or phone number.
+                </div>
+                
+            </div>
+                <br>
+                <ng-container *ngIf="showOtpBoxes" >
+                    <ng-otp-input    (onInputChange)="onOtpChange($event)"  #ngOtpInputForgetPassword [formCtrl]="otpIsHeare"[config]="{length:4,allowNumbersOnly:true} "></ng-otp-input>
+                    <div class="d-flex gap-1 mt-2">
+                        <span class="resendOTP"  [style.color]="timer==0?'#004E73':'#707070'" >RESEND OTP </span><span [style.display]="timer==0?'none':'block'">{{timer}}sec</span>
+                      </div>
+                </ng-container>
+                <ng-container *ngIf="!showOtpBoxes">
+                    <button type="submit" class="btn submitBtn" (click)="[getOTPForForgetPassword()]" [disabled]="formForgotPassword?.invalid">Get OTP</button>
+                </ng-container>
+                
+                <ng-container *ngIf="showOtpBoxes">
+                    <div class="form-group col-12" *ngIf="enabledPassword">
+                        <div class="col-12" style="position: relative;">
+                            <input [type]="!showPassword ? 'password' : 'text'"  class="col-10" placeholder="Create password" id="password" name="Password" [(ngModel)]="forgetPasswordValue" required minlength="8" #PasswordInputValue="ngModel" style="position: relative;" >
+                            <span class="col-2" style="position: absolute;left: 88%;top: 1.5vh;" (click)="isShowPassword()">
+                                {{passwordMessage}}
+                            </span>
+                        </div>
+                        
+                        <div class="errorMsg" *ngIf="PasswordInputValue.invalid && (PasswordInputValue.dirty || PasswordInputValue.touched)">
+                            Password is required and must be at least 8 characters long.
+                        </div>
+                    </div>
+                    
+                    <button *ngIf="enabledPassword" type="submit" class="btn submitBtn" (click)="updatePassword()"  [disabled]="formForgotPassword?.invalid">Submit</button>
+                    <button *ngIf="!enabledPassword" type="submit" class="btn submitBtn" (click)="verifyForgetpasswordOtp()" [disabled]="formForgotPassword?.invalid">Verify</button>
+                </ng-container>
+                  <!-- <button type="submit" class="btn submitBtn" (click)="[verifyBtn()]">Get OTP</button> -->
+                
+                
+    
+              </form>
+        </ng-container>
+          <ng-container *ngIf="isverifyOtpForgetPassword">
+            <form class="formGroup">
+              <div class="verifiedText">
+                <span>VERIFIED SUCCESSFULLY</span>
+              </div>
+              <div class="verifiedGIf">
+                <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Verified.gif" alt="" height="100%" width="100%">
+              </div>
+              <button type="submit" class="btn submitBtn" (click)="verifyDone()">Done</button>
+            </form>
+          </ng-container>
     </div>
 </div>
 <!-- Modal For Success -->

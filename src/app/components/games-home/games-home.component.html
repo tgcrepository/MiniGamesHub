@@ -1,29 +1,25 @@
 <!-- Car Racing -->
 <div class="web-view GameHomecontainer ">
     <div class="row">
-        <div class="profile_info col-12 p-2 d-flex">
-            <div class="col-3">
-                <h2 class="BigText">Hello! {{profileInfo?.Name}}</h2>
+        <div class="profile_info col-12 p-2 d-flex align-items-center ps-2 pe-2">
+            <div class="col-3 ">
+                <span class="BigText">Hello! {{profileInfo?.Name}}</span>
                 <!-- <h6 class="smallText">Welcome back to the N-GAGE</h6> -->
             </div>
             <div class="searchBar col-6">
                 
-                    <input type="text" placeholder="search here..." [(ngModel)]="searchGames"   (input)="search()">
+                    <!-- <input type="text" placeholder="search here..." [(ngModel)]="searchGames"   (input)="search()"> -->
                    
                 
             </div>
-            <div class="col-3 d-flex align-items-center justify-content-around">
-                <div class="profile_img">
+            <div class="col-3 d-flex align-items-center justify-content-end">
+                <!-- <div class="profile_img">
 
+                </div> -->
+                <div class="logoBox">
+                    <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/LogoIKS.png" alt="" height="100%" width="100%">
                 </div>
-                <div>
-                    <div>
-                        <b>{{profileInfo?.Name}}</b></div>
-                    <div>{{profileInfo?.Organization_Name}}</div>
-                </div>
-                <div>
-
-                </div>
+              
                 
             </div>
         </div>
@@ -47,7 +43,7 @@
     
 </div>
 <!-- Mobile View Started -->
-<div class="mobile-view MobileGameHomeContainer ">
+<div class="mobile-view MobileGameHomeContainer">
     <div class="innerLayerMobile">
         <div class="row headerMobile">
             <div class="col-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
@@ -75,18 +71,17 @@
         </div>
         <div class="leaderBoardNavigation">
             <div *ngIf="isLeaderBoardOptionAvailable" (click)="OpenSpecificGames()">
-                <img *ngIf="isSpecificGames" src="assets/GameImages/qrgamewebsiteassets/specificActive.png" alt=""  height="90px" width="90px">
-                <img *ngIf="!isSpecificGames" src="assets/GameImages/qrgamewebsiteassets/specificDeActive.png" alt=""  height="90px" width="90px">
+                <img lazy="loading" *ngIf="isSpecificGames" src="assets/GameImages/qrgamewebsiteassets/specificActive.png" alt=""  height="90px" width="90px">
+                <img lazy="loading" *ngIf="!isSpecificGames" src="assets/GameImages/qrgamewebsiteassets/specificDeActive.png" alt=""  height="90px" width="90px">
             </div>
             <div (click)="openLeaderBoardOptions()" style="cursor: pointer;">
                 <div *ngIf="isLeaderBoardOptionAvailable;then isAvailable else notAvailable"></div>
                 <ng-template #notAvailable>
-                    <img src="assets/GameImages/qrgamewebsiteassets/leaderBoard.png" alt="" height="90px" width="90px">
+                    <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/leaderBoard.png" alt="" height="90px" width="90px">
                 </ng-template>
                 <ng-template #isAvailable>
-                    <img src="assets/GameImages/qrgamewebsiteassets/smallLeaderBoard.png" alt="" height="60px" width="60px">
+                    <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/smallLeaderBoard.png" alt="" height="60px" width="60px">
                 </ng-template>
-                
             </div>
             <div *ngIf="isLeaderBoardOptionAvailable" (click)="openOverallGames()">
                 <img *ngIf="isSpecificGames" src="assets/GameImages/qrgamewebsiteassets/overallDeactivate.png" alt=""  height="90px" width="90px">

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgClass,NgIf,NgFor,JsonPipe } from '@angular/common';
+
+
 import { AuthentificationService } from '../../service/authentification.service';
+import { never } from 'rxjs';
 
 @Component({
   selector: 'app-leader-board',
@@ -20,126 +23,187 @@ export class LeaderBoardComponent implements OnInit {
   gameData: any;
   GameCard: any;
   idGame: any;
+  leaderboard: any[]=[];
+  selectedValue:any;
+
+  Overallleaderboard: any[] = [];
+  spacificGameLeaderBoardDataForCoins: any;
+  isCoinsActiveOverall:boolean=true;
+  spacificGameLeaderBoardForCoins: any;
+  specificLeaderBoardforCoins:any[]=[];
+  // overallGamesLeaderBoard: any[]=[];
+  overallGamesLeaderBoard:any;
+
+  overallGameLeaderBoardDataForQuiz: any;
+  overallGamesLeaderBoardForCoins: any;
   constructor(private auth:AuthentificationService){
 
   }
   ngOnInit(): void {
   this.profileData=localStorage.getItem('ProfileData');
+
   this.profileInfo=JSON.parse(this.profileData);
- 
-  let orgId='18'
+  let orgId=this.profileInfo?.ID_ORGANIZATION;
     this.auth.getGameDataList(orgId).subscribe((res)=>{
       this.gameData=res;
       this.GameCard=this.gameData?.games;
-      this.idGame=this.GameCard?.id_game;
-
-      console.log(this.GameCard);
-    
+    this.selectedValue=this.gameData?.games[0]?.id_game;
+    this.openSpecificGames()
+    //  this.getLeaderDataForSpecificGamesForCoins(this.selectedValue);
       
     })
+
+  }
+ 
+  onGameSelectionChange(selectedId:any){
+    console.log(selectedId.target.value)
+    const selectedGame = this.GameCard.find((game:any) => game.id_game === selectedId);
+    // this.getGameIdForAssessment(selectedId.target.value);
+    // this.getGameIdForGamePlay(selectedId.target.value);
+    this.getLeaderBoardDataForSpecificGamesForQuiz(selectedId.target.value);
+    this.getLeaderDataForSpecificGamesForCoins(selectedId.target.value);
+    this.selectedValue=selectedId.target.value
+     console.log(selectedGame);
+
+  }
+  // getGameIdForAssessment(data:any){
+  //   this.idGame=data;
+  //   console.log(data)
+   
+   
+  //   // this.openAssessmentLeaderboard(data)
   
    
-  }
-  leaderboard: any;
-  Overallleaderboard: any[] = [
-    {
-      rank: 1,
-      playerName: "Kartikee Pawar",
-      gameLogoSrc: "assets/GameImages/qrgamewebsiteassets/Apple king.png",
-      points: 2000,
-      rankImageSrc: "assets/GameImages/qrgamewebsiteassets/1.png" // Add rank 1 image source
-    },
-    {
-      rank: 2,
-      playerName: "Shubham Dhekolkar",
-      gameLogoSrc: "assets/GameImages/qrgamewebsiteassets/Apple king.png",
-      points: 1800,
-      rankImageSrc: "assets/GameImages/qrgamewebsiteassets/2.png" // Add rank 2 image source
-    },
-    {
-      rank: 3,
-      playerName: "Swapnil Chawan",
-      gameLogoSrc: "assets/GameImages/qrgamewebsiteassets/Apple king.png",
-      points: 1750,
-      rankImageSrc: "assets/GameImages/qrgamewebsiteassets/3.png" // Add rank 3 image source
-    },
-
-    {
-      rank: 4,
-      playerName: "Amarjeet",
-      gameLogoSrc: "assets/GameImages/qrgamewebsiteassets/Apple king.png",
-      points: 2000,
-      rankImageSrc: "assets/GameImages/qrgamewebsiteassets/1.png" // Add rank 1 image source
-    },
-    {
-      rank: 5,
-      playerName: "Madhu",
-      gameLogoSrc: "assets/GameImages/qrgamewebsiteassets/Apple king.png",
-      points: 1800,
-      rankImageSrc: "assets/GameImages/qrgamewebsiteassets/2.png" // Add rank 2 image source
-    },
-    {
-      rank: 6,
-      playerName: "Sanjana",
-      gameLogoSrc: "assets/GameImages/qrgamewebsiteassets/Apple king.png",
-      points: 1750,
-      rankImageSrc: "assets/GameImages/qrgamewebsiteassets/3.png" // Add rank 3 image source
-    }
-  ];
-
-  getGameId(data:any){
-    this.idGame=data;
-
-  }
-  
-  openSpecificGames() {
-  
-    this.showSpecificGames = true;
     
+
     
+ 
+
+  // }
+  // getGameIdForGamePlay(data:any){
+  //   this.idGame=data;
+  //   console.log(data)
+  //   this.getLeaderDataForSpecificGamesForCoins(data);
+  //   // this.openCoinsLeaderboard(data)
+
+  // }
+
+  getLeaderBoardDataForSpecificGamesForQuiz(data:any){
     const body = {
-        id_game: 11,
-        orgId: this.profileInfo?.ID_ORGANIZATION
-    };
+      id_game: data,
+      orgId: this.profileInfo?.ID_ORGANIZATION
+  };
 
-    this.auth.getLeaderBoard(body).subscribe((res) => {
-        this.spacificGameLeaderBoard = res;
-        console.log('specific',this.spacificGameLeaderBoard);
+  this.auth.getLeaderBoard(body).subscribe((res) => {
+      this.spacificGameLeaderBoard = res;
+      console.log('specific',this.spacificGameLeaderBoard);
+    
       
-        
-      
-        this.spacificGameLeaderBoardData = this.spacificGameLeaderBoard?.leaderboard.map((element: any) => {
-            let userInfo = {
-                id_game: '11',
-                orgId: this.profileInfo?.ID_ORGANIZATION,
-                id_user: element?.id_user
-            };
+    
+      this.spacificGameLeaderBoardData = this.spacificGameLeaderBoard?.leaderboard.map((element: any) => {
+          let userInfo = {
+              id_game: data,
+              orgId: this.profileInfo?.ID_ORGANIZATION,
+              id_user: element?.id_user
+          };
 
-           
-            this.auth.getLeaderBoardInfo(userInfo).subscribe((res) => {
-              return this.specificLeaderBoard.push(res);
-                
-            });
+         
+          this.auth.getLeaderBoardInfo(userInfo).subscribe((res) => {
+            return this.specificLeaderBoard.push(res);
+              
+          });
 
-           
-            return element;
-        });
-        
+         
+          return element;
+      });
       
-    });
+    
+  });
+  
+    
+
+  }
+  getLeaderDataForSpecificGamesForCoins(data:any){
+    const body = {
+      id_game: data,
+      orgId: this.profileInfo?.ID_ORGANIZATION
+  };
+
+  this.auth.getLeaderBoardForCoins(body).subscribe((res) => {
+      this.spacificGameLeaderBoard = res;
+      console.log('specific',this.spacificGameLeaderBoard);
+    
+      
+    
+      this.spacificGameLeaderBoardDataForCoins =this.spacificGameLeaderBoard;
+      
+      
+    
+  });
+  
+    
+
+  }
+  
+  
+
+  getOverallLeaderBoard(){
+   
+    // this.profileInfo?.ID_ORGANIZATION
+    this.auth.getOverallLeaderBoard(this.profileInfo?.ID_ORGANIZATION).subscribe((res)=>{
+      this.overallGamesLeaderBoard = res;
+      console.log(this.overallGamesLeaderBoard?.leaderboard);
+    
+      
+      
+    
+  
+    })
+  }
+  getOverallLeaderBoardCoins(){
+    this.auth.getOverallLeaderBoardCoins(this.profileInfo?.ID_ORGANIZATION).subscribe((res)=>{
+      this.overallGamesLeaderBoardForCoins=res;
+      console.log(this.overallGamesLeaderBoardForCoins)
+    })
+
+  }
+
+
+
+  openSpecificGames() {
+    console.log(this.idGame)
+    this.showSpecificGames = true;
+    // this.getLeaderBoardDataForSpecificGamesForQuiz(data);
+    this.openCoinsLeaderboard()
+    this.getLeaderDataForSpecificGamesForCoins(this.selectedValue);
+    
 }
-
-
   openOverallGames(){
+    console.log(this.openOverallGames)
     this.showSpecificGames=false;
+    this.openOverallCoinsLeaderboard();
   }
   openCoinsLeaderboard(){
     this.isCoinsActive=true;
-    
+    // this.getGameIdForAssessment(selectedValue);
+    this.getLeaderDataForSpecificGamesForCoins(this.selectedValue);
   }
+  openOverallCoinsLeaderboard(){
+
+    this.isCoinsActiveOverall=true;
+    this.getOverallLeaderBoardCoins();
+
+  }
+  openOverallAssessmentLeaderBoard(){
+    this.isCoinsActiveOverall=false;
+    this.getOverallLeaderBoard();
+  }
+
   openAssessmentLeaderboard(){
     this.isCoinsActive=false;
-    
+    // this.getGameIdForGamePlay(this.gameData?.games[0]?.id_game);
+    this.getLeaderBoardDataForSpecificGamesForQuiz(this.selectedValue);
+   
   }
 
 }

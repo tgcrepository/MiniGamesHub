@@ -5,10 +5,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthentificationService } from '../../service/authentification.service';
 import { SuccessComponent } from '../success/success.component';
 import { ToastrModule } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { platformBrowser } from '@angular/platform-browser';
 import { NgIf,NgClass } from '@angular/common';
 import { Util } from '../../../util';
 import { NgOtpInputModule } from  'ng-otp-input';
+
+
 
 import { debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -23,6 +26,7 @@ import { Subject } from 'rxjs';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+  profileDataTemp:any=[]
   Username:string="";
   Password:string="";
   otpIsHeare:any;
@@ -39,6 +43,8 @@ isShowSignUp:boolean=false;
 showPassword: boolean = false;
 showOtPScreen:boolean=false;
 isverifyOtp:boolean=false;
+isForgetPassword:boolean=false;
+PhoneNumberPassword:any;
 successMessage:any;
 otpValue:any;
   formBuilder: any;
@@ -61,7 +67,8 @@ sourceGenerateOtp: string='phone';
   otpLength: number=0;
   passwordMessage: string='show';
   orgId:number=0
-constructor(private auth:AuthentificationService, private router:Router,private Util: Util,private fb:FormBuilder) {
+  orgnizationId: any;
+constructor(private auth:AuthentificationService, private router:Router,private Util: Util,private fb:FormBuilder,private Route:ActivatedRoute) {
   this.loginFormMiniGame = this.fb.group({
     Email: ['', [Validators.required, Validators.email]],
     Password: ['', Validators.required]
@@ -73,10 +80,20 @@ constructor(private auth:AuthentificationService, private router:Router,private 
  }
 
 ngOnInit(): void {
+  this.Route.queryParams.subscribe((params:any)=>{
+    this.orgnizationId = params['org_id'];
+    if(platformBrowser()){
+      localStorage.setItem('id_org',this.orgnizationId);
+    console.log(this.orgnizationId);
+    }
+    
+
+
+  })
  
   this.isShowLogin=false;
   this.isShowSignUp=false;
-  this.otpChangeSubject.pipe(debounceTime(1500)).subscribe((otp: any) => {
+  this.otpChangeSubject.pipe(debounceTime(500)).subscribe((otp: any) => {
     
     this.otpValue = otp;
     console.log(this.otpValue);
@@ -113,6 +130,7 @@ GenerateOtpBtn(source:any){
   console.log(source);
   this.showOtPScreen=true;
   this.isShowSignUp=false;
+  console.log(this.PhoneNumber)
   // this.getOtp= Math.floor(10000 + Math.random()*99999)
   if(this.PhoneNumber.includes('@')){
     this.otpLength=6
@@ -123,7 +141,14 @@ GenerateOtpBtn(source:any){
   }
   else{
     this.otpLength=4
-    this.auth.getOtp(this.PhoneNumber).subscribe((res)=>{
+    let body=
+      {
+        "template_id": "6606a904d6fc056a333b9762",
+        "mobile":'91'+this.PhoneNumber,
+        "authkey": "318438A60qs5Ysgqr5e47c80dP1"
+      }
+    
+    this.auth.getOtp(body).subscribe((res)=>{
 
       console.log(res);
       this.timer=15;
@@ -153,7 +178,13 @@ GenerateOtpBtn(source:any){
 }
 resendOtp(){
   if(this.timer==0){
-    this.auth.getOtp(this.PhoneNumber).subscribe((res)=>{
+    let body=
+    {
+      "template_id": "6606a904d6fc056a333b9762",
+      "mobile":'91'+this.PhoneNumber,
+      "authkey": "318438A60qs5Ysgqr5e47c80dP1"
+    }
+    this.auth.getOtp(body).subscribe((res)=>{
       console.log("Resend OTP successfully")
     })
   }
@@ -171,8 +202,10 @@ onOtpChange(otp: any) {
 }
 
 verifyBtn(){
+  
 
  if(this.PhoneNumber.includes('@')){
+  this.otpLength=6
   let body={
     "otp":this.otpValue,
     "email":this.PhoneNumber,
@@ -213,15 +246,10 @@ verifyBtn(){
  }
   })
  }
- 
-  
-  
-
-    
   }
 signUpTemp(){
   let body={
-    "org_id": 18,
+    "org_id": this.orgnizationId,
     "name": this.Username,
     "email": this.Email,
     "password": this.Password,
@@ -241,7 +269,6 @@ submitForm() {
   this.City = '';
   this.errorMsg = '';
 }
-
   async signup(): Promise<void> {
     // let encryptedPassword = this.Util.encryptData(this.Password);
     let body = {
@@ -249,7 +276,7 @@ submitForm() {
         "Email": this.Email,
         // "Phone_No": this.PhoneNumber,
         // "Password": encryptedPassword,
-        "ID_ORGANIZATION":18,
+        "ID_ORGANIZATION":this.orgnizationId,
         // "Organization_Name":"The Gamification Company",
         "login_type": 4
   };
@@ -265,21 +292,21 @@ submitForm() {
       alert("User Created SuccessFully");
       setTimeout(()=>{
         window.location.reload()
-      },5000)
+      },2000)
     
       
    
       
-      console.log(res);
+    console.log(res);
       // Handle response if necessary
   } catch (error) {
       console.error(error);
-      alert("Email is already Registered");
+      alert("Email or phone number is already Registered");
       setTimeout(()=>{
         window.location.reload()
-      },5000)
+      },2000)
      
-      this.errorMsg="Email is already Registered";
+      this.errorMsg="Email or phone number is already Registered";
       // Handle error conditions if necessary
   }
 
@@ -303,6 +330,7 @@ loginTemp() {
   let body = {
     "email": this.EmailLogin,
     "password": this.PasswordLogin,
+    "org_id":this.orgnizationId
   };
 
   this.auth.loginApi(body).subscribe(
@@ -329,16 +357,22 @@ this.staticPassword='Ngage@2019';
       // "Email":this.EmailLogin,
       // "Password":encryptedPassword,
       // "login_type": 1
-      {"Name":"","Email":this.EmailLogin,"Password":"Ngage@2019","login_type":4}
+      {"email":this.EmailLogin,"password":"Ngage@2019",'id_organization':Number(this.orgnizationId)}
   ;
   
   let login = this.Util.encryptData(body);
 
   try {
-      const res = await this.auth.login({ "Data": login }).toPromise();
+      const res = await this.auth.login(body).toPromise();
       console.log(res?.hasOwnProperty);
-      this.profileData = this.Util.decryptData(res);
       
+       this.profileDataTemp=res;
+      
+      
+      this.profileData =this.profileDataTemp?.user
+      console.log(this.profileData);
+      
+      localStorage.setItem("ProfileData",JSON.stringify(this.profileData))
 
       
       if (res !== '"Invalid credentials"') {
@@ -347,7 +381,7 @@ this.staticPassword='Ngage@2019';
          this.router.navigate(['/home']);
             
           
-            localStorage.setItem("ProfileData",this.profileData)
+          
            
           
           
@@ -364,6 +398,7 @@ this.staticPassword='Ngage@2019';
 
 
 sendProfileDataToService(profileData: any) {
+
   // Call your service method here to send profileData
   this.auth.sendProfileData(profileData).subscribe((res:any)=>{
     console.log(res);
@@ -384,6 +419,136 @@ togglePassword(): void {
 
   toggleButton.innerHTML = this.isEyeOpen ? this.eyeIcons.closed : this.eyeIcons.open;
   passwordField.type = this.isEyeOpen ? "text" : "password";
+}
+
+forgetPassword(){
+  this.isForgetPassword=true;
+  this.isShowLogin=false;
+  this.otpLength=4;
+}
+showOtpBoxes:boolean=false;
+showSubmit:boolean=false;
+getOTPForForgetPassword(){
+  this.showOtpBoxes=true;
+  if(this.PhoneNumberPassword.includes('@')){
+    this.otpLength=6
+    let Email=this.PhoneNumberPassword;
+    this.auth.getEmailOtp(Email).subscribe((res)=>{
+    console.log(res);
+  })
+  }
+  else{
+    this.otpLength=4
+    let body=
+      {
+        "template_id": "6606a904d6fc056a333b9762",
+        "mobile":'91'+this.PhoneNumberPassword,
+        "authkey": "318438A60qs5Ysgqr5e47c80dP1"
+      }
+    
+    this.auth.getOtp(body).subscribe((res)=>{
+
+      console.log(res);
+      this.timer=15;
+      setInterval(()=>{
+        if(this.timer!=0){
+          this.timer--;
+        }
+       
+      },1000)
+      if(this.timer==0){
+        this.isAllowResendOTP=true;
+        // this.resendOtp()
+        this.timer=0;
+  
+      }
+     
+    })
+ 
+}
+
+}
+
+verifyStatus:any;
+enabledPassword:boolean=false;
+
+verifyForgetpasswordOtp(){
+  if(this.PhoneNumberPassword.includes('@')){
+    let body={
+      "otp":this.otpValue,
+      "email":this.PhoneNumberPassword,
+      'orgId':0
+  
+    }
+    this.otpLength=6
+    this.auth.verifyEmailOtp(body).subscribe((res)=>{
+      console.log(res)
+      
+      this.verifyStatus=res
+      this.isShowSignUp=false;
+      this.isverifyOtp=true;
+      console.log(this.verifyStatus);
+      
+if(this.verifyStatus?.message=='OTP verified success'){
+  this.enabledPassword=true;
+}
+     
+    })
+  
+   }
+   else{
+    let body={
+      "otp":this.otpValue,
+      "PhoneNumber":this.PhoneNumberPassword
+  
+    }
+    this.otpLength=4
+    this.auth.verifyOtp(body).subscribe((res)=>{
+      console.log(res);
+      this.successMessage=res;
+     console.log(this.successMessage.message=='OTP verified success')
+     if(this.successMessage?.message=='OTP verified success'){
+      this.enabledPassword=true;
+    }
+  
+    // this.showOtPScreen=false;
+     this.isShowSignUp=false;
+   
+    })
+   }
+   
+  
+}
+forgetPasswordValue:any;
+updateSuccessMessgae:any
+isverifyOtpForgetPassword:boolean=false;
+updatePassword(){
+  let body=
+    {
+      "org_id": this.orgnizationId,
+      "phone_number":this.PhoneNumberPassword ,
+      "password": this.forgetPasswordValue}
+  
+  this.auth.updatePassword(body).subscribe((res)=>{
+
+this.updateSuccessMessgae=res
+console.log();
+
+if(this.updateSuccessMessgae?.message=='Password updated successfully'){
+  this.isverifyOtpForgetPassword=true;
+ 
+}
+else{
+  alert(this.updateSuccessMessgae?.message)
+  
+}
+
+  })
+}
+verifyDone(){
+  this.isverifyOtpForgetPassword=false;
+  this.isForgetPassword=false;
+  this.openLogin();
 }
 
 }

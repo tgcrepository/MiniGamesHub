@@ -30,7 +30,7 @@ color: #fff;
 
 }
 .leaderBoardBox{
-    height: 75vh;
+    height: 70vh;
     width: 100%;
     background: url('../../../assets/GameImages/qrgamewebsiteassets/Leaderboard\ BG.png');
     background-size: 100% 100%;
@@ -43,7 +43,8 @@ color: #fff;
    width: 100%;
 }
 .CoinsBtn{
-    background: url(../../../assets/GameImages/Coin\ DeActive\ \(1\).png);
+    // background: url(../../../assets/GameImages/qrgamewebsiteassets/XPSDeactive.png);
+    background:url(../../../assets/GameImages/Coin\ DeActive\ \(1\).png);
     //  background: url('../../../assets/GameImages/qrgamewebsiteassets/Coin\ Active.png');
     background-position: center center;
     background-size: 100% 100%;
@@ -52,7 +53,8 @@ color: #fff;
 
 }
 .activeCoinsBtn{
-    background: url(../../../assets/GameImages/Coin\ Active\ \(3\).png);
+    // background: url(../../../assets/GameImages/qrgamewebsiteassets/XPSActive.png);
+    background:url(../../../assets/GameImages/Coin\ Active\ \(3\).png);
     // background: url('../../../assets/GameImages/qrgamewebsiteassets/Coin\ Active.png');
     background-position: center center;
     background-size: 100% 100%;
@@ -60,7 +62,7 @@ color: #fff;
 
 }
 .OverallLeaderBoardBtn{
-    background: url(../../../assets/GameImages/Assesment\ DeActive\ \(1\).png);
+    background: url(../../../assets/GameImages/qrgamewebsiteassets/deActiveFunQuiz1.png);
     // background: url('../../../assets/GameImages/qrgamewebsiteassets/Assesment\ DeActive.png');
     background-position: center center;
     background-size: 100% 100%;
@@ -69,7 +71,7 @@ color: #fff;
 
 }
 .activeOverallLeaderBoardBtn{
-    background: url(../../../assets/GameImages/Assesment\ Active\ \(1\).png);
+    background: url(../../../assets/GameImages/qrgamewebsiteassets/activeFunQuiz1.png);
     // background: url('../../../assets/GameImages/qrgamewebsiteassets/Assesment\ Active.png');
     background-position: center center;
     background-size: 100% 100%;
@@ -231,7 +233,7 @@ color: #fff;
     }
 }
 .CoinsBtnMobile{
-    background: url(../../../assets/GameImages/Coin\ DeActive\ \(1\).png);
+    background: url(../../../assets/GameImages/qrgamewebsiteassets/activeFunQuiz1.png);
     //  background: url('../../../assets/GameImages/qrgamewebsiteassets/Coin\ Active.png');
     background-position: center center;
     background-size: 100% 100%;
@@ -306,7 +308,7 @@ color: #fff;
 }
 .AssesmentBtnMobile{
     
-        background: url(../../../assets/GameImages/Assesment\ DeActive\ \(1\).png);
+        background: url(../../../assets/GameImages/Assesment\ Active\ \(1\).png);
         //  background: url('../../../assets/GameImages/qrgamewebsiteassets/Coin\ Active.png');
         background-position: center center;
         background-size: 100% 100%;

@@ -1,17 +1,16 @@
 .mini-games-container {
-    padding-top: 2%;
+    padding-top: 1%;
     display: grid;
     grid-template-columns: repeat(4, 25%);
-    place-items: start;
+    place-items: center;
     flex-wrap: wrap;
 
     grid-row-gap: 2rem;
-    height: 80vh;
+    height: 78vh;
 
     overflow-y: auto;
     overflow-x: hidden;
 }
-
 // BackCard Css
 .crossBtn {
     height: 1.5rem;
@@ -81,7 +80,7 @@
     }
   }
 
-  @media screen and (min-width:270px) and  (max-width:1024px) {
+  @media screen and (min-width:270px) and  (max-width:1199.9px) {
     .web-view{
       display: none !important; 
 
@@ -99,7 +98,7 @@
     place-items: flex-start;
     flex-wrap: wrap;
     grid-row-gap: 1rem;
-    height: 85vh;
+    height: 80vh;
     overflow-y: auto;
     overflow-x: hidden;
 

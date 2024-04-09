@@ -184,6 +184,7 @@ input{
 #password::placeholder,
 #city::placeholder,
 #phoneNumber::placeholder,
+#phoneForPassword::placeholder,
 #EmailSignUP::placeholder, 
 #EmailLogin::placeholder,
 #signupname::placeholder{
@@ -199,6 +200,7 @@ input{
 #password,
 #city,
 #phoneNumber,
+#phoneForPassword,
 #EmailSignUP,#EmailLogin,#signupname {
     background-size: 20px;
     background-repeat: no-repeat;
@@ -239,7 +241,7 @@ input{
     background-image: url(../../../assets/GameImages/qrgamewebsiteassets/fluent_location-48-filled.png);
 }
 
-#phoneNumber {
+#phoneNumber,#phoneForPassword {
     background-image: url(../../../assets/GameImages/qrgamewebsiteassets/material-symbols_call.png);
 }
 
