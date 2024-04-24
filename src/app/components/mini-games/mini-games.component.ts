@@ -48,9 +48,7 @@ export class MiniGamesComponent implements OnInit{
    
   }
 
-  showMyLeaderBoard(){
-      this.isFrontView=false; 
-  }
+
   openFrontCard(){
       this.isFrontView=true;
   }

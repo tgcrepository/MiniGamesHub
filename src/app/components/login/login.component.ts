@@ -6,22 +6,25 @@ import { AuthentificationService } from '../../service/authentification.service'
 import { SuccessComponent } from '../success/success.component';
 import { ToastrModule } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
-import { platformBrowser } from '@angular/platform-browser';
+
 import { NgIf,NgClass } from '@angular/common';
 import { Util } from '../../../util';
 import { NgOtpInputModule } from  'ng-otp-input';
-
-
-
 import { debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-
-
-
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule,NgIf,HttpClientModule,ReactiveFormsModule,SuccessComponent,ToastrModule,NgOtpInputModule,NgClass],
+  imports: [
+    FormsModule,
+    NgIf,
+    HttpClientModule,
+  
+    ReactiveFormsModule,
+    SuccessComponent,
+    ToastrModule,
+    NgOtpInputModule,
+    NgClass],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -30,6 +33,7 @@ export class LoginComponent {
   Username:string="";
   Password:string="";
   otpIsHeare:any;
+  isLoaderActive:boolean=true;
   City:string="";
   PhoneNumber:any;
   errorMsg:string="";
@@ -44,6 +48,7 @@ showPassword: boolean = false;
 showOtPScreen:boolean=false;
 isverifyOtp:boolean=false;
 isForgetPassword:boolean=false;
+isUserAlreadyRegistered:boolean=false;
 PhoneNumberPassword:any;
 successMessage:any;
 otpValue:any;
@@ -53,6 +58,7 @@ otpValue:any;
   EmailSignUp:any;
   dialog: any;
   private otpChangeSubject: Subject<any> = new Subject<any>();
+  private checkEmailOrPhone:Subject<any>= new Subject<any>();
   eyeIcons = {
     open: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="eye-icon"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z" /><path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" clip-rule="evenodd" /></svg>',
     closed: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="eye-icon"><path d="M3.53 2.47a.75.75 0 00-1.06 1.06l18 18a.75.75 0 101.06-1.06l-18-18zM22.676 12.553a11.249 11.249 0 01-2.631 4.31l-3.099-3.099a5.25 5.25 0 00-6.71-6.71L7.759 4.577a11.217 11.217 0 014.242-.827c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113z" /><path d="M15.75 12c0 .18-.013.357-.037.53l-4.244-4.243A3.75 3.75 0 0115.75 12zM12.53 15.713l-4.243-4.244a3.75 3.75 0 004.243 4.243z" /><path d="M6.75 12c0-.619.107-1.213.304-1.764l-3.1-3.1a11.25 11.25 0 00-2.63 4.31c-.12.362-.12.752 0 1.114 1.489 4.467 5.704 7.69 10.675 7.69 1.5 0 2.933-.294 4.242-.827l-2.477-2.477A5.25 5.25 0 016.75 12z" /></svg>'
@@ -63,11 +69,13 @@ username: any;
 emailForOTP: any;
 password: any;
 city: any;
-sourceGenerateOtp: string='phone';
+  sourceGenerateOtp: string='phone';
   otpLength: number=0;
   passwordMessage: string='show';
   orgId:number=0
   orgnizationId: any;
+  NgageLogo: any;
+  logoData:any;
 constructor(private auth:AuthentificationService, private router:Router,private Util: Util,private fb:FormBuilder,private Route:ActivatedRoute) {
   this.loginFormMiniGame = this.fb.group({
     Email: ['', [Validators.required, Validators.email]],
@@ -82,10 +90,19 @@ constructor(private auth:AuthentificationService, private router:Router,private 
 ngOnInit(): void {
   this.Route.queryParams.subscribe((params:any)=>{
     this.orgnizationId = params['org_id'];
-    if(platformBrowser()){
+
       localStorage.setItem('id_org',this.orgnizationId);
     console.log(this.orgnizationId);
-    }
+    this.auth.getLogos(this.orgnizationId).subscribe((res)=>{
+      console.log(res)
+      this.logoData=res;
+      this.NgageLogo=this.logoData?.ngage_logo;
+    })
+    setTimeout(()=>{
+      this.isLoaderActive=false;
+
+    },3000)
+    
     
 
 
@@ -118,11 +135,18 @@ isShowPassword(){
 openLogin(){
   this.isShowLogin=true;
   this.isShowSignUp=false;
+  this.isverifyOtp=false;
+  this.isUserAlreadyRegistered=false;
+  this.showOtPScreen=false;
  
 }
 openSignUp(){
-  this.isShowSignUp=true;
+ 
+  this.isverifyOtp=false;
+  this.isUserAlreadyRegistered=false;
   this.isShowLogin=false;
+  this.isShowSignUp=true;
+  this.showOtPScreen=false;
   
  
 }
@@ -137,6 +161,20 @@ GenerateOtpBtn(source:any){
     let Email=this.PhoneNumber;
     this.auth.getEmailOtp(Email).subscribe((res)=>{
     console.log(res);
+    this.timer=30;
+    setInterval(()=>{
+      if(this.timer!=0){
+        this.timer--;
+      }
+     
+    },1000)
+    if(this.timer==0){
+      this.isAllowResendOTP=true;
+      // this.resendOtp()
+      this.timer=0;
+
+    }
+   
   })
   }
   else{
@@ -151,7 +189,7 @@ GenerateOtpBtn(source:any){
     this.auth.getOtp(body).subscribe((res)=>{
 
       console.log(res);
-      this.timer=15;
+      this.timer=30;
       setInterval(()=>{
         if(this.timer!=0){
           this.timer--;
@@ -177,22 +215,55 @@ GenerateOtpBtn(source:any){
 
 }
 resendOtp(){
-  if(this.timer==0){
-    let body=
-    {
-      "template_id": "6606a904d6fc056a333b9762",
-      "mobile":'91'+this.PhoneNumber,
-      "authkey": "318438A60qs5Ysgqr5e47c80dP1"
-    }
-    this.auth.getOtp(body).subscribe((res)=>{
-      console.log("Resend OTP successfully")
-    })
+  if(this.PhoneNumber.includes('@')){
+    this.otpLength=6
+    let Email=this.PhoneNumber;
+    this.auth.getEmailOtp(Email).subscribe((res)=>{
+    console.log(res);
+    this.timer=30;
+      setInterval(()=>{
+        if(this.timer!=0){
+          this.timer--;
+        }
+       
+      },1000)
+      if(this.timer==0){
+        this.isAllowResendOTP=true;
+        // this.resendOtp()
+        this.timer=0;
+  
+      }
+     
+  })
   }
   else{
-    this.timer=15;
-  }
+    this.otpLength=4
+    let body=
+      {
+        "template_id": "6606a904d6fc056a333b9762",
+        "mobile":'91'+this.PhoneNumber,
+        "authkey": "318438A60qs5Ysgqr5e47c80dP1"
+      }
+    
+    this.auth.getOtp(body).subscribe((res)=>{
 
-  console.log('resend otp')
+      console.log(res);
+      this.timer=30;
+      setInterval(()=>{
+        if(this.timer!=0){
+          this.timer--;
+        }
+       
+      },1000)
+      if(this.timer==0){
+        this.isAllowResendOTP=true;
+        // this.resendOtp()
+        this.timer=0;
+  
+      }
+     
+    })
+  }
  
 
 }
@@ -201,65 +272,160 @@ onOtpChange(otp: any) {
   this.otpChangeSubject.next(otp);
 }
 
-verifyBtn(){
+// verifyBtn(){
   
 
- if(this.PhoneNumber.includes('@')){
-  this.otpLength=6
-  let body={
-    "otp":this.otpValue,
-    "email":this.PhoneNumber,
-    'orgId':0
+//  if(this.PhoneNumber.includes('@')){
+//   this.otpLength=6
+//   let body={
+//     "otp":this.otpValue,
+//     "email":this.PhoneNumber,
+//     'orgId':0
 
-  }
-  this.otpLength=6
-  this.auth.verifyEmailOtp(body).subscribe((res)=>{
-    console.log(res)
-    this.isShowSignUp=false;
-    this.isverifyOtp=true;
-    this.signup()
-  })
+//   }
+//   this.otpLength=6
+//   this.auth.verifyEmailOtp(body).subscribe((res)=>{
+//     console.log(res)
+//     this.isShowSignUp=false;
+//     this.isverifyOtp=true;
+//     this.signUpTemp()
+//   })
 
- }
- else{
-  let body={
-    "otp":this.otpValue,
-    "PhoneNumber":this.PhoneNumber
+//  }
+//  else{
+//   let body={
+//     "otp":this.otpValue,
+//     "PhoneNumber":this.PhoneNumber
 
-  }
-  this.otpLength=4
-  this.auth.verifyOtp(body).subscribe((res)=>{
-    console.log(res);
-    this.successMessage=res;
-   console.log(this.successMessage.message)
+//   }
+//   this.otpLength=4
+//   this.auth.verifyOtp(body).subscribe((res)=>{
+//     console.log(res);
+//     this.successMessage=res;
+//    console.log(this.successMessage.message)
 
-  // this.showOtPScreen=false;
-   this.isShowSignUp=false;
- if(this.successMessage.message=='OTP verified success'){
+//   // this.showOtPScreen=false;
+//    this.isShowSignUp=false;
+//  if(this.successMessage.message=='OTP verified success'){
  
-  this.isverifyOtp=true;
-  this.signup()
+//   this.isverifyOtp=true;
+//   this.signUpTemp()
 
- }
- else{
-  this.errorMsg="Please Enter valid OTP"
- }
-  })
- }
+//  }
+//  else{
+//   this.errorMsg="Please Enter valid OTP"
+//  }
+//   })
+//  }
+//   }
+//   signUpTemp() {
+//     let body = {
+//       "org_id": this.orgnizationId,
+//       "name": this.Username,
+//       "email": this.Email,
+//       "password": this.Password,
+//       "phone_number": this.PhoneNumber,
+//       "city": this.City
+//     };
+  
+//     this.auth.signUpApi(body).subscribe(
+//       (res) => {
+//         // Handle success response
+//         this.signup()
+//         setTimeout(() => {
+//           window.location.reload();
+//         }, 2000);
+//       },
+//       (error) => {
+//         // Handle error
+//         console.error("Sign up error:", error);
+//         alert("Email or phone number Already Registered");
+//         // You can show an error message to the user or handle the error in any appropriate way.
+//       }
+//     );
+//   }
+verifyBtn() {
+  if (this.PhoneNumber.includes('@')) {
+    this.otpLength = 6;
+    let body = {
+      "otp": this.otpValue,
+      "email": this.PhoneNumber,
+      'orgId': 0
+    };
+    this.auth.verifyEmailOtp(body).subscribe(
+      (res) => {
+        console.log(res);
+        this.isShowSignUp = false;
+        this.isverifyOtp = true;
+        this.signUpTemp();
+      },
+      (error) => {
+        console.error("Verification error:", error);
+        // Handle verification error, show error message or perform any appropriate action
+      }
+    );
+  } else {
+    let body = {
+      "otp": this.otpValue,
+      "PhoneNumber": this.PhoneNumber
+    };
+    this.otpLength = 4;
+    this.auth.verifyOtp(body).subscribe(
+      (res) => {
+        console.log(res);
+        this.successMessage = res;
+        console.log(this.successMessage.message);
+        if (this.successMessage.message == 'OTP verified success') {
+          this.isverifyOtp = true;
+          this.signUpTemp();
+        } else {
+          this.errorMsg = "Please Enter valid OTP";
+        }
+      },
+      (error) => {
+        console.error("Verification error:", error);
+        // Handle verification error, show error message or perform any appropriate action
+      }
+    );
   }
-signUpTemp(){
-  let body={
+}
+
+signUpTemp() {
+  let body = {
     "org_id": this.orgnizationId,
     "name": this.Username,
     "email": this.Email,
     "password": this.Password,
     "phone_number": this.PhoneNumber,
     "city": this.City
-  }
-  this.auth.signUpApi(body).subscribe((res)=>{
-   
-  })
+  };
+
+  this.auth.signUpApi(body).subscribe(
+    (res) => {
+      // Handle success response
+      this.signup();
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    },
+    (error) => {
+      console.error("Sign up error:", error);
+      if (error.status === 400) {
+        // alert("Email or phone number Already Registered");
+        this.isverifyOtp=false;
+        this.isUserAlreadyRegistered=true;
+        this.isShowLogin=false;
+        this.isShowSignUp=false;
+        this.showOtPScreen=false;
+        
+        // Handle duplicate registration error
+      } else {
+        // Handle other errors
+      }
+    }
+  );
 }
+
 submitForm() {
   // Reset form fields after submission
   this.Username = '';
@@ -288,12 +454,16 @@ submitForm() {
   
   try {
       const res = await this.auth.registrationApi({"Data": JSON.stringify(body)}).toPromise();
-      this.signUpTemp();   
-      alert("User Created SuccessFully");
-      setTimeout(()=>{
-        window.location.reload()
-      },2000)
+      
+      this.isverifyOtp=true;
+      this.isUserAlreadyRegistered=false; 
+      this.isShowLogin=false;
+       this.isShowSignUp=false;
+       this.showOtPScreen=false;
+  
     
+      alert("User Created SuccessFully");
+     
       
    
       
@@ -301,7 +471,7 @@ submitForm() {
       // Handle response if necessary
   } catch (error) {
       console.error(error);
-      alert("Email or phone number is already Registered");
+    
       setTimeout(()=>{
         window.location.reload()
       },2000)
@@ -424,6 +594,8 @@ togglePassword(): void {
 forgetPassword(){
   this.isForgetPassword=true;
   this.isShowLogin=false;
+
+  this.isShowSignUp=false;
   this.otpLength=4;
 }
 showOtpBoxes:boolean=false;
@@ -435,6 +607,19 @@ getOTPForForgetPassword(){
     let Email=this.PhoneNumberPassword;
     this.auth.getEmailOtp(Email).subscribe((res)=>{
     console.log(res);
+    this.timer=30;
+    setInterval(()=>{
+      if(this.timer!=0){
+        this.timer--;
+      }
+     
+    },1000)
+    if(this.timer==0){
+      this.isAllowResendOTP=true;
+      // this.resendOtp()
+      this.timer=0;
+
+    }
   })
   }
   else{
@@ -485,22 +670,25 @@ verifyForgetpasswordOtp(){
       console.log(res)
       
       this.verifyStatus=res
-      this.isShowSignUp=false;
+     
       this.isverifyOtp=true;
+    
       console.log(this.verifyStatus);
       
-if(this.verifyStatus?.message=='OTP verified success'){
-  this.enabledPassword=true;
-}
-     
+    if(this.verifyStatus=='OTP is correct.'){
+      this.enabledPassword=true;
+    
+    }
+    this.showOtPScreen=false;
+    this.isShowSignUp=false;
+
     })
-  
+    
    }
    else{
     let body={
       "otp":this.otpValue,
       "PhoneNumber":this.PhoneNumberPassword
-  
     }
     this.otpLength=4
     this.auth.verifyOtp(body).subscribe((res)=>{
@@ -509,9 +697,10 @@ if(this.verifyStatus?.message=='OTP verified success'){
      console.log(this.successMessage.message=='OTP verified success')
      if(this.successMessage?.message=='OTP verified success'){
       this.enabledPassword=true;
+     
     }
   
-    // this.showOtPScreen=false;
+    this.showOtPScreen=false;
      this.isShowSignUp=false;
    
     })
@@ -536,6 +725,7 @@ console.log();
 
 if(this.updateSuccessMessgae?.message=='Password updated successfully'){
   this.isverifyOtpForgetPassword=true;
+  this.isForgetPassword=false;
  
 }
 else{
@@ -550,5 +740,23 @@ verifyDone(){
   this.isForgetPassword=false;
   this.openLogin();
 }
+checkExistingPhoneNumber(input: any) {
+  console.log('Value');
+
+  if (typeof input === 'string' && input.length > 9) {
+    const body = { phoneNumber: input };
+    this.auth.checkExistingPhoneNumber(body).subscribe((res) => {
+      console.log(res);
+    });
+  } else if (typeof input === 'string' && input.includes('@')) {
+    const body = { email: input };
+    this.auth.checkExistingPhoneNumber(body).subscribe((res) => {
+      console.log(res);
+    });
+  } else {
+    console.error('Invalid input');
+  }
+}
+
 
 }

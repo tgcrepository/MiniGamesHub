@@ -3,10 +3,9 @@ import { NgClass } from '@angular/common';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MiniGamesComponent } from '../mini-games/mini-games.component';
-import { Route, Router } from '@angular/router';
+import { NavigationExtras, Route, Router } from '@angular/router';
 import { LeaderBoardComponent } from "../leader-board/leader-board.component";
 import { AuthentificationService } from '../../service/authentification.service';
-
 @Component({
     selector: 'app-games-home',
     standalone: true,
@@ -19,7 +18,6 @@ export class GamesHomeComponent implements OnInit {
   isLeaderBoardActive:boolean=false;
   searchGames:string='';
   isSpecificGames:boolean=true;
-  
   isLeaderBoardOptionAvailable:boolean=false;
   isOverallGames: boolean=false;
   userInfo:any;
@@ -27,26 +25,24 @@ export class GamesHomeComponent implements OnInit {
   spacificGameLeaderBoard: any;
   spacificGameLeaderBoardData: any;
   specificLeaderBoard: any;
-  constructor(private auth:AuthentificationService,public route:Router){
+  logoData: any;
+  NgageLogo: any;
+  NgageDashboardLogo: any;
 
+  constructor(public auth:AuthentificationService,public route:Router){
   }
   ngOnInit(): void {
-    
     this.getProfileData();
-    // this.OpenSpecificGames();
-   
-    
   }
-
   dark_color='Blue';
   content1:any;
-
   getProfileData(){
    this.userInfo=localStorage.getItem(('ProfileData'));
-   console.log(JSON.parse(this.userInfo));
    this.profileInfo=JSON.parse(this.userInfo);
-   
-
+   this.auth.getLogos(this.profileInfo?.ID_ORGANIZATION).subscribe((res)=>{
+    this.logoData=res;
+    this.NgageDashboardLogo=this.logoData?.dashboard_logo;
+  })
   }
   openMiniGamesTab(){
     this.isMiniGamesActive=true;
@@ -55,67 +51,37 @@ export class GamesHomeComponent implements OnInit {
   openLeaderBoardTab(){
     this.isLeaderBoardActive=true;
     this.isMiniGamesActive=false;
-
-
   }
   openLeaderBoardOptions(){
     this.isLeaderBoardActive=!this.isLeaderBoardActive;
     this.isMiniGamesActive=!this.isMiniGamesActive;
     this.isLeaderBoardOptionAvailable=!this.isLeaderBoardOptionAvailable;
-
   }
   OpenSpecificGames(){
     this.isSpecificGames=true;
-    const body = {
-      id_game: 11,
-      orgId: this.profileInfo?.ID_ORGANIZATION
-  };
-
-  this.auth.getLeaderBoard(body).subscribe((res) => {
-      this.spacificGameLeaderBoard = res;
-      console.log('specific',this.spacificGameLeaderBoard);
-    
-      
-    
-      this.spacificGameLeaderBoardData = this.spacificGameLeaderBoard?.leaderboard.map((element: any) => {
-          let userInfo = {
-              id_game: '11',
-              orgId: this.profileInfo?.ID_ORGANIZATION,
-              id_user: element?.id_user
-          };
-
-         
-          this.auth.getLeaderBoardInfo(userInfo).subscribe((res) => {
-            return this.specificLeaderBoard.push(res);
-              
-          });
-
-         
-          return element;
-      });
-      
-    
-  });
-   
+    this.auth.isSpecficGamesOpen=true;
   }
   openOverallGames(){
     this.isSpecificGames=false;
-   
+    this.auth.isSpecficGamesOpen=false;
 
   }
   
     logout(){
-
-      this.route.navigateByUrl('/')
+      const orgId=localStorage.getItem('id_org')
+      const navigationExtras: NavigationExtras = {
+        queryParams: {
+          org_id: orgId
+        }
+      };
+      
+    
+      this.route.navigate(['/'], navigationExtras);
       localStorage.clear();      
     }
    
 
   
-  search(){
-    console.log( this.searchGames);
-    
-   
-  }
+
 
 }

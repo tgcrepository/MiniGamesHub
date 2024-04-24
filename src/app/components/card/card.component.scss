@@ -8,13 +8,11 @@
     align-items: center;
     position: relative;
     
-    
-    
 }
 .valuesName{
     position: absolute;
-    top: -2.5vh;
-    font-size: 1rem;
+    top: -2.3vh;
+    font-size: 0.75rem;
     font-weight: 400;
     font-family: "Lilita One", sans-serif;
     color:#fff;
@@ -23,7 +21,7 @@
 .valuesNameMobile{
     position: absolute;
     top: -1.5vh;
-    font-size: 0.7rem;
+    font-size: 0.5rem;
     font-weight: 400;
     font-family: "Lilita One", sans-serif;
     color:#fff;
@@ -79,9 +77,6 @@
     font-weight: bold;
     font-family: "Inter", sans-serif;
     text-decoration: underline;
-   
-    
-
 }
 
 
@@ -138,8 +133,6 @@
     .scoreTextBtn{
         color: #FFDFA3;
         font-size: 1rem;
-
-
     }
 
 }
@@ -151,7 +144,8 @@
     }
   }
 
-  @media screen and (min-width:270px) and  (max-width:1024px) {
+  @media screen and (min-width:270px) and  (max-width:1200px) {
+    
     .web-view{
       display: none !important; 
 
@@ -164,8 +158,6 @@
         width: 100%;
         
     }
-
-    
   }
 
   .gamesCardMobile{
@@ -176,11 +168,6 @@
     display:flex;
     justify-content: center;
     align-items: center;
-   
-   
-  
-    
-
   }
  
   .innerLayerMobile{

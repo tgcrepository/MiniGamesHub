@@ -6,11 +6,7 @@
                 <option  class="text-center" *ngFor="let gameList of GameCard"  [value]="gameList?.id_game">{{ gameList?.game_name }}</option>
             </select>
         </div>
-        
     </div>
-    
-   
-    
     <button class="subTabBtn col-3" [ngClass]="!showSpecificGames?'subTabBtnActive':'subTabBtn'" (click)='openOverallGames()'>Overall</button>
     <div class="leaderBoardBox">
         <div *ngIf="showSpecificGames;then SpecificGames else OverallGames"></div>
@@ -25,71 +21,93 @@
                         <div class="col-1">Rank</div>
                         <div class="col-6 text-start">Player Name</div>
                         <div class="col-3 text-center">Location</div>
-                        <div class="col-2 text-center">Score</div>
-
+                        <div class="col-2 text-center">{{scoreTitle}}</div>
                     </div>
                 </div>
-                <div style="height: 50vh; overflow-y: auto;padding: 0%;">
+                <div style="height: 40vh; overflow-y: auto;padding: 0%;">
                     <div *ngIf="isCoinsActive;then coins else Assesment"></div>
+                 
                     <ng-template #coins>
-                        <div class="d-flex justify-content-center" *ngFor="let leaderBoardData of spacificGameLeaderBoardDataForCoins?.game_scores; let i = index">
+                     
+                        <div *ngIf="spacificGameLeaderBoardDataForCoins?.game_scores==null;then noDataAvail else availData "></div>
+                        <ng-template #availData>
+                            <div class="d-flex justify-content-center" *ngFor="let leaderBoardData of spacificGameLeaderBoardDataForCoins?.game_scores; let i = index">
                        
-                            <div class="table-body row mt-2">
-                                <div class="TableRank col-1">
-                                    <div class="GoldCoinImage playerName">
-                                       {{leaderBoardData?.rank}}
+                                <div class="table-body row mt-2">
+                                    <div class="TableRank col-1">
+                                        <div class="GoldCoinImage playerName">
+                                           {{leaderBoardData?.rank}}
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="playerName col-6">
-                                  
-                                    {{leaderBoardData?.name}}
-                                </div>
-                                <div class="gameLogo col-3">
-                                    <div class="InnerGameLogo">
-                                        {{leaderBoardData?.city}}
+                                    <div class="playerName col-6">
+                                      
+                                        {{leaderBoardData?.name}}
                                     </div>
-                                </div>
-                                <div class="points col">
-                                    <div class="coinPoints">
-                                        <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Coin Icon.png" alt="" height="100%" width="100%">
+                                    <div class="gameLogo col-3">
+                                        <div class="InnerGameLogo">
+                                            {{leaderBoardData?.city}}
+                                        </div>
                                     </div>
-                                    <div class="pointsText">
-                                        {{leaderBoardData?.total_xps}}
+                                    <div class="points col">
+                                        <div class="coinPoints">
+                                            <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/XPS.png" alt="coin" height="100%" width="100%">
+                                        </div>
+                                        <div class="pointsText">
+                                            {{leaderBoardData?.total_xps}}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        
+                        </ng-template>
+                        <ng-template #noDataAvail>
+                            <div class="noDataContainer">
+                                <div class="noDataImg">
+                                    <img src="assets/GameImages/qrgamewebsiteassets/noData.png" alt="" height="100%" width="100%">
+                                </div>
+                           
+                            </div>
+                        </ng-template>
                         
                     </ng-template>
                     <ng-template #Assesment>
-                        <div class="d-flex justify-content-center" *ngFor="let leaderBoardData of spacificGameLeaderBoardData; let i = index">
+                        <div *ngIf="spacificGameLeaderBoard?.leaderboard==null;then noDataAvail else AssesmentAvail"></div>
+                        <ng-template #AssesmentAvail>
+                            <div class="d-flex justify-content-center" *ngFor="let leaderBoardData of spacificGameLeaderBoard?.leaderboard ; let i = index">
                        
-                            <div class="table-body row mt-2">
-                                <div class="TableRank col-1">
-                                    <div class="GoldCoinImage playerName">
-                                        {{leaderBoardData?.ranking}}
+                                <div class="table-body row mt-2">
+                                    <div class="TableRank col-1">
+                                        <div class="GoldCoinImage playerName">
+                                            {{leaderBoardData?.rank}}
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="playerName col-6">
-                                  
-                                    {{specificLeaderBoard[i]?.userDetails?.name}}
-                                </div>
-                                <div class="gameLogo col-3">
-                                    <div class="InnerGameLogo">
-                                        {{specificLeaderBoard[i]?.userDetails?.city}}
+                                    <div class="playerName col-6">
+                                      
+                                        {{leaderBoardData?.name}}
                                     </div>
-                                </div>
-                                <div class="points col">
-                                    <div class="coinPoints">
-                                        <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Coin Icon.png" alt="" height="100%" width="100%">
+                                    <div class="gameLogo col-3">
+                                        <div class="InnerGameLogo">
+                                            {{leaderBoardData?.city}}
+                                        </div>
                                     </div>
-                                    <div class="pointsText">
-                                        {{leaderBoardData?.score}}
+                                    <div class="points col">
+                                        <div class="coinPoints">
+                                            <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Coin Icon.png" alt="coin" height="100%" width="100%">
+                                        </div>
+                                        <div class="pointsText">
+                                            {{leaderBoardData?.total_score}}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </ng-template>
+                        <ng-template #noDataAvail>
+                            <div class="noDataContainer">
+                                <div class="noDataImg">
+                                    <img src="assets/GameImages/qrgamewebsiteassets/noData.png" alt="" height="100%" width="100%">
+                                </div>
+                           
+                            </div>
+                        </ng-template>
                     </ng-template>
                    
                     
@@ -98,6 +116,7 @@
                 
                 
             </div>
+           
         </ng-template>
         <ng-template #OverallGames>
             <div class="specificGamesLeaderBoardBox pt-5">
@@ -110,69 +129,93 @@
                         <div class="col-1">Rank</div>
                         <div class="col-6 text-start">Player Name</div>
                         <div class="col-3 text-center">Location</div>
-                        <div class="col-2 text-center">Score</div>
+                        <div class="col-2 text-center">{{scoreTitle}}</div>
 
                     </div>
                 </div>
-                <div style="height: 50vh; overflow-y: auto;padding: 0%;">
+                <div style="height: 40vh; overflow-y: auto;padding: 0%;">
                     <div *ngIf="isCoinsActiveOverall;then overallCoins else overallAssessment"></div>
-                    <ng-template #overallAssessment >
-                        <div class="d-flex justify-content-center" *ngFor="let leaderBoardData of overallGamesLeaderBoard?.leaderboard">
-                            <div class="table-body row mt-2">
-                                <div class="TableRank col-1">
-                                    <div class="GoldCoinImage playerName">
-                                        {{leaderBoardData?.rank}}
+                    <ng-template #overallAssessment>
+                        <div *ngIf="overallGamesLeaderBoard?.leaderboard!=null;then dataAvailOverallAssesment else noDataAvail "></div>
+                        <ng-template #dataAvailOverallAssesment>
+                            <div class="d-flex justify-content-center" *ngFor="let leaderBoardData of overallGamesLeaderBoard?.leaderboard">
+                                <div class="table-body row mt-2">
+                                    <div class="TableRank col-1">
+                                        <div class="GoldCoinImage playerName">
+                                            {{leaderBoardData?.high_rank}}
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="playerName col-6">
-                                    {{leaderBoardData.name}}
-                                </div>
-                                <div class="gameLogo  col-3">
-                                    <div class="InnerGameLogo">
-                                       
-                                        {{leaderBoardData?.city}}
+                                    <div class="playerName col-6">
+                                        {{leaderBoardData.name}}
                                     </div>
+                                    <div class="gameLogo  col-3">
+                                        <div class="InnerGameLogo">
+                                           
+                                            {{leaderBoardData?.city}}
+                                        </div>
+                                    </div>
+                                    <div class="points col">
+                                       <div class="coinPoints">
+                                        <img src="assets/GameImages/qrgamewebsiteassets/Coin Icon.png" alt="coin" height="100%" width="100%">
+                                       </div>
+                                       <div class="pointsText">
+                                            {{leaderBoardData?.total_score}}
+                                       </div>
+                                    </div>
+            
                                 </div>
-                                <div class="points col">
-                                   <div class="coinPoints">
-                                    <img src="assets/GameImages/qrgamewebsiteassets/Coin Icon.png" alt="" height="100%" width="100%">
-                                   </div>
-                                   <div class="pointsText">
-                                        {{leaderBoardData?.total_score}}
-                                   </div>
-                                </div>
-        
                             </div>
-                        </div>
+                        </ng-template>
+                        
+                        <ng-template #noDataAvail>
+                            <div class="noDataContainer">
+                                <div class="noDataImg">
+                                    <img src="assets/GameImages/qrgamewebsiteassets/noData.png" alt="" height="100%" width="100%">
+                                </div>
+                           
+                            </div>
+                        </ng-template>
                     </ng-template>
                     <ng-template #overallCoins>
-                        <div class="d-flex justify-content-center" *ngFor="let leaderBoardData of overallGamesLeaderBoardForCoins?.overall_xps">
-                            <div class="table-body row mt-2">
-                                <div class="TableRank col-1">
-                                    <div class="GoldCoinImage playerName">
-                                        {{leaderBoardData?.rank}}
+                        <div *ngIf="overallGamesLeaderBoardForCoins?.overall_xps!=null;then availDataOverallCoins else noDataAvail "></div>
+                        <ng-template #availDataOverallCoins>
+                            <div class="d-flex justify-content-center" *ngFor="let leaderBoardData of overallGamesLeaderBoardForCoins?.overall_xps">
+                                <div class="table-body row mt-2">
+                                    <div class="TableRank col-1">
+                                        <div class="GoldCoinImage playerName">
+                                            {{leaderBoardData?.rank}}
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="playerName col-6">
-                                    {{leaderBoardData.name}}
-                                </div>
-                                <div class="gameLogo  col-3">
-                                    <div class="InnerGameLogo">
-                                       
-                                        {{leaderBoardData?.city}}
+                                    <div class="playerName col-6">
+                                        {{leaderBoardData?.name}}
                                     </div>
+                                    <div class="gameLogo  col-3">
+                                        <div class="InnerGameLogo">
+                                           
+                                            {{leaderBoardData?.city}}
+                                        </div>
+                                    </div>
+                                    <div class="points col">
+                                       <div class="coinPoints">
+                                        <img src="assets/GameImages/qrgamewebsiteassets/XPS.png" alt="coin" height="100%" width="100%">
+                                       </div>
+                                       <div class="pointsText">
+                                            {{leaderBoardData?.overall_xps}}
+                                       </div>
+                                    </div>
+            
                                 </div>
-                                <div class="points col">
-                                   <div class="coinPoints">
-                                    <img src="assets/GameImages/qrgamewebsiteassets/Coin Icon.png" alt="" height="100%" width="100%">
-                                   </div>
-                                   <div class="pointsText">
-                                        {{leaderBoardData?.overall_xps}}
-                                   </div>
-                                </div>
-        
                             </div>
-                        </div>
+                        </ng-template>
+                        <ng-template #noDataAvail>
+                            <div class="noDataContainer">
+                                <div class="noDataImg">
+                                    <img src="assets/GameImages/qrgamewebsiteassets/noData.png" alt="" height="100%" width="100%">
+                                </div>
+                           
+                            </div>
+                        </ng-template>
+                       
 
                     </ng-template>
                   
@@ -187,100 +230,234 @@
 </div>
 <!-- Mobile View -->
 <div class="mobile-view">
+    <div class="gameListMobile" >
+        <div *ngFor="let gameList of GameCard;let i=index" >
+            <div *ngIf="this.auth.isSpecficGamesOpen" class="gameListTabMobile" (click)="selectGameForMobile(gameList,i)" [ngClass]="i===gameActiveIndex?'gameListTabMobileActive':'gameListTabMobile'">
+                <img [src]="gameList?.front_image" alt="frontImage" height="80%" width="80%">
+
+            </div>
+        </div>
+        
+
+    </div>
     <div class="leaderBoardBoxMobile">
-        <div class="coinsContainer">
-            <div  class="CoinsBtnMobile">
-    
-            </div>
-            <div class="d-flex flex-column align-items-center justify-content-center">
-                <div class="tableHeaderMobile row">
-                    <div class="col-2">Rank</div>
-                    <div class="col-6">Player Name</div>
-                    <div class="col-2">Location</div>
-                    <div class="col-2">XPS</div>
-    
+        <div *ngIf="this.auth.isSpecficGamesOpen;then forSpecificGameMobile else forOverallGameMobile "></div>
+        <ng-template #forSpecificGameMobile>
+            <div class="coinsContainer" >
+                <div  class="CoinsBtnMobile">
+        
                 </div>
-                <div style="height: 30vh;overflow-y: auto;">
-                    <div class="d-flex justify-content-center" *ngFor="let leaderBoardData of spacificGameLeaderBoardDataForCoins; let i = index">
+                <div class="d-flex flex-column align-items-center justify-content-center">
+                    <div class="tableHeaderMobile row">
+                        <div class="col-2">Rank</div>
+                        <div class="col-5">Player Name</div>
+                        <div class="col-2">Location</div>
+                        <div class="col-2">Coins</div>
+                    </div>
+                    <div style="height: 25vh;overflow-y: auto;">
+                        <div *ngIf="spacificGameLeaderBoardDataForCoins?.game_scores!=null;then availMobileDataForCoins else noDataAvailMobile"></div>
+                        <ng-template #availMobileDataForCoins>
+                            <div class="d-flex justify-content-center" *ngFor="let leaderBoardData of spacificGameLeaderBoardDataForCoins?.game_scores; let i = index">
+                           
+                                <div class="table-body-mobile">
+                                    <div class="TableRankMobile col-2">
+                                        <div class="playerNameMobile">
+                                            {{leaderBoardData?.rank}}
+                                        </div>
+                                    </div>
+                                    <div class="playerNameMobile col-6">
+                                        {{leaderBoardData?.name}}
+                                    </div>
+                                    <div class="gameLogoMobile col-2">
+                                        <div class="InnerGameLogoMobile">
+                                           
+                                            {{leaderBoardData?.city}}
+                                        </div>
+                                    </div>
+                                    <div class="pointsMobile col-2">
+                                       <div class="coinPointsMobile">
+                                        <img  src="assets/GameImages/qrgamewebsiteassets/XPS.png" alt="coin" height="100%" width="100%">
+                                       </div>
+                                       <div class="pointsTextMobile">
+                                            {{leaderBoardData?.total_xps}}
+                                       </div>
+                                    </div>
+            
+                                </div>
+                            </div>
+                        </ng-template>
+                        
+                            <ng-template #noDataAvailMobile>
+                                <div class="noDataContainerMobile">
+                                    <div class="noDataImgMobile">
+                                        <img src="assets/GameImages/qrgamewebsiteassets/noData.png" alt="" height="100%" width="100%">
+                                    </div>
+                               
+                                </div>
+                            </ng-template>
+                        
                       
-                        <div class="table-body-mobile">
-                            <div class="TableRankMobile col-2">
-                                <div class="playerNameMobile">
-                                    {{leaderBoardData?.rank}}
-                                </div>
-                            </div>
-                            <div class="playerNameMobile col-6">
-                                {{specificLeaderBoard[i]?.userDetails?.name}}
-                            </div>
-                            <div class="gameLogoMobile col-2">
-                                <div class="InnerGameLogoMobile">
-                                   
-                                    Pune
-                                </div>
-                            </div>
-                            <div class="pointsMobile col-2">
-                               <div class="coinPointsMobile">
-                                <img src="assets/GameImages/qrgamewebsiteassets/Coin Icon.png" alt="" height="100%" width="100%">
-                               </div>
-                               <div class="pointsTextMobile">
-                                    {{leaderBoardData?.points}}
-                               </div>
-                            </div>
-    
-                        </div>
                     </div>
+                   
                 </div>
-               
+        
             </div>
-    
-        </div>
-        <div class="coinsContainer" style="margin-top: 2vh!important;">
-            <div  class="AssesmentBtnMobile">
-    
-            </div>
-            <div class="d-flex flex-column align-items-center justify-content-center">
-                <div class="tableHeaderMobile row">
-                    <div class="col-2">Rank</div>
-                    <div class="col-6">Player Name</div>
-                    <div class="col-2">Location</div>
-                    <div class="col-2">XPS</div>
-    
+            <div class="coinsContainer" style="margin-top: 2vh!important;">
+                <div  class="AssesmentBtnMobile">
+        
                 </div>
-                <div style="height: 30vh;overflow-y: auto;">
+                <div class="d-flex flex-column align-items-center justify-content-center">
+                    <div class="tableHeaderMobile row">
+                        <div class="col-2">Rank</div>
+                        <div class="col-5">Player Name</div>
+                        <div class="col-2">Location</div>
+                        <div class="col-2">Points</div>
+        
+                    </div>
+                    <div style="height: 25vh;overflow-y: auto;">
+                        <div *ngIf="spacificGameLeaderBoard?.leaderboard!=null;then availAssesmentDataMobile else noDataAvailMobile"></div>
+                        <ng-template #availAssesmentDataMobile>
+                            <div class="d-flex justify-content-center"  *ngFor="let leaderBoardData of spacificGameLeaderBoard?.leaderboard;let i = index">
+                                <div class="table-body-mobile">
+                                 
+                                    <div class="TableRankMobile col-2">
+                                        
+                                        <div class="GoldCoinImageMobile playerNameMobile">
+                                            {{leaderBoardData?.rank}}
+                                            <!-- <img [src]="leaderBoardData?.rankImageSrc" alt="" height="100%" width="100%"> -->
+                                        </div>
+                                    </div>
+                                    <div class="playerNameMobile col-6">
+                                        {{leaderBoardData?.name}}
+                                    </div>
+                                    <div class="gameLogoMobile col-2">
+                                        <div class="InnerGameLogoMobile">
+                                            {{leaderBoardData?.city}}
+                                        </div>
+                                    </div>
+                                    <div class="pointsMobile col-2">
+                                       <div class="coinPointsMobile">
+                                        <img src="assets/GameImages/qrgamewebsiteassets/Coin Icon.png" alt="coin" height="100%" width="100%">
+                                       </div>
+                                       <div class="pointsTextMobile">
+                                        {{leaderBoardData?.total_score}}
+                                       </div>
+                                    </div>
+            
+                                </div>
+                            </div>
+                        </ng-template>
+                       
+                        <ng-template #noDataAvailMobile>
+                            <div class="noDataContainerMobile">
+                                <div class="noDataImgMobile">
+                                    <img src="assets/GameImages/qrgamewebsiteassets/noData.png" alt="" height="100%" width="100%">
+                                </div>
+                           
+                            </div>
+                        </ng-template>
+                    </div>
                     
-                    <div class="d-flex justify-content-center"  *ngFor="let leaderBoardData of spacificGameLeaderBoardData; let i = index">
-                        <div class="table-body-mobile">
-                         
-                            <div class="TableRankMobile col-2">
-                                
-                                <div class="GoldCoinImageMobile">
-                                    <img [src]="leaderBoardData?.rankImageSrc" alt="" height="100%" width="100%">
+                </div>
+        
+            </div>
+        </ng-template>
+        <ng-template #forOverallGameMobile>
+            <div class="coinsContainer" >
+                <div  class="CoinsBtnMobile">
+        
+                </div>
+                <div class="d-flex flex-column align-items-center justify-content-center">
+                    <div class="tableHeaderMobile row">
+                        <div class="col-2">Rank</div>
+                        <div class="col-5">Player Name</div>
+                        <div class="col-2">Location</div>
+                        <div class="col-2">Coins</div>
+                    </div>
+                    <div style="height: 25vh;overflow-y: auto;">
+                        <div class="d-flex justify-content-center" *ngFor="let leaderBoardData of overallGamesLeaderBoardForCoins?.overall_xps; let i = index">
+                           
+                            <div class="table-body-mobile">
+                                <div class="TableRankMobile col-2">
+                                    <div class="playerNameMobile">
+                                        {{leaderBoardData?.rank}}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="playerNameMobile col-6">
-                                {{leaderBoardData?.playerName}}
-                            </div>
-                            <div class="gameLogoMobile col-2">
-                                <div class="InnerGameLogoMobile">
-                                   
+                                <div class="playerNameMobile col-6">
+                                    {{leaderBoardData?.name}}
                                 </div>
+                                <div class="gameLogoMobile col-2">
+                                    <div class="InnerGameLogoMobile">
+                                       
+                                        {{leaderBoardData?.city}}
+                                    </div>
+                                </div>
+                                <div class="pointsMobile col-2">
+                                   <div class="coinPointsMobile">
+                                    <img  src="assets/GameImages/qrgamewebsiteassets/XPS.png" alt="coin" height="100%" width="100%">
+                                   </div>
+                                   <div class="pointsTextMobile">
+                                        {{leaderBoardData?.overall_xps}}
+                                   </div>
+                                </div>
+        
                             </div>
-                            <div class="pointsMobile col-2">
-                               <div class="coinPointsMobile">
-                                <img src="assets/GameImages/qrgamewebsiteassets/Coin Icon.png" alt="" height="100%" width="100%">
-                               </div>
-                               <div class="pointsTextMobile">
-                                {{leaderBoardData?.score}}
-                               </div>
-                            </div>
-    
                         </div>
                     </div>
+                   
                 </div>
-                
+        
             </div>
-    
-        </div>
+            <div class="coinsContainer" style="margin-top: 2vh!important;">
+                <div  class="AssesmentBtnMobile">
+        
+                </div>
+                <div class="d-flex flex-column align-items-center justify-content-center">
+                    <div class="tableHeaderMobile row">
+                        <div class="col-2">Rank</div>
+                        <div class="col-5">Player Name</div>
+                        <div class="col-2">Location</div>
+                        <div class="col-2">Points</div>
+        
+                    </div>
+                    <div style="height: 25vh;overflow-y: auto;">
+                        
+                        <div class="d-flex justify-content-center"  *ngFor="let leaderBoardData of  overallGamesLeaderBoard?.leaderboard;let i = index">
+                            <div class="table-body-mobile">
+                             
+                                <div class="TableRankMobile col-2">
+                                    
+                                    <div class="GoldCoinImageMobile playerNameMobile">
+                                        {{leaderBoardData?.high_rank}}
+                                        <!-- <img [src]="leaderBoardData?.rankImageSrc" alt="" height="100%" width="100%"> -->
+                                    </div>
+                                </div>
+                                <div class="playerNameMobile col-6">
+                                    {{leaderBoardData?.name}}
+                                </div>
+                                <div class="gameLogoMobile col-2">
+                                    <div class="InnerGameLogoMobile">
+                                        {{leaderBoardData?.city}}
+                                    </div>
+                                </div>
+                                <div class="pointsMobile col-2">
+                                   <div class="coinPointsMobile">
+                                    <img src="assets/GameImages/qrgamewebsiteassets/Coin Icon.png" alt="coin" height="100%" width="100%">
+                                   </div>
+                                   <div class="pointsTextMobile">
+                                    {{leaderBoardData?.total_score}}
+                                   </div>
+                                </div>
+        
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+        
+            </div>
+        </ng-template>
+        
        
     </div>
    

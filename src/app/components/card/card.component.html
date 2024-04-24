@@ -8,29 +8,25 @@
             <div *ngIf="isFrontView;then frontCard else backCard"></div>
             <ng-template #frontCard>
                 <div class="gameLogo">
-                    <img lazy="loading" [src]="gamesData?.front_image" alt="" height="100%" width="100%">
+                    <img lazy="loading" [src]="gamesData?.front_image"  alt="logo" height="100%" width="100%">
                 </div>
                 <div *ngIf="gamesData?.enable_status==1;then  forActiveGames else forDeactivateGames"></div>
                 <ng-template #forActiveGames>
-                    <div class="playBtn" (click)="openGame(gameData)" >
+                    <div class="playBtn" (click)="openGame(gamesData)" >
                         <!-- <a [href]=""> -->
                             <!-- <img lazy="loading" *ngIf="gamesData?.played==1" src="assets/GameImages/qrgamewebsiteassets/Play Again.png" alt="" height="100%" width="100%"> -->
-                            <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="" height="100%" width="100%">
-                        
-                            
-                       
-                       
+                            <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="playNow" height="100%" width="100%">
                     </div>
                 </ng-template>
                 <ng-template #forDeactivateGames>
                     <div class="playBtn" data-bs-toggle="modal" data-bs-target="#comingSoonCard" >
-                        <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="" height="100%" width="100%">
+                        <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="playNow" height="100%" width="100%">
                     </div>
                 </ng-template>
     
                 <div class="scoreBoardContainer d-flex gap-1 align-items-center">
                     <div class="scoreIcon">
-                        <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Scoreboard.png" alt="" height="100%"
+                        <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Scoreboard.png" alt="scoreIcon" height="100%"
                             width="100%">
                     </div>
                     <div class="scoreText" (click)="openCardById(gamesData,gamesData?.isActive)">
@@ -51,11 +47,15 @@
                 </div>
                 <div class="scoreContainer">
                     <div class="score">
-                        <div>0</div>
+                        <div *ngIf="filteredDataCoins && filteredDataCoins[0]?.total_xps !== null">{{filteredDataCoins[0]?.total_xps}}</div>
+                        <div *ngIf="!filteredDataCoins || filteredDataCoins[0]?.total_xps === null">0</div>
+                        
                         <div class="scoreTextBtn">Coins</div>
                     </div>
                     <div class="score">
-                        <div>0</div>
+                        <div *ngIf="filteredData && filteredData[0]?.total_score !== null">{{ filteredData[0]?.total_score }}</div>
+<div *                  ngIf="!filteredData || filteredData[0]?.total_score === null">0</div>
+
                         <div class="scoreTextBtn">Points</div>
                     </div>
                 </div>
@@ -76,19 +76,19 @@
         </div>
         <div *ngIf="gamesData?.enable_status==1;then  forActiveGames else forDeactivateGames"></div>
         <ng-template #forActiveGames>
-            <div class="playBtn" (click)="[openGame(gamesData),UpdateGamePlay(gamesData)]">
-                <img lazy="loading" *ngIf="gamesData?.played==1" src="assets/GameImages/qrgamewebsiteassets/Play Again.png" alt="" height="100%" width="100%">
-                <img lazy="loading" *ngIf="gamesData?.played!=1" src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="" height="100%" width="100%">
+            <div class="playBtn" (click)="[openGame(gamesData)]">
+                <!-- <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Play Again.png" alt="" height="100%" width="100%"> -->
+                <img lazy="loading"  src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="playNow" height="100%" width="100%">
             </div>
         </ng-template>
         <ng-template #forDeactivateGames>
             <div class="playBtn" data-bs-toggle="modal" data-bs-target="#comingSoonCardMobile">
-                <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="" height="100%" width="100%">
+                <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="playNow" height="100%" width="100%">
             </div>
         </ng-template>
         <div class="scoreBoardContainer d-flex gap-1 align-items-center">
             <div class="scoreIcon">
-                <img lazy="loading" lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Scoreboard.png" alt="" height="90%"
+                <img lazy="loading" lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Scoreboard.png" alt="scoreBoard" height="90%"
                     width="90%">
             </div>
             <div class="scoreText" (click)="openCardById(gamesData,gamesData?.isActive)">
@@ -107,11 +107,16 @@
         </div>
         <div class="scoreContainer">
             <div class="score">
-                <div>60</div>
+                <div *ngIf="filteredDataCoins && filteredDataCoins[0]?.total_xps !== null">{{filteredDataCoins[0]?.total_xps}}</div>
+                <div *ngIf="!filteredDataCoins || filteredDataCoins[0]?.total_xps === null">0</div>
+               
                 <div class="scoreTextBtn">Coins</div>
             </div>
             <div class="score">
-                <div>200</div>
+                <div *ngIf="filteredData && filteredData[0]?.total_score !== null">{{ filteredData[0]?.total_score }}</div>
+                <div *ngIf="!filteredData || filteredData[0]?.total_score === null">0</div>
+                
+
                 <div class="scoreTextBtn">Points</div>
             </div>
         </div>
@@ -134,7 +139,7 @@
             
             <div class="modal-body ExcitementModal" >
                
-                <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Coming Soon.png" alt="" height="100%" width="100%">
+                <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Coming Soon.png" alt="comingSoon" height="100%" width="100%">
               
             </div>
             

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgClass,NgIf,NgFor,JsonPipe } from '@angular/common';
 
 
 import { AuthentificationService } from '../../service/authentification.service';
-import { never } from 'rxjs';
+
 
 @Component({
   selector: 'app-leader-board',
@@ -13,6 +13,7 @@ import { never } from 'rxjs';
   styleUrl: './leader-board.component.scss'
 })
 export class LeaderBoardComponent implements OnInit {
+ @Input() openSpecificGame:any;
   showSpecificGames:boolean=true;
   isCoinsActive:boolean=true;
   profileData: any;
@@ -25,10 +26,12 @@ export class LeaderBoardComponent implements OnInit {
   idGame: any;
   leaderboard: any[]=[];
   selectedValue:any;
+  isSpecificgameActive:boolean=true;
+  scoreTitle='Coins'
 
   Overallleaderboard: any[] = [];
   spacificGameLeaderBoardDataForCoins: any;
-  isCoinsActiveOverall:boolean=true;
+  isCoinsActiveOverall:boolean=false;
   spacificGameLeaderBoardForCoins: any;
   specificLeaderBoardforCoins:any[]=[];
   // overallGamesLeaderBoard: any[]=[];
@@ -36,10 +39,12 @@ export class LeaderBoardComponent implements OnInit {
 
   overallGameLeaderBoardDataForQuiz: any;
   overallGamesLeaderBoardForCoins: any;
-  constructor(private auth:AuthentificationService){
+  constructor(public auth:AuthentificationService){
+    this.isSpecificgameActive=this.auth.isSpecficGamesOpen;
 
   }
   ngOnInit(): void {
+ 
   this.profileData=localStorage.getItem('ProfileData');
 
   this.profileInfo=JSON.parse(this.profileData);
@@ -48,10 +53,15 @@ export class LeaderBoardComponent implements OnInit {
       this.gameData=res;
       this.GameCard=this.gameData?.games;
     this.selectedValue=this.gameData?.games[0]?.id_game;
-    this.openSpecificGames()
+   
     //  this.getLeaderDataForSpecificGamesForCoins(this.selectedValue);
+  this.openCoinsLeaderboard();
       
     })
+    this.openOverallCoinsLeaderboard();
+    this.getOverallLeaderBoard();
+   
+
 
   }
  
@@ -62,10 +72,21 @@ export class LeaderBoardComponent implements OnInit {
     // this.getGameIdForGamePlay(selectedId.target.value);
     this.getLeaderBoardDataForSpecificGamesForQuiz(selectedId.target.value);
     this.getLeaderDataForSpecificGamesForCoins(selectedId.target.value);
-    this.selectedValue=selectedId.target.value
+    this.selectedValue=selectedId.target.value;
+
      console.log(selectedGame);
 
   }
+  gameActiveIndex=0;
+  selectGameForMobile(data:any,index:number){
+    console.log(data);
+    console.log(index);
+    this.gameActiveIndex=index;
+    this.getLeaderBoardDataForSpecificGamesForQuiz(data.id_game);
+    this.getLeaderDataForSpecificGamesForCoins(data.id_game);
+
+  }
+
   // getGameIdForAssessment(data:any){
   //   this.idGame=data;
   //   console.log(data)
@@ -96,27 +117,6 @@ export class LeaderBoardComponent implements OnInit {
 
   this.auth.getLeaderBoard(body).subscribe((res) => {
       this.spacificGameLeaderBoard = res;
-      console.log('specific',this.spacificGameLeaderBoard);
-    
-      
-    
-      this.spacificGameLeaderBoardData = this.spacificGameLeaderBoard?.leaderboard.map((element: any) => {
-          let userInfo = {
-              id_game: data,
-              orgId: this.profileInfo?.ID_ORGANIZATION,
-              id_user: element?.id_user
-          };
-
-         
-          this.auth.getLeaderBoardInfo(userInfo).subscribe((res) => {
-            return this.specificLeaderBoard.push(res);
-              
-          });
-
-         
-          return element;
-      });
-      
     
   });
   
@@ -174,8 +174,10 @@ export class LeaderBoardComponent implements OnInit {
     console.log(this.idGame)
     this.showSpecificGames = true;
     // this.getLeaderBoardDataForSpecificGamesForQuiz(data);
-    this.openCoinsLeaderboard()
+    this.openCoinsLeaderboard();
+    
     this.getLeaderDataForSpecificGamesForCoins(this.selectedValue);
+    this.getLeaderBoardDataForSpecificGamesForQuiz(this.selectedValue)
     
 }
   openOverallGames(){
@@ -185,22 +187,27 @@ export class LeaderBoardComponent implements OnInit {
   }
   openCoinsLeaderboard(){
     this.isCoinsActive=true;
+    this.scoreTitle="Coins"
     // this.getGameIdForAssessment(selectedValue);
     this.getLeaderDataForSpecificGamesForCoins(this.selectedValue);
+    this.getLeaderBoardDataForSpecificGamesForQuiz(this.selectedValue);
   }
   openOverallCoinsLeaderboard(){
-
     this.isCoinsActiveOverall=true;
+    this.scoreTitle="Coins";
+
     this.getOverallLeaderBoardCoins();
 
   }
   openOverallAssessmentLeaderBoard(){
+    this.scoreTitle="Points";
     this.isCoinsActiveOverall=false;
     this.getOverallLeaderBoard();
   }
 
   openAssessmentLeaderboard(){
     this.isCoinsActive=false;
+    this.scoreTitle="Points";
     // this.getGameIdForGamePlay(this.gameData?.games[0]?.id_game);
     this.getLeaderBoardDataForSpecificGamesForQuiz(this.selectedValue);
    
