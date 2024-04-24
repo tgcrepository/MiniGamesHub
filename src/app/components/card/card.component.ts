@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgFor, NgIf, NgClass } from '@angular/common';
+import { NgFor, NgIf, NgClass ,JsonPipe} from '@angular/common';
 import { AuthentificationService } from '../../service/authentification.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass],
+  imports: [NgFor, NgIf, NgClass,JsonPipe],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss'
 })
@@ -30,7 +30,7 @@ export class CardComponent implements OnInit {
   filteredDataCoins:any;
   constructor(private auth: AuthentificationService,private sanitize:DomSanitizer) {
    
-    console.log(this.profileData);
+    
   
   }
 

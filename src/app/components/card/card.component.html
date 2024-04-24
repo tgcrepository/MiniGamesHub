@@ -54,7 +54,7 @@
                     </div>
                     <div class="score">
                         <div *ngIf="filteredData && filteredData[0]?.total_score !== null">{{ filteredData[0]?.total_score }}</div>
-<div *                  ngIf="!filteredData || filteredData[0]?.total_score === null">0</div>
+                        <div *ngIf="!filteredData || filteredData[0]?.total_score === null">0</div>
 
                         <div class="scoreTextBtn">Points</div>
                     </div>
@@ -114,7 +114,7 @@
             </div>
             <div class="score">
                 <div *ngIf="filteredData && filteredData[0]?.total_score !== null">{{ filteredData[0]?.total_score }}</div>
-                <div *ngIf="!filteredData || filteredData[0]?.total_score === null">0</div>
+                <div *ngIf="!filteredData || filteredData[0]?.total_score == null">0</div>
                 
 
                 <div class="scoreTextBtn">Points</div>
@@ -148,7 +148,7 @@
       </div>
 
       <!-- Modal Mobile -->
-      <!-- <div class="modal fade" id="comingSoonCardMobile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: transparent!important;">
+      <div class="modal fade" id="comingSoonCardMobile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: transparent!important;">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="d-flex justify-content-end p-2">
@@ -164,6 +164,6 @@
             
           </div>
         </div>
-      </div> -->
+      </div>
     
 
