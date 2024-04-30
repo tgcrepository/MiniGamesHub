@@ -75,11 +75,24 @@
             </div>
             
             <div class="form-group col-12">
+              <div *ngIf="orgnizationId=='19';then forOtherCountry else forIndia"></div>
+              <ng-template #forIndia>
                 <input type="text" class="form-control"  placeholder="Enter phone number or email" id="phoneNumber" name="phoneNumber" [(ngModel)]="PhoneNumber" required #PhoneNumberInput="ngModel">
-               
                 <div class="errorMsg" *ngIf="PhoneNumberInput.invalid && (PhoneNumberInput.dirty || PhoneNumberInput.touched)">
-                    Please enter a valid  email or phone number.
-                </div>
+                  Please enter a valid  email or phone number.
+              </div>
+              </ng-template>
+            <ng-template #forOtherCountry>
+              <input type="text" class="form-control"  placeholder="Enter your email id" id="phoneNumber" name="phoneNumber" [(ngModel)]="PhoneNumber" required #PhoneNumberInput="ngModel">
+              <div class="errorMsg" *ngIf="PhoneNumberInput.invalid && (PhoneNumberInput.dirty || PhoneNumberInput.touched)">
+                Please enter a valid  email.
+            </div>
+
+            </ng-template>
+
+               
+               
+              
              
                 
             </div>
@@ -164,11 +177,22 @@
                 <Span>Forgot Password</Span>
               </div>
               <div class="form-group col-12 mt-2">
-                <input type="text" class="form-control" placeholder="Enter phone number or email" id="phoneForPassword" name="phoneForPassword" [(ngModel)]="PhoneNumberPassword" required #PhoneNumberPasswordInput="ngModel">
+                <div *ngIf="orgnizationId=='19';then forOtherCountryForgetPassword else forIndiaForgetPassword"></div>
+                <ng-template #forIndiaForgetPassword>
+                  <input type="text" class="form-control" placeholder="Enter phone number or email" id="phoneForPassword" name="phoneForPassword" [(ngModel)]="PhoneNumberPassword" required #PhoneNumberPasswordInput="ngModel">
 
-                <div class="errorMsg" *ngIf="PhoneNumberPassword?.invalid && (PhoneNumberPassword?.dirty || PhoneNumberPassword?.touched)">
-                    Please enter valid a email or phone number.
-                </div>
+                  <div class="errorMsg" *ngIf="PhoneNumberPassword?.invalid && (PhoneNumberPassword?.dirty || PhoneNumberPassword?.touched)">
+                      Please enter valid a email or phone number.
+                  </div>
+                </ng-template>
+                <ng-template #forOtherCountryForgetPassword>
+                  <input type="text" class="form-control" placeholder="Enter your email id" id="phoneForPassword" name="phoneForPassword" [(ngModel)]="PhoneNumberPassword" required #PhoneNumberPasswordInput="ngModel">
+
+                  <div class="errorMsg" *ngIf="PhoneNumberPassword?.invalid && (PhoneNumberPassword?.dirty || PhoneNumberPassword?.touched)">
+                      Please enter valid a email.
+                  </div>
+                </ng-template>
+              
                 
             </div>
                 <br>

@@ -100,10 +100,7 @@ ngOnInit(): void {
     })
     setTimeout(()=>{
       this.isLoaderActive=false;
-
     },3000)
-    
-    
 
 
   })
@@ -404,9 +401,9 @@ signUpTemp() {
     (res) => {
       // Handle success response
       this.signup();
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 2000);
     },
     (error) => {
       console.error("Sign up error:", error);
@@ -472,9 +469,9 @@ submitForm() {
   } catch (error) {
       console.error(error);
     
-      setTimeout(()=>{
-        window.location.reload()
-      },2000)
+      // setTimeout(()=>{
+      //   window.location.reload()
+      // },2000)
      
       this.errorMsg="Email or phone number is already Registered";
       // Handle error conditions if necessary

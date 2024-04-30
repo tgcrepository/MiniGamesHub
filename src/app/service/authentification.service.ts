@@ -8,12 +8,18 @@ import { Router } from '@angular/router';
 export class AuthentificationService {
   baseURL=`https://www.playtolearn.in`;
 
-   baseURLNew=`https://www.playtolearn.in:8080/`;
-    //  baseURLNew=`http://65.0.42.237:8080/`;
-  // baseUrlNew=`http://65.0.42.237:3000/`;
+  //production URL
+  baseURLNew=`https://www.playtolearn.in:8080/`;
+  //Beta URL
+  // baseURLNew=`https://n-gage.co.in:8080/`
+  
 
-  //Path=`MollyTdirect_api/api/`;
+
+    //Production URL
     Path=`/nGage-MollyTdirect_api/api`
+    //Beta URL
+    // Path=`/nGage-MollyTdirect_api_beta/api`
+
   private _profileData: any;
   isSpecficGamesOpen:boolean=true;
   constructor(private router:Router,public http:HttpClient) { }
