@@ -9,7 +9,8 @@ export class AuthentificationService {
   baseURL=`https://www.playtolearn.in`;
 
   //production URL
-  baseURLNew=`https://www.playtolearn.in:8080/`;
+  // baseURLNew=`https://www.playtolearn.in:8080/`;
+  baseURLNew=`https://n-gage.co.in:4000/`
   //Beta URL
   // baseURLNew=`https://n-gage.co.in:8080/`
   

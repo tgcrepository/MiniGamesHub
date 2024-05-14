@@ -129,7 +129,8 @@ if (this.filterData[0]?.leaderboard) {
       console.log(res);
       this.assessmentList = res;
       this.assesmentData = this.assessmentList?.assessments;
-      this.assignToUser(this.assesmentData);
+      
+      // this.assignToUser(this.assesmentData);
       // console.log('assessmentData', this.assesmentData);
 
       // Now that this.assesmentData is assigned, you can perform any operations that rely on it.
@@ -181,16 +182,18 @@ if (this.filterData[0]?.leaderboard) {
         this.myProfileData = JSON.parse(this.profileData);
         console.log(this.myProfileData)
         console.log(assessmentData);
+        const filterAssessmentData = assessmentData.filter((res: any) => {
+          return res.IsActive === 'A';
+      });
       
-        
-        // this.assignToUser(assessmentData[0]?.Id_Assessment);
+      console.log(filterAssessmentData);
+      
+       
+        this.assignToUser(filterAssessmentData[0]?.Id_Assessment);
     
-        // // Construct the URL using assessmentData
-        // const GameNewUrl = `${gameUrl}?gameassid=${assessmentData[0]?.Id_Assessment}&Email=${this.myProfileData?.Email}&OrgID=${this.myProfileData?.ID_ORGANIZATION}&M2ostAssessmentId=0&idgame=${this.gameData?.id_game}&Source=QRGames`;
-        //  window.open(GameNewUrl, '_self');
        
         // console.log(this.assesmentData);
-        // localStorage.setItem('assessmentData', JSON.stringify(this.assesmentData));
+       
         this.myProfileData = JSON.parse(this.profileData);
         console.log(this.myProfileData);
     
@@ -207,7 +210,7 @@ if (this.filterData[0]?.leaderboard) {
         
         });
         
-        const GameNewUrl = `${gameUrl}?gameassid=${assessmentData[0]?.Id_Assessment}&Email=${this.myProfileData?.Email}&OrgID=${this.myProfileData?.ID_ORGANIZATION}&M2ostAssessmentId=0&idgame=${this.gameData?.id_game}&Source=QRGames`;
+        const GameNewUrl = `${gameUrl}?gameassid=${filterAssessmentData[0]?.Id_Assessment}&Email=${this.myProfileData?.Email}&OrgID=${this.myProfileData?.ID_ORGANIZATION}&M2ostAssessmentId=0&idgame=${this.gameData?.id_game}&Source=QRGames`;
         window.open(GameNewUrl, '_self');
       
       

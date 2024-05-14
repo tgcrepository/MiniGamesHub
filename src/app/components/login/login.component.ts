@@ -15,21 +15,24 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-login',
   standalone: true,
+ 
   imports: [
     FormsModule,
     NgIf,
     HttpClientModule,
-  
     ReactiveFormsModule,
     SuccessComponent,
     ToastrModule,
     NgOtpInputModule,
-    NgClass],
+    NgClass
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  profileDataTemp:any=[]
+  profileDataTemp:any=[];
+  otherOrg: string = 'assets/GameImages/qrgamewebsiteassets/BG.png';
+  R1BackGround:string='assets/GameImages/qrgamewebsiteassets/r1Background.png';
   Username:string="";
   Password:string="";
   otpIsHeare:any;
@@ -156,9 +159,6 @@ GenerateOtpBtn(source:any){
   if(this.PhoneNumber.includes('@')){
     this.otpLength=6
     let Email=this.PhoneNumber;
-    this.auth.getEmailOtp(Email).subscribe((res)=>{
-    console.log(res);
-    this.timer=30;
     setInterval(()=>{
       if(this.timer!=0){
         this.timer--;
@@ -171,6 +171,10 @@ GenerateOtpBtn(source:any){
       this.timer=0;
 
     }
+    this.auth.getEmailOtp(Email).subscribe((res)=>{
+    console.log(res);
+    this.timer=30;
+   
    
   })
   }
