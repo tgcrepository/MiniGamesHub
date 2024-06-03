@@ -13,8 +13,27 @@
         <ng-template #SpecificGames>
             <div class="specificGamesLeaderBoardBox pt-5">
                 <div class="row d-flex justify-content-center gap-2">
-                    <div class="col-3" [ngClass]="isCoinsActive?'activeCoinsBtn':'CoinsBtn'" (click)="openCoinsLeaderboard()"></div>
-                    <div class="col-3" [ngClass]="!isCoinsActive?'activeOverallLeaderBoardBtn':'OverallLeaderBoardBtn'" (click)="openAssessmentLeaderboard() "></div>
+                    <div class="col-3" [ngClass]="isCoinsActive?'activeCoinsBtn':'CoinsBtn'" (click)="openCoinsLeaderboard()">
+                            <div title="Coins for gameplay" style="cursor: pointer;">
+                                <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                                  </svg>
+                            </div>
+                           
+                        
+                      
+                    </div>
+                    <div class="col-3" [ngClass]="!isCoinsActive?'activeOverallLeaderBoardBtn':'OverallLeaderBoardBtn'" (click)="openAssessmentLeaderboard() ">
+                        <div title="Points for Assessment score" style="cursor: pointer;">
+                            <svg xmlns="http://www.w3.org/2000/svg" title="Points For Assessment Score" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                              </svg>
+                        </div>
+                        
+                        
+                    </div>
                 </div>
                 <div class="d-flex justify-content-center">
                     <div class="tableHeader row">
@@ -121,8 +140,22 @@
         <ng-template #OverallGames>
             <div class="specificGamesLeaderBoardBox pt-5">
                 <div class="row d-flex justify-content-center gap-2">
-                    <div class="col-3" [ngClass]="isCoinsActiveOverall?'activeCoinsBtn':'CoinsBtn'"  (click)="openOverallCoinsLeaderboard()"></div>
-                    <div class="col-3" [ngClass]="!isCoinsActiveOverall?'activeOverallLeaderBoardBtn':'OverallLeaderBoardBtn'"  (click)="openOverallAssessmentLeaderBoard()"></div>
+                    <div class="col-3" [ngClass]="isCoinsActiveOverall?'activeCoinsBtn':'CoinsBtn'"  (click)="openOverallCoinsLeaderboard()">
+                        <div title="Points for gameplay  overall score" style="cursor: pointer;">
+                            <svg xmlns="http://www.w3.org/2000/svg"  width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                              </svg>
+                        </div>
+                    </div>
+                    <div class="col-3" [ngClass]="!isCoinsActiveOverall?'activeOverallLeaderBoardBtn':'OverallLeaderBoardBtn'"  (click)="openOverallAssessmentLeaderBoard()">
+                        <div title="Points for gameplay overall score" style="cursor: pointer;">
+                            <svg xmlns="http://www.w3.org/2000/svg" title="Points For Assessment Score" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                              </svg>
+                        </div>
+                    </div>
                 </div>
                 <div class="d-flex justify-content-center">
                     <div class="tableHeader row">
@@ -245,13 +278,18 @@
         <ng-template #forSpecificGameMobile>
             <div class="coinsContainer" >
                 <div  class="CoinsBtnMobile">
-        
+                    <div title="Points for gameplay score" style="cursor: pointer;">
+                        <svg xmlns="http://www.w3.org/2000/svg" title="Points For Assessment Score" width="10" height="10" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                          </svg>
+                    </div>
                 </div>
                 <div class="d-flex flex-column align-items-center justify-content-center">
                     <div class="tableHeaderMobile row">
                         <div class="col-2">Rank</div>
-                        <div class="col-5">Player Name</div>
-                        <div class="col-2">Location</div>
+                        <div class="col-4">Player Name</div>
+                        <div class="col-3">Location</div>
                         <div class="col-2">Coins</div>
                     </div>
                     <div style="height: 25vh;overflow-y: auto;">
@@ -265,10 +303,10 @@
                                             {{leaderBoardData?.rank}}
                                         </div>
                                     </div>
-                                    <div class="playerNameMobile col-6">
+                                    <div class="playerNameMobile col-5">
                                         {{leaderBoardData?.name}}
                                     </div>
-                                    <div class="gameLogoMobile col-2">
+                                    <div class="gameLogoMobile ">
                                         <div class="InnerGameLogoMobile">
                                            
                                             {{leaderBoardData?.city}}
@@ -304,13 +342,19 @@
             </div>
             <div class="coinsContainer" style="margin-top: 2vh!important;">
                 <div  class="AssesmentBtnMobile">
+                    <div title="Points for Assessment score" style="cursor: pointer;">
+                        <svg xmlns="http://www.w3.org/2000/svg" title="Points For Assessment Score" width="10" height="10" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                          </svg>
+                    </div>
         
                 </div>
                 <div class="d-flex flex-column align-items-center justify-content-center">
                     <div class="tableHeaderMobile row">
                         <div class="col-2">Rank</div>
-                        <div class="col-5">Player Name</div>
-                        <div class="col-2">Location</div>
+                        <div class="col-4">Player Name</div>
+                        <div class="col-3">Location</div>
                         <div class="col-2">Points</div>
         
                     </div>
@@ -327,10 +371,10 @@
                                             <!-- <img [src]="leaderBoardData?.rankImageSrc" alt="" height="100%" width="100%"> -->
                                         </div>
                                     </div>
-                                    <div class="playerNameMobile col-6">
+                                    <div class="playerNameMobile col-5">
                                         {{leaderBoardData?.name}}
                                     </div>
-                                    <div class="gameLogoMobile col-2">
+                                    <div class="gameLogoMobile">
                                         <div class="InnerGameLogoMobile">
                                             {{leaderBoardData?.city}}
                                         </div>
@@ -365,13 +409,18 @@
         <ng-template #forOverallGameMobile>
             <div class="coinsContainer" >
                 <div  class="CoinsBtnMobile">
-        
+                    <div title="Points for Gameplay score" style="cursor: pointer;">
+                        <svg xmlns="http://www.w3.org/2000/svg" title="Points For Assessment Score" width="10" height="10" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                          </svg>
+                    </div>
                 </div>
                 <div class="d-flex flex-column align-items-center justify-content-center">
                     <div class="tableHeaderMobile row">
                         <div class="col-2">Rank</div>
-                        <div class="col-5">Player Name</div>
-                        <div class="col-2">Location</div>
+                        <div class="col-4">Player Name</div>
+                        <div class="col-3">Location</div>
                         <div class="col-2">Coins</div>
                     </div>
                     <div style="height: 25vh;overflow-y: auto;">
@@ -383,10 +432,10 @@
                                         {{leaderBoardData?.rank}}
                                     </div>
                                 </div>
-                                <div class="playerNameMobile col-6">
+                                <div class="playerNameMobile col-5">
                                     {{leaderBoardData?.name}}
                                 </div>
-                                <div class="gameLogoMobile col-2">
+                                <div class="gameLogoMobile ">
                                     <div class="InnerGameLogoMobile">
                                        
                                         {{leaderBoardData?.city}}
@@ -410,13 +459,18 @@
             </div>
             <div class="coinsContainer" style="margin-top: 2vh!important;">
                 <div  class="AssesmentBtnMobile">
-        
+                    <div title="Points for Assessment score" style="cursor: pointer;">
+                        <svg xmlns="http://www.w3.org/2000/svg" title="Points For Assessment Score" width="10" height="10" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                          </svg>
+                    </div>
                 </div>
                 <div class="d-flex flex-column align-items-center justify-content-center">
                     <div class="tableHeaderMobile row">
                         <div class="col-2">Rank</div>
-                        <div class="col-5">Player Name</div>
-                        <div class="col-2">Location</div>
+                        <div class="col-4">Player Name</div>
+                        <div class="col-3">Location</div>
                         <div class="col-2">Points</div>
         
                     </div>
@@ -432,10 +486,10 @@
                                         <!-- <img [src]="leaderBoardData?.rankImageSrc" alt="" height="100%" width="100%"> -->
                                     </div>
                                 </div>
-                                <div class="playerNameMobile col-6">
+                                <div class="playerNameMobile col-5">
                                     {{leaderBoardData?.name}}
                                 </div>
-                                <div class="gameLogoMobile col-2">
+                                <div class="gameLogoMobile ">
                                     <div class="InnerGameLogoMobile">
                                         {{leaderBoardData?.city}}
                                     </div>

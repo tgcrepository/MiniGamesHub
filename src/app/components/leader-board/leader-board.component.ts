@@ -41,9 +41,11 @@ export class LeaderBoardComponent implements OnInit {
   overallGamesLeaderBoardForCoins: any;
   constructor(public auth:AuthentificationService){
     this.isSpecificgameActive=this.auth.isSpecficGamesOpen;
+   
 
   }
   ngOnInit(): void {
+    
  
   this.profileData=localStorage.getItem('ProfileData');
 
@@ -56,10 +58,12 @@ export class LeaderBoardComponent implements OnInit {
    
     //  this.getLeaderDataForSpecificGamesForCoins(this.selectedValue);
   this.openCoinsLeaderboard();
+  
       
     })
     this.openOverallCoinsLeaderboard();
     this.getOverallLeaderBoard();
+
    
 
 
@@ -175,7 +179,7 @@ export class LeaderBoardComponent implements OnInit {
     this.showSpecificGames = true;
     // this.getLeaderBoardDataForSpecificGamesForQuiz(data);
     this.openCoinsLeaderboard();
-    
+
     this.getLeaderDataForSpecificGamesForCoins(this.selectedValue);
     this.getLeaderBoardDataForSpecificGamesForQuiz(this.selectedValue)
     

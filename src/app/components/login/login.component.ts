@@ -32,7 +32,8 @@ import { Subject } from 'rxjs';
 export class LoginComponent {
   profileDataTemp:any=[];
   otherOrg: string = 'assets/GameImages/qrgamewebsiteassets/BG.png';
-  R1BackGround:string='assets/GameImages/qrgamewebsiteassets/r1Background.png';
+  // R1BackGround:string='assets/GameImages/qrgamewebsiteassets/r1Background.png';
+  R1BackGround:string='';
   Username:string="";
   Password:string="";
   otpIsHeare:any;
@@ -41,7 +42,7 @@ export class LoginComponent {
   PhoneNumber:any;
   errorMsg:string="";
   Email:string="";
-  EmailLogin:string='';
+  EmailLogin:any;
   PasswordLogin:string='';
   EmailForOTP:string='';
   loginFormMiniGame:FormGroup;
@@ -74,11 +75,14 @@ password: any;
 city: any;
   sourceGenerateOtp: string='phone';
   otpLength: number=0;
+  URL:any;
   passwordMessage: string='show';
   orgId:number=0
   orgnizationId: any;
   NgageLogo: any;
   logoData:any;
+  backgroundImage: any;
+  userId:any;
 constructor(private auth:AuthentificationService, private router:Router,private Util: Util,private fb:FormBuilder,private Route:ActivatedRoute) {
   this.loginFormMiniGame = this.fb.group({
     Email: ['', [Validators.required, Validators.email]],
@@ -93,13 +97,22 @@ constructor(private auth:AuthentificationService, private router:Router,private 
 ngOnInit(): void {
   this.Route.queryParams.subscribe((params:any)=>{
     this.orgnizationId = params['org_id'];
+    this.userId=params['userid'];
 
       localStorage.setItem('id_org',this.orgnizationId);
-    console.log(this.orgnizationId);
+      localStorage.setItem('userid',this.userId);
+    // console.log(this.orgnizationId);
+   
+    const currentURL = new URL(window.location.href);
+if (currentURL.href.includes('userid')) {
+  this.SsoLogIn();
+}
     this.auth.getLogos(this.orgnizationId).subscribe((res)=>{
       console.log(res)
       this.logoData=res;
       this.NgageLogo=this.logoData?.ngage_logo;
+      this.R1BackGround=this.logoData?.background_image;
+      
     })
     setTimeout(()=>{
       this.isLoaderActive=false;
@@ -108,8 +121,8 @@ ngOnInit(): void {
 
   })
  
-  this.isShowLogin=false;
-  this.isShowSignUp=false;
+  // this.isShowLogin=false;
+  // this.isShowSignUp=false;
   this.otpChangeSubject.pipe(debounceTime(500)).subscribe((otp: any) => {
     
     this.otpValue = otp;
@@ -133,6 +146,7 @@ isShowPassword(){
 
 }
 openLogin(){
+  console.log("openLogin")
   this.isShowLogin=true;
   this.isShowSignUp=false;
   this.isverifyOtp=false;
@@ -207,12 +221,6 @@ GenerateOtpBtn(source:any){
     })
   }
  
-  
-  
-  
-
-
-  
 
 }
 resendOtp(){
@@ -495,8 +503,27 @@ openPhoneTab(){
     this.sourceGenerateOtp='email'
   }
 }
+SsoLogIn(){
+  console.log("SSOLoginSuccessFul");
+  this.EmailLogin=localStorage.getItem('userid');
+  this.PasswordLogin='Ngage@2019';
+  this.openLogin();
+  
+  this.loginTemp()
+}
+getEngagementLog(){
+  console.log(this.profileData);
+  let body={
+    "name": this.profileData?.Name,
+    "username":this.profileData?.Email,
+    "email":this.profileData?.Email,
+    "org_Id":this.profileData?.ID_ORGANIZATION
 
-
+  }
+  this.auth.engagementUserlog(body).subscribe((res)=>{
+    console.log("Success",res);
+  })
+}
 loginTemp() {
   let body = {
     "email": this.EmailLogin,
@@ -508,6 +535,7 @@ loginTemp() {
     (res) => {
       console.log(res);
       this.login();
+     
      
     },
     (error) => {
@@ -524,25 +552,18 @@ this.staticPassword='Ngage@2019';
  let encryptedPassword=this.Util.encryptData(this.staticPassword);
  console.log(encryptedPassword);
   let body = 
-      // "Name": "",
-      // "Email":this.EmailLogin,
-      // "Password":encryptedPassword,
-      // "login_type": 1
+     
       {"email":this.EmailLogin,"password":"Ngage@2019",'id_organization':Number(this.orgnizationId)}
   ;
-  
-  let login = this.Util.encryptData(body);
+ 
 
   try {
       const res = await this.auth.login(body).toPromise();
       console.log(res?.hasOwnProperty);
-      
        this.profileDataTemp=res;
-      
-      
-      this.profileData =this.profileDataTemp?.user
+      this.profileData =this.profileDataTemp?.user;
+      this.getEngagementLog();
       console.log(this.profileData);
-      
       localStorage.setItem("ProfileData",JSON.stringify(this.profileData))
 
       

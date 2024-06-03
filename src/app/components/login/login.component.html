@@ -1,8 +1,8 @@
 
 <div *ngIf="isLoaderActive;then loader else loginContainer "></div>
 <ng-template #loginContainer>
-  <div class="login-container"  [style.background]="orgnizationId == 27 ? 'url(' + R1BackGround + ')' : 'url(' + otherOrg + ')'">
-    <div>
+  <div class="login-container"  [style.background]="'url(' + R1BackGround + ')'">
+    <div >
         <div class="logoContainer">
             <img lazy="loading" [src]="NgageLogo" alt="logo" width="200px" height="200px">
         </div>
@@ -10,14 +10,15 @@
             <button class="btn btn-lg buttonLogin" (click)="openLogin()">LOGIN</button>
             <button class="btn btn-lg buttonLogin" (click)="openSignUp()">SIGN UP</button>
         </div>
-        <ng-container *ngIf="isShowLogin" >
+      
+        <ng-container *ngIf="isShowLogin">
             
             <form class="formGroup" #loginForm="ngForm" (ngSubmit)="loginTemp()">
               <div>
                 <img lazy="loading"  [src]="NgageLogo" alt="logo" width="100px" height="100px">
               </div>
              
-              <input type="text" placeholder="Username" id="EmailLogin" name="EmailLogin" [(ngModel)]="EmailLogin" required minlength="5" maxlength="50" #username="ngModel">
+              <input type="text" placeholder="Enter your email" id="EmailLogin" name="EmailLogin" [(ngModel)]="EmailLogin" required minlength="5" maxlength="50" #username="ngModel">
              
              
               <div class="col-12" style="position: relative;">
@@ -65,7 +66,7 @@
                 </div>
             </div>
             <div class="form-group col-12">
-                <input type="email" class="form-control" placeholder="Create Username" id="signupUsername" name="Email" [(ngModel)]="Email" required minlength="5" maxlength="50"  #EmailInput="ngModel" pattern="^\S+$" >
+                <input type="email" class="form-control" placeholder="Enter your email id" id="signupUsername" name="Email" [(ngModel)]="Email" required minlength="5" maxlength="50"  #EmailInput="ngModel" pattern="^\S+$" >
                
                 <div  *ngIf="EmailInput.invalid && (EmailInput.dirty || EmailInput.touched)">
                     <span class="errorMsg" *ngIf="EmailInput?.errors?.['required']">Username is required.</span>
@@ -75,15 +76,15 @@
             </div>
             
             <div class="form-group col-12">
-              <div *ngIf="orgnizationId=='19'||orgnizationId=='30';then forOtherCountry else forIndia"></div>
+              <div *ngIf="orgnizationId=='19'||orgnizationId=='27';then forOtherCountry else forIndia"></div>
               <ng-template #forIndia>
-                <input type="text" class="form-control"  placeholder="Enter phone number or email" id="phoneNumber" name="phoneNumber" [(ngModel)]="PhoneNumber" required #PhoneNumberInput="ngModel">
+                <input type="text" class="form-control"  placeholder="Enter your phone number or email" id="phoneNumber" name="phoneNumber" [(ngModel)]="PhoneNumber" required #PhoneNumberInput="ngModel">
                 <div class="errorMsg" *ngIf="PhoneNumberInput.invalid && (PhoneNumberInput.dirty || PhoneNumberInput.touched)">
                   Please enter a valid  email or phone number.
               </div>
               </ng-template>
             <ng-template #forOtherCountry>
-              <input type="text" class="form-control"  placeholder="Enter your email id" id="phoneNumber" name="phoneNumber" [(ngModel)]="PhoneNumber" required #PhoneNumberInput="ngModel">
+              <input type="text" class="form-control"  placeholder="Confirm your email id" id="phoneNumber" name="phoneNumber" [(ngModel)]="PhoneNumber" required #PhoneNumberInput="ngModel">
               <div class="errorMsg" *ngIf="PhoneNumberInput.invalid && (PhoneNumberInput.dirty || PhoneNumberInput.touched)">
                 Please enter a valid  email.
             </div>
@@ -241,12 +242,14 @@
               <button type="submit" class="btn submitBtn" (click)="verifyDone()">Done</button>
             </form>
           </ng-container>
+         
     </div>
+    <span class="tagLine mt-3" *ngIf="orgnizationId == 27">Play & Learn About R1 Values!</span>
 </div>
 </ng-template>
 
 <ng-template #loader>
-  <div class="loaderContainer">
+  <div class="loaderContainer" [style.background]="'url(' + R1BackGround + ')'">
     <div class="loader" style="z-index: 2;">
       <div class="circle"></div>
       <div class="circle"></div>

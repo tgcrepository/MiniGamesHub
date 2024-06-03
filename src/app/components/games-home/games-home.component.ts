@@ -21,6 +21,7 @@ export class GamesHomeComponent implements OnInit {
   isLeaderBoardOptionAvailable:boolean=false;
   isOverallGames: boolean=false;
   userInfo:any;
+  userId:any;
   profileInfo: any;
   spacificGameLeaderBoard: any;
   spacificGameLeaderBoardData: any;
@@ -68,16 +69,24 @@ export class GamesHomeComponent implements OnInit {
   }
   
     logout(){
-      const orgId=localStorage.getItem('id_org')
+      this.userId=localStorage.getItem('userid');
+      console.log("LogOut",this.userId);
+      
+      if (this.userId=='undefined') {
+        const orgId=localStorage.getItem('id_org')
       const navigationExtras: NavigationExtras = {
         queryParams: {
           org_id: orgId
         }
       };
-      
-    
       this.route.navigate(['/'], navigationExtras);
-      localStorage.clear();      
+      localStorage.clear(); 
+      }
+      else{
+        alert('You cannot logout ')
+      }
+      
+         
     }
    
 

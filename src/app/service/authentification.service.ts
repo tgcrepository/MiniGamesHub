@@ -142,5 +142,11 @@ export class AuthentificationService {
     var tempurl= `${this.baseURLNew}checkPhoneNumber?org_id=27&phone_number=Shubham.karad12@gmail.com`;
     return this.http.get(tempurl);
   }
+
+  engagementUserlog(data:any){
+    var tempurl= `${this.baseURLNew}`+`addUser`;
+    return this.http.post(tempurl,data);
+
+  }
 }
 

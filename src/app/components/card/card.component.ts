@@ -197,18 +197,18 @@ if (this.filterData[0]?.leaderboard) {
         this.myProfileData = JSON.parse(this.profileData);
         console.log(this.myProfileData);
     
-        let body = {
-          "Id_User": this.myProfileData?.Id_User,
-          "Id_Assessment": assessmentData[0]?.Id_Assessment,
-          "ID_ORGANIZATION": this.myProfileData?.ID_ORGANIZATION,
-          "Email": this.myProfileData?.Email,
-          "IsActive": "A"
-        };
+        // let body = {
+        //   "Id_User": this.myProfileData?.Id_User,
+        //   "Id_Assessment": assessmentData[0]?.Id_Assessment,
+        //   "ID_ORGANIZATION": this.myProfileData?.ID_ORGANIZATION,
+        //   "Email": this.myProfileData?.Email,
+        //   "IsActive": "A"
+        // };
     
-        this.auth.assignAssessmentToUser(body).subscribe((res) => {
-          console.log(res);
+        // this.auth.assignAssessmentToUser(body).subscribe((res) => {
+        //   console.log(res);
         
-        });
+        // });
         
         const GameNewUrl = `${gameUrl}?gameassid=${filterAssessmentData[0]?.Id_Assessment}&Email=${this.myProfileData?.Email}&OrgID=${this.myProfileData?.ID_ORGANIZATION}&M2ostAssessmentId=0&idgame=${this.gameData?.id_game}&Source=QRGames`;
         window.open(GameNewUrl, '_self');

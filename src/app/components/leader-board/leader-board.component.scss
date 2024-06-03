@@ -46,7 +46,11 @@ color: #fff;
     // background: url(../../../assets/GameImages/qrgamewebsiteassets/XPSDeactive.png);
     background:url(../../../assets/GameImages/Coin\ DeActive\ \(1\).png);
     //  background: url('../../../assets/GameImages/qrgamewebsiteassets/Coin\ Active.png');
-    background-position: center center;
+    display: flex;
+    justify-content:end;
+    padding-top: 1%;
+    align-items:start;
+    color: #fff !important;
     background-size: 100% 100%;
     height: 5.3rem;
     
@@ -55,8 +59,16 @@ color: #fff;
 .activeCoinsBtn{
     // background: url(../../../assets/GameImages/qrgamewebsiteassets/XPSActive.png);
     background:url(../../../assets/GameImages/Coin\ Active\ \(3\).png);
+   
+   
     // background: url('../../../assets/GameImages/qrgamewebsiteassets/Coin\ Active.png');
     background-position: center center;
+    display: flex;
+    justify-content:end;
+    padding-top: 1%;
+    align-items:start;
+    
+    color: #fff !important;
     background-size: 100% 100%;
     height: 5.3rem;
 
@@ -66,6 +78,11 @@ color: #fff;
     // background: url('../../../assets/GameImages/qrgamewebsiteassets/Assesment\ DeActive.png');
     background-position: center center;
     background-size: 100% 100%;
+    display: flex;
+    justify-content:end;
+    color: #ffff !important;
+    padding-top: 1%;
+    align-items:start;
     height: 5.3rem;
     
 
@@ -74,6 +91,11 @@ color: #fff;
     background: url(../../../assets/GameImages/qrgamewebsiteassets/activeFunQuiz1.png);
     // background: url('../../../assets/GameImages/qrgamewebsiteassets/Assesment\ Active.png');
     background-position: center center;
+    display: flex;
+    justify-content:end;
+    padding-top: 1%;
+    align-items:start;
+    color: #ffff !important;
     background-size: 100% 100%;
     height: 5.3rem;
 
@@ -281,8 +303,14 @@ color: #fff;
      background: url(../../../assets/GameImages/Coin\ Active\ \(3\).png);
     background-position: center center;
     background-size: 100% 100%;
+   
     height: 2rem;
     width: 35%;
+    display:flex;
+    justify-content: end;
+    padding-right: 1.5%;
+    align-items: start;
+    color:#fff;
 
 }
 .playerNameMobile{
@@ -333,6 +361,9 @@ color: #fff;
     align-items: center;
     gap:0.2em;
 }
+.gameLogoMobile{
+    width: 100% !important;
+}
 .coinPointsMobile{
    
         height: 1rem;
@@ -377,6 +408,11 @@ color: #fff;
         background-size: 100% 100%;
         height: 2rem;
         width: 35%;
+        display: flex;
+        justify-content: end;
+        color:#fff;
+        padding-right: 1.5%;
+        align-items: start;
     
     
 
