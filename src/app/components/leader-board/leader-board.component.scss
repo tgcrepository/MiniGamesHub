@@ -122,7 +122,7 @@ color: #fff;
 .TableRank{
     background: linear-gradient(180deg, #932C11 -5.29%, #5B0E11 98.47%);
     height: 4rem;
-    width: 3.5rem;
+    // width: 3.5rem;
     border-radius:5px;
     display: flex;
     justify-content: center;
@@ -436,4 +436,37 @@ color: #fff;
 }
 }
 
+// tooltip
+.tooltip {
+    visibility: hidden;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position the tooltip above the icon */
+    left: 50%;
+    margin-left: -60px; /* Use half of the width (120px/2 = 60px), to center it */
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .tooltip-visible {
+    visibility: visible;
+    opacity: 1;
+  }
+  .example-action-button {
+    margin-top: 16px;
+  }
+
+  ::ng-deep {
+    .mat-dialog-container{
+      box-shadow: 0px 11px 15px -7px rgb(0 0 0 / 20%), 0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%);
+      background: #7e2727;
+      color: rgba(0, 0, 0, 0.87);
+    }
+   }
+  
 

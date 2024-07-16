@@ -2,11 +2,15 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgFor, NgIf, NgClass ,JsonPipe} from '@angular/common';
 import { AuthentificationService } from '../../service/authentification.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { ExhaustAttemptComponent } from '../dialogs/exhaust-attempt/exhaust-attempt.component';
+import { ComingSoonComponent } from '../dialogs/coming-soon/coming-soon.component';
+
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [NgFor, NgIf, NgClass,JsonPipe],
+  imports: [NgFor, NgIf, NgClass,JsonPipe,MatDialogModule],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss'
 })
@@ -28,18 +32,24 @@ export class CardComponent implements OnInit {
   filterDataCoins:any;
   filteredData: any;
   filteredDataCoins:any;
-  constructor(private auth: AuthentificationService,private sanitize:DomSanitizer) {
+  profileInfo: any;
+  attemptData:any;
+  currentAttempt:any;
+  isAttemptModalActive:boolean=false;
+  constructor(private auth: AuthentificationService,private sanitize:DomSanitizer,public dialog: MatDialog) {
    
     
   
   }
-
+ 
   ngOnInit() {
     // this.UpdateGamePlay('');
     // this.getAssessmentId(this.gamesData);
     this.profileData = localStorage.getItem('ProfileData');
     this.myProfileInfo=JSON.parse(this.profileData);
     console.log(this.myProfileInfo,'myProfile');
+  
+   
   }
 
   openCardById(data: any, isActive: any) {
@@ -161,61 +171,88 @@ if (this.filterData[0]?.leaderboard) {
       
     });
   }
+  openExhaustDialog() {
+    const dialogRef = this.dialog.open(ExhaustAttemptComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  openComingSoonModal() {
+    const dialogRef = this.dialog.open(ComingSoonComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  getAttempt(gameId:any){
+    this.myProfileData=localStorage.getItem(('ProfileData'));
+    this.profileInfo=JSON.parse(this.myProfileData);
+    console.log('profileData',this.profileInfo);
+    this.auth.getAssessmentAttempt(this.profileInfo,gameId).subscribe((res)=>{
+      console.log(res);
+
+      this.attemptData=res;
+      this.currentAttempt=this.attemptData?.attempt_no;
+      console.log("CurrentAttempt",this.currentAttempt);
+    })
+  }
   openGame(data: any) {
-    // Call the API to get assessment data
-    console.log(data)
-    this.auth.getAssesmentId(data).subscribe((res: any) => { // Specify 'any' as the type for 'res'
+    console.log(data);
+
+    this.auth.getAssesmentId(data).subscribe((res: any) => {
         console.log(res);
-        const responseData = res; // Parse the response as JSON
-        console.log(responseData)
-        const assessmentData = responseData?.assessments; // Access 'assessments' property
+        const responseData = res;
+        console.log(responseData);
+
+        const assessmentData = responseData?.assessments;
         console.log('assessmentData', assessmentData);
 
-        // Perform any operations dependent on assessment data here
-        // For example, you could construct the URL and open the game
+        if (!assessmentData || assessmentData.length === 0) {
+            console.error('No assessment data available.');
+            return;
+        }
 
-        // this.getGamePlayList(data);
-        console.log(data);
-        this.gameData = data;
-        console.log(this.gamesData);
         const gameUrl = data?.game_url;
         this.myProfileData = JSON.parse(this.profileData);
-        console.log(this.myProfileData)
-        console.log(assessmentData);
-        const filterAssessmentData = assessmentData.filter((res: any) => {
-          return res.IsActive === 'A';
-      });
-      
-      console.log(filterAssessmentData);
-      
-       
-        this.assignToUser(filterAssessmentData[0]?.Id_Assessment);
-    
-       
-        // console.log(this.assesmentData);
-       
-        this.myProfileData = JSON.parse(this.profileData);
         console.log(this.myProfileData);
-    
-        // let body = {
-        //   "Id_User": this.myProfileData?.Id_User,
-        //   "Id_Assessment": assessmentData[0]?.Id_Assessment,
-        //   "ID_ORGANIZATION": this.myProfileData?.ID_ORGANIZATION,
-        //   "Email": this.myProfileData?.Email,
-        //   "IsActive": "A"
-        // };
-    
-        // this.auth.assignAssessmentToUser(body).subscribe((res) => {
-        //   console.log(res);
-        
-        // });
-        
-        const GameNewUrl = `${gameUrl}?gameassid=${filterAssessmentData[0]?.Id_Assessment}&Email=${this.myProfileData?.Email}&OrgID=${this.myProfileData?.ID_ORGANIZATION}&M2ostAssessmentId=0&idgame=${this.gameData?.id_game}&Source=QRGames`;
-        window.open(GameNewUrl, '_self');
-      
-      
+
+        const filterAssessmentData = assessmentData.filter((assessment: any) => {
+            return assessment.IsActive === 'A';
+        });
+
+        console.log(filterAssessmentData[0]?.allow_attempt);
+
+        if (!filterAssessmentData[0]) {
+            console.error('No active assessment found.');
+            return;
+        }
+
+        this.assignToUser(filterAssessmentData[0]?.Id_Assessment);
+        this.myProfileData = JSON.parse(this.profileData);
+        console.log(filterAssessmentData[0]);
+
+        // Get the attempt data after assigning the user
+        this.auth.getAssessmentAttempt(this.myProfileData, filterAssessmentData[0]?.Id_Game).subscribe((attemptRes: any) => {
+            console.log(attemptRes);
+            this.currentAttempt = attemptRes?.attempt_no;
+            console.log("CurrentAttempt", this.currentAttempt);
+            console.log("Allow",filterAssessmentData[0].allow_attempt);
+
+            // Ensure currentAttempt and allow_attempt are available and valid numbers
+            if (filterAssessmentData[0].allow_attempt > this.currentAttempt) {
+                const GameNewUrl = `${gameUrl}?gameassid=${filterAssessmentData[0]?.Id_Assessment}&Email=${this.myProfileData?.Email}&OrgID=${this.myProfileData?.ID_ORGANIZATION}&M2ostAssessmentId=0&idgame=${filterAssessmentData[0]?.Id_Game}&Source=QRGames`;
+                window.open(GameNewUrl, '_self');
+            }
+            else{
+              this.openExhaustDialog();
+              
+            }
+        });
     });
 }
+
+
 
 
   openFrontCard() {

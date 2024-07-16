@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthentificationService } from '../../service/authentification.service';
@@ -7,10 +7,15 @@ import { SuccessComponent } from '../success/success.component';
 import { ToastrModule } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 import { NgIf,NgClass } from '@angular/common';
 import { Util } from '../../../util';
 import { NgOtpInputModule } from  'ng-otp-input';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime,switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 @Component({
   selector: 'app-login',
@@ -30,10 +35,13 @@ import { Subject } from 'rxjs';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
   profileDataTemp:any=[];
   otherOrg: string = 'assets/GameImages/qrgamewebsiteassets/BG.png';
   // R1BackGround:string='assets/GameImages/qrgamewebsiteassets/r1Background.png';
   R1BackGround:string='';
+  isDisclaimerVisible:boolean=true;
   Username:string="";
   Password:string="";
   otpIsHeare:any;
@@ -60,6 +68,7 @@ otpValue:any;
   profileData: any;
   getOtp:number=1234;
   EmailSignUp:any;
+  emailPattern: string = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$";
   dialog: any;
   private otpChangeSubject: Subject<any> = new Subject<any>();
   private checkEmailOrPhone:Subject<any>= new Subject<any>();
@@ -83,12 +92,16 @@ city: any;
   logoData:any;
   backgroundImage: any;
   userId:any;
-constructor(private auth:AuthentificationService, private router:Router,private Util: Util,private fb:FormBuilder,private Route:ActivatedRoute) {
+  private emailInputSubject: Subject<string> = new Subject();
+constructor(private auth:AuthentificationService, private router:Router,private Util: Util,private fb:FormBuilder,private Route:ActivatedRoute,private _snackBar: MatSnackBar) {
+  
   this.loginFormMiniGame = this.fb.group({
-    Email: ['', [Validators.required, Validators.email]],
+    // Email: ['', [Validators.required, Validators.email]],
+    Email: ['', [Validators.required, Validators.email, Validators.minLength(5), Validators.maxLength(50)]],
     Password: ['', Validators.required]
     
   });
+  
    
 
   console.log(this.loginFormMiniGame.get('Email'))
@@ -104,12 +117,14 @@ ngOnInit(): void {
     // console.log(this.orgnizationId);
    
     const currentURL = new URL(window.location.href);
+  
 if (currentURL.href.includes('userid')) {
   this.SsoLogIn();
 }
     this.auth.getLogos(this.orgnizationId).subscribe((res)=>{
       console.log(res)
       this.logoData=res;
+
       this.NgageLogo=this.logoData?.ngage_logo;
       this.R1BackGround=this.logoData?.background_image;
       
@@ -121,6 +136,7 @@ if (currentURL.href.includes('userid')) {
 
   })
  
+  
   // this.isShowLogin=false;
   // this.isShowSignUp=false;
   this.otpChangeSubject.pipe(debounceTime(500)).subscribe((otp: any) => {
@@ -128,11 +144,44 @@ if (currentURL.href.includes('userid')) {
     this.otpValue = otp;
     console.log(this.otpValue);
   });
- 
+  this.initializeDebouncing();
+
 
 
 
 }
+invalidDomain: boolean = false;
+invalidDomainConfirm: boolean = false;
+emailAndPhoneMismatch: boolean = false;
+
+
+validateEmailDomain(orgId: any, email: any): boolean {
+  email = email.toLowerCase();
+  if (orgId == '27') {
+    return email.endsWith('@r1rcm.com');
+  } else if (orgId == '36' || orgId == '37' || orgId == '38') {
+    const validDomains = ['@ikshealth.com', '@aquitysolutions.com'];
+    return validDomains.some(domain => email.endsWith(domain));
+  }
+  return true; // Return true if orgId does not match any conditions
+}
+
+validateEmail() {
+  const email = this.Email.toLowerCase();
+  const phoneEmail = this.PhoneNumber.toLowerCase();
+  this.invalidDomain = !this.validateEmailDomain(this.orgnizationId, email);
+  this.emailAndPhoneMismatch = email !== phoneEmail;
+}
+
+validateConfirmEmail() {
+  const confirmEmail = this.PhoneNumber.toLowerCase();
+  const email = this.Email.toLowerCase();
+  this.invalidDomainConfirm = !this.validateEmailDomain(this.orgnizationId, confirmEmail);
+  this.emailAndPhoneMismatch = confirmEmail !== email;
+}
+
+
+
 
 isShowPassword(){
   this.showPassword=!this.showPassword;
@@ -147,6 +196,7 @@ isShowPassword(){
 }
 openLogin(){
   console.log("openLogin")
+  this.isDisclaimerVisible=false;
   this.isShowLogin=true;
   this.isShowSignUp=false;
   this.isverifyOtp=false;
@@ -155,7 +205,7 @@ openLogin(){
  
 }
 openSignUp(){
- 
+  this.isDisclaimerVisible=false;
   this.isverifyOtp=false;
   this.isUserAlreadyRegistered=false;
   this.isShowLogin=false;
@@ -511,19 +561,24 @@ SsoLogIn(){
   
   this.loginTemp()
 }
+id_temp_user:any;
 getEngagementLog(){
   console.log(this.profileData);
+  this.id_temp_user=localStorage.getItem('Id_temp_user');
   let body={
     "name": this.profileData?.Name,
     "username":this.profileData?.Email,
     "email":this.profileData?.Email,
-    "org_Id":this.profileData?.ID_ORGANIZATION
+    "org_Id":this.profileData?.ID_ORGANIZATION,
+    "id_temp_user":this.id_temp_user
 
   }
   this.auth.engagementUserlog(body).subscribe((res)=>{
     console.log("Success",res);
   })
 }
+tempUser:any;
+loginData:any;
 loginTemp() {
   let body = {
     "email": this.EmailLogin,
@@ -534,14 +589,28 @@ loginTemp() {
   this.auth.loginApi(body).subscribe(
     (res) => {
       console.log(res);
+      this.loginData=res;
+      this.tempUser=this.loginData?.user?.id_temp_user;
+      localStorage.setItem('Id_temp_user',this.tempUser);
       this.login();
+      this._snackBar.open('Login Successfully', '', {
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+        duration: 3 * 1000,
+        panelClass: 'app-notification-success',
+      });
      
      
     },
     (error) => {
       console.error("An error occurred:", error);
       this.errorMsg = "Invalid Credentials";
-      alert("Invalid Credentials");
+      this._snackBar.open('Invalid Credentials', '', {
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+        duration: 3 * 1000,
+        panelClass: 'app-notification-error',
+      });
       // Handle error here, such as displaying an error message to the user
     }
   );
@@ -612,7 +681,47 @@ togglePassword(): void {
   toggleButton.innerHTML = this.isEyeOpen ? this.eyeIcons.closed : this.eyeIcons.open;
   passwordField.type = this.isEyeOpen ? "text" : "password";
 }
+userDoestnotExist:boolean=true;
+initializeDebouncing() {
+  this.emailInputSubject.pipe(
+    debounceTime(2000), // 300ms debounce time
+    switchMap((emailOrPhone) => {
+      let body = {
+        'org_id': this.orgnizationId,
+        'emailOrPhone': emailOrPhone
+      };
+      return this.auth.checkExistingPhoneNumber(body);
+    })
+  ).subscribe((res:any) => {
+    console.log(res.exists);
+    if(res.exists==false){
+      this._snackBar.open('User does not exist.', '', {
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+        duration: 3 * 1000,
+        panelClass: 'app-notification-error',
+      });
 
+      this.userDoestnotExist=true;
+      
+    }
+    else{
+      this._snackBar.open('User Exists', '', {
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+        duration: 3 * 1000,
+        panelClass: 'app-notification-success',
+      });
+      this.userDoestnotExist=false;
+
+    }
+
+  });
+}
+
+userEnteredEmail() {
+  this.emailInputSubject.next(this.PhoneNumberPassword);
+}
 forgetPassword(){
   this.isForgetPassword=true;
   this.isShowLogin=false;
@@ -623,6 +732,7 @@ forgetPassword(){
 showOtpBoxes:boolean=false;
 showSubmit:boolean=false;
 getOTPForForgetPassword(){
+
   this.showOtpBoxes=true;
   if(this.PhoneNumberPassword.includes('@')){
     this.otpLength=6

@@ -12,14 +12,13 @@
                 </div>
                 <div *ngIf="gamesData?.enable_status==1;then  forActiveGames else forDeactivateGames"></div>
                 <ng-template #forActiveGames>
-                    <div class="playBtn" (click)="openGame(gamesData)" >
-                        <!-- <a [href]=""> -->
-                            <!-- <img lazy="loading" *ngIf="gamesData?.played==1" src="assets/GameImages/qrgamewebsiteassets/Play Again.png" alt="" height="100%" width="100%"> -->
-                            <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="playNow" height="100%" width="100%">
+                    <div  class="playBtn" (click)="openGame(gamesData)" data-bs-toggle="modal" data-bs-target="#AttemptExhausted">
+                        <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="playNow" height="100%" width="100%">
                     </div>
+                   
                 </ng-template>
                 <ng-template #forDeactivateGames>
-                    <div class="playBtn" data-bs-toggle="modal" data-bs-target="#comingSoonCard" >
+                    <div class="playBtn" (click)="openComingSoonModal()" >
                         <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="playNow" height="100%" width="100%">
                     </div>
                 </ng-template>
@@ -76,13 +75,13 @@
         </div>
         <div *ngIf="gamesData?.enable_status==1;then  forActiveGames else forDeactivateGames"></div>
         <ng-template #forActiveGames>
-            <div class="playBtn" (click)="[openGame(gamesData)]">
+            <div class="playBtn" (click)="[openGame(gamesData)]" data-bs-toggle="modal" data-bs-target="AttemptExhausted">
                 <!-- <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Play Again.png" alt="" height="100%" width="100%"> -->
                 <img lazy="loading"  src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="playNow" height="100%" width="100%">
             </div>
         </ng-template>
         <ng-template #forDeactivateGames>
-            <div class="playBtn" data-bs-toggle="modal" data-bs-target="#comingSoonCardMobile">
+            <div class="playBtn" (click)="openComingSoonModal()">
                 <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/PlayNow.png" alt="playNow" height="100%" width="100%">
             </div>
         </ng-template>
@@ -126,44 +125,9 @@
     </div>
 
 
+  
+
 
       
       
-      <div class="modal fade" id="comingSoonCard" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: transparent!important;">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="d-flex justify-content-end p-2">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-           
-            
-            <div class="modal-body ExcitementModal" >
-               
-                <img lazy="loading" src="assets/GameImages/qrgamewebsiteassets/Coming Soon.png" alt="comingSoon" height="100%" width="100%">
-              
-            </div>
-            
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal Mobile -->
-      <!-- <div class="modal fade" id="comingSoonCardMobile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: transparent!important;">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="d-flex justify-content-end p-2">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-           
-            
-            <div class="modal-body ExcitementModal" >
-               
-                <img src="assets/GameImages/qrgamewebsiteassets/Coming Soon.png" alt="" height="100%" width="100%">
-              
-            </div>
-            
-          </div>
-        </div>
-      </div> -->
-    
-
+      

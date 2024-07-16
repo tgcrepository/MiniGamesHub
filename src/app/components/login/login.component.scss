@@ -395,11 +395,31 @@ opacity: 0px;
       transform: scale(1) rotate(360deg);
     }
   }
+  .tagLineContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   .tagLine{
     color: #fff;
     font-style: italic;
     font-family: sans-serif;
     font-size: 1.2rem;
+    text-align: center;
+    // width: 50vw;
+    width: 50%;
+    margin-top: 2vh !important;
+
+  }
+  .subtagLine{ color: #fff;
+    font-style: italic;
+    font-family: sans-serif;
+    font-size: 0.7rem;
+    text-align: center;
+    // width: 50vw;
+    width: 50%;
     margin-top: 2vh !important;
 
   }

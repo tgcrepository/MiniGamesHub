@@ -13,7 +13,8 @@ export class AuthentificationService {
   baseURLNew=`https://n-gage.co.in:4000/`
   //Beta URL
   // baseURLNew=`https://n-gage.co.in:8080/`
-  
+  // ImageBaseUrlBeta
+  imageURL=`https://www.n-gage.co.in/N-gage_new_cms_beta/uploads/`
 
 
     //Production URL
@@ -139,7 +140,7 @@ export class AuthentificationService {
   }
 
   checkExistingPhoneNumber(data:any){
-    var tempurl= `${this.baseURLNew}checkPhoneNumber?org_id=27&phone_number=Shubham.karad12@gmail.com`;
+    var tempurl= `${this.baseURLNew}checkPhoneNumber?org_id=${data.org_id}&phone_number=${data.emailOrPhone}`;
     return this.http.get(tempurl);
   }
 
@@ -147,6 +148,12 @@ export class AuthentificationService {
     var tempurl= `${this.baseURLNew}`+`addUser`;
     return this.http.post(tempurl,data);
 
+  }
+
+  getAssessmentAttempt(data:any,gameId:any){
+    console.log(data,'data');
+    var tempurl= `${this.baseURLNew}getAttemptNo?id_user=${data.Id_User}&Id_Game=${gameId}&ID_ORGANIZATION=${data.ID_ORGANIZATION}`;
+    return this.http.get(tempurl);
   }
 }
 

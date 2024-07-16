@@ -1,14 +1,16 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgClass,NgIf,NgFor,JsonPipe } from '@angular/common';
-
-
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { AuthentificationService } from '../../service/authentification.service';
+import { EarnCoinsComponent } from '../dialogs/earn-coins/earn-coins.component';
+import { ScorePointsComponent } from '../dialogs/score-points/score-points.component';
 
 
 @Component({
   selector: 'app-leader-board',
   standalone: true,
-  imports: [NgClass,NgIf,NgFor,JsonPipe],
+  imports: [NgClass,NgIf,NgFor,JsonPipe,MatTooltipModule, MatDialogModule],
   templateUrl: './leader-board.component.html',
   styleUrl: './leader-board.component.scss'
 })
@@ -39,10 +41,8 @@ export class LeaderBoardComponent implements OnInit {
 
   overallGameLeaderBoardDataForQuiz: any;
   overallGamesLeaderBoardForCoins: any;
-  constructor(public auth:AuthentificationService){
+  constructor(public auth:AuthentificationService,public dialog: MatDialog){
     this.isSpecificgameActive=this.auth.isSpecficGamesOpen;
-   
-
   }
   ngOnInit(): void {
     
@@ -125,6 +125,22 @@ export class LeaderBoardComponent implements OnInit {
   });
   
     
+
+  }
+
+  openEarnCoinsInfo() {
+    const dialogRef = this.dialog.open(EarnCoinsComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+  openScorePointsInfo(){
+    const dialogRef = this.dialog.open(ScorePointsComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
 
   }
   getLeaderDataForSpecificGamesForCoins(data:any){
