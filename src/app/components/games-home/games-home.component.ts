@@ -49,7 +49,7 @@ export class GamesHomeComponent implements OnInit {
    const targetOrganizations = [19, 36, 37, 38];
 
    if (targetOrganizations.includes(this.profileInfo?.ID_ORGANIZATION)) {
-       this.tabTitle = "IKS Values MicroGames";
+       this.tabTitle = "IKS Values Micro Games";
    }
    this.auth.getLogos(this.profileInfo?.ID_ORGANIZATION).subscribe((res)=>{
     this.logoData=res;
