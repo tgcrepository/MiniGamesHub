@@ -124,9 +124,16 @@ if (currentURL.href.includes('userid')) {
     this.auth.getLogos(this.orgnizationId).subscribe((res)=>{
       console.log(res)
       this.logoData=res;
+      if(this.logoData?.ngage_logo.includes('https')){
+        this.NgageLogo=this.logoData?.ngage_logo;
+        this.R1BackGround=this.logoData?.background_image;
+      }
+     else{
+      this.NgageLogo=`${this.auth.imageURL}${this.logoData?.ngage_logo}`;
+      this.R1BackGround=`${this.auth.imageURL}${this.logoData?.background_image}`;
+     }
 
-      this.NgageLogo=this.logoData?.ngage_logo;
-      this.R1BackGround=this.logoData?.background_image;
+    
       
     })
     setTimeout(()=>{

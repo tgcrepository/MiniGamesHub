@@ -152,17 +152,8 @@ export class LeaderBoardComponent implements OnInit {
   this.auth.getLeaderBoardForCoins(body).subscribe((res) => {
       this.spacificGameLeaderBoard = res;
       console.log('specific',this.spacificGameLeaderBoard);
-    
-      
-    
       this.spacificGameLeaderBoardDataForCoins =this.spacificGameLeaderBoard;
-      
-      
-    
   });
-  
-    
-
   }
   
   
@@ -187,9 +178,6 @@ export class LeaderBoardComponent implements OnInit {
     })
 
   }
-
-
-
   openSpecificGames() {
     console.log(this.idGame)
     this.showSpecificGames = true;

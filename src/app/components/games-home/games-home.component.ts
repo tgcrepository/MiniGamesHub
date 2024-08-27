@@ -30,7 +30,7 @@ export class GamesHomeComponent implements OnInit {
   spacificGameLeaderBoardData: any;
   specificLeaderBoard: any;
   logoData: any;
-  tabTitle:string="Mini Games"
+  tabTitle:string="Micro Games"
   NgageLogo: any;
   NgageDashboardLogo: any;
 
@@ -53,7 +53,14 @@ export class GamesHomeComponent implements OnInit {
    }
    this.auth.getLogos(this.profileInfo?.ID_ORGANIZATION).subscribe((res)=>{
     this.logoData=res;
-    this.NgageDashboardLogo=this.logoData?.dashboard_logo;
+    if(this.logoData?.dashboard_logo.includes('https')){
+      this.NgageDashboardLogo=this.logoData?.dashboard_logo;
+    }
+    else{
+      this.NgageDashboardLogo=`${this.auth.imageURL}${this.logoData?.dashboard_logo}`
+
+    }
+   
   })
   }
 

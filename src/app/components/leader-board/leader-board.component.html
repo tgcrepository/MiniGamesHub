@@ -131,9 +131,7 @@
                    
                     
                 </div>
-              
-                
-                
+
             </div>
            
         </ng-template>
@@ -163,10 +161,9 @@
                         <div class="col-6 text-start">Player Name</div>
                         <div class="col-3 text-center">Location</div>
                         <div class="col-2 text-center">{{scoreTitle}}</div>
-
                     </div>
                 </div>
-                <div style="height: 40vh; overflow-y: auto;padding: 0%;">
+                <div style="height: 40vh; overflow-y:auto;padding: 0%;">
                     <div *ngIf="isCoinsActiveOverall;then overallCoins else overallAssessment"></div>
                     <ng-template #overallAssessment>
                         <div *ngIf="overallGamesLeaderBoard?.leaderboard!=null;then dataAvailOverallAssesment else noDataAvail "></div>
@@ -251,11 +248,7 @@
                        
 
                     </ng-template>
-                  
                 </div>
-                
-                
-                
             </div>
         </ng-template>
         
