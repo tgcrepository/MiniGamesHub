@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthentificationService {
-  baseURL=`https://www.playtolearn.in`;
+  baseURL=`https://www.m2ost.in`;
 
   //production URL
   // baseURLNew=`https://www.playtolearn.in:8080/`;
